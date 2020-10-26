@@ -9529,3 +9529,11 @@ components:
       example:
         code: invalid_transaction_type
         description: The transaction type is not supported
+  securitySchemes:
+    AppKey:
+      name: AppKey
+      type: apiKey
+      in: header
+      description: Authorization value in header (obtain from developer portal)
+security:
+  - AppKey: []
