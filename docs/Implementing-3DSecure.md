@@ -223,7 +223,7 @@ The following JSON document represents an example of a request to be sent after 
 
 ### STEP 6(F) – FINAL RESPONSE OF 3D SECURE AUTHENTICATION/AUTHORIZATION
 
-When it is determined that a frictionless flow can be performed, the transaction authorization is processed and the 3D-Secure process is completed.
+When it is determined that a frictionless flow can be performed (i.e. the customer has been fully authenticated by their bank without the need for further information), the transaction authorization is processed and the 3D-Secure process is completed.
 
 The transaction response contains a “Secure3DResponse” object and the transaction is either approved or declined.
 transactionStatus = APPROVED or DECLINED
@@ -258,11 +258,12 @@ The following JSON document represents an example of a response you receive from
 } 
 ```
 
-### 3D Secure Challenge Flow
+## 3D Secure Challenge Flow
 
 The challenge flow is triggered, when the transaction is not considered as low risk or when the Issuer requires additional authentication by the cardholder. The whole process starts with an initial Authorization or Sale transaction request through the step where 3DS Method is displayed, as described in Steps 1 through 4 above.
 
-STEP 5(C) – REQUEST TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
+### STEP 5(C) – REQUEST TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
+
 Once the 3DS Method call has been completed, you need to notify the gateway that the authentication process can continue by submitting the “methodNotificationStatus” element with the values based on corresponding conditions from the 3D-Secure Method Form above.  This is done by performing a PATCH operation on the original transaction.
 The merchant may also include the optional cardholder billing address and the security code at this time.
 The following JSON document represents an example of a request to be sent after 3DSMethod form display:
@@ -284,7 +285,8 @@ The following JSON document represents an example of a request to be sent after 
 }
 
 
-STEP 6(C) – Our RESPONSE TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
+### STEP 6(C) – Our RESPONSE TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
+
 For the challenge flow, the transaction status will be returned as follows:
 transactionStatus = WAITING
 
@@ -323,7 +325,8 @@ The following JSON document represents an example of a response:
 
 
 
-STEP 7(C) – CARDHOLDER CHALLENGE INITIATION
+### STEP 7(C) – CARDHOLDER CHALLENGE INITIATION
+
 In the next step you need to POST data to the indicated acsURL usually implemented as an auto-submit form. This needs to be implemented within your website. The cardholders will be redirected to the ACS and presented with the UI to collect the authentication details - for example enter one-time-password or perform authentication using their banking app (out-of-band authentication). After the authentication is completed, the consumer is redirected back to your webpage.
 
 The merchant posts the “cReq” value and the “sessionData” value to the URL specified in the “acsURL” field.
@@ -333,22 +336,25 @@ CReq = The entire base64 encoded “cReq” Challenge Request message as obtaine
 threeDSSessionData = The entire base64 encoded “sessionData” message as obtained above.
 
 Example:
-<form name=”frm” method=”POST” action=” https://3ds-acs.test.modirum.com/mdpayacs/pareq “>
-<input type=”hidden” name=”CReq” value=” ewogICAiYWNzVHJhbCIgOiA...wMDAtMDAwMDAwMDA0MWE5Igp9”>
-<input type=”hidden” name=”threeDSSessionData” value=”50F2156E03083CA665BCB4..”>
-</form>
+
+    <form name=”frm” method=”POST” action=” https://3ds-acs.test.modirum.com/mdpayacs/pareq “>
+    <input type=”hidden” name=”CReq” value=” ewogICAiYWNzVHJhbCIgOiA...wMDAtMDAwMDAwMDA0MWE5Igp9”>
+    <input type=”hidden” name=”threeDSSessionData” value=”50F2156E03083CA665BCB4..”>
+    </form>
 
 When the authentication is completed, an authentication response will be posted to the URL specified in the “termURL” field.
 
-Note that this information is posted using the following field names:
+<!-- theme: info -->
+>Note: this information is posted using the following field names:
 CRes = The base64 encoded Challenge Response message from the Issuer ACS server.
 threeDSSessionData = The base64 encoded session data from the Issuer ACS server.
 
 Example:
-<form name=”frm” method=”POST” action=” https://www.mywebshop.com/process3dSecure”>
-<input type=”hidden” name=”CRes” value=” ewogICAiYWNzUmVmZX…Fuc1N0YXR…IKfQ==”>
-<input type=”hidden” name=”threeDSSessionData” value=”50F2156E03083CA665BCB4..”>
-</form>
+
+    <form name=”frm” method=”POST” action=” https://www.mywebshop.com/process3dSecure”>
+    <input type=”hidden” name=”CRes” value=” ewogICAiYWNzUmVmZX…Fuc1N0YXR…IKfQ==”>
+    <input type=”hidden” name=”threeDSSessionData” value=”50F2156E03083CA665BCB4..”>
+    </form>
 
 
 STEP 8(C) - SEND REQUEST TO COMPLETE THE ORIGINAL TRANSACTION
