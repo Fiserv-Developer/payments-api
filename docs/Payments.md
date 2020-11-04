@@ -271,11 +271,11 @@ requestType | Method | Description
 
 There are a number of business scenarios that require combinations of different calls to the same, or different end points. The examples below demonstrate the way in which the different requestTypes and calls can be made to the /payments API to generate different payments outcomes.
 
-1. Incrementing or decrementing a Pre-Auth
+### Incrementing or decrementing a Pre-Auth
 
-2. Completing a Pre-Auth, then Voiding the completion, then partially completing the Pre-Auth
+### Completing a Pre-Auth, then Voiding the completion, then partially completing the Pre-Auth
 
-3. Getting Token Data, then executing the payment using the token
+### Getting Token Data, then executing the payment using the token
 
 
 
