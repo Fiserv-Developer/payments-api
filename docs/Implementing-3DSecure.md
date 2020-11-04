@@ -268,22 +268,23 @@ Once the 3DS Method call has been completed, you need to notify the gateway that
 The merchant may also include the optional cardholder billing address and the security code at this time.
 The following JSON document represents an example of a request to be sent after 3DSMethod form display:
 
+```json YAML
 {
-"authenticationType": "Secure3D21AuthenticationUpdateRequest",
-"storeId": "12345500000",
-"billingAddress": {
-"company": "Test Company",
-"address1": "5565 Glenridge Conn",
-"address2": "Suite 123",
-"city": "Atlanta",
-"region": "Georgia",
-"postalCode": "30342",
-"country": "USA"
+  "authenticationType": "Secure3D21AuthenticationUpdateRequest",
+  "storeId": "12345500000",
+  "billingAddress": {
+  "company": "Test Company",
+  "address1": "5565 Glenridge Conn",
+  "address2": "Suite 123",
+  "city": "Atlanta",
+  "region": "Georgia",
+  "postalCode": "30342",
+  "country": "USA"
 },
-"securityCode": "123",
-"methodNotificationStatus": "RECEIVED".
+  "securityCode": "123",
+  "methodNotificationStatus": "RECEIVED"
 }
-
+```
 
 ### STEP 6(C) – Our RESPONSE TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
 
@@ -300,30 +301,31 @@ params/sessionData = An encoded list of session parameters to be used for authen
 
 The following JSON document represents an example of a response:
 
+```json YAML
 {
-"clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
-"apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
-"ipgTransactionId": "838916029301",
-"transactionType": "SALE",
-"transactionTime": 1518811817,
-"approvedAmount": {
-"total": 122.04,
-"currency": "USD"
+  "clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
+  "apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
+  "ipgTransactionId": "838916029301",
+  "transactionType": "SALE",
+  "transactionTime": 1518811817,
+  "approvedAmount": {
+  "total": 122.04,
+  "currency": "USD"
 },
-"transactionStatus": "WAITING",
-“authenticationResponse”: {
-"type": "3D_SECURE",
-"version": "2.1",
-"params": {
-"acsURL": "https://3ds-acs.test.modirum.com/mdpayacs/pareq",
-"termURL": "https://www.mywebshop.com/process3dSecure/",
-"cReq": "ewogICAiYWNzVHJhbCIgOiA...wMDAtMDAwMDAwMDA0MWE5Igp9",
-"sessiondata": "50F2156E03083CA665BCB4.."
-}.
+  "transactionStatus": "WAITING",
+  “authenticationResponse”: {
+    "type": "3D_SECURE",
+    "version": "2.1",
+    "params": {
+      "acsURL": "https://3ds-acs.test.modirum.com/mdpayacs/pareq",
+      "termURL": "https://www.mywebshop.com/process3dSecure/",
+      "cReq": "ewogICAiYWNzVHJhbCIgOiA...wMDAtMDAwMDAwMDA0MWE5Igp9",
+      "sessiondata": "50F2156E03083CA665BCB4.."
+      }
+    }
+  }
 }
-}
-
-
+```
 
 ### STEP 7(C) – CARDHOLDER CHALLENGE INITIATION
 
@@ -357,7 +359,8 @@ Example:
     </form>
 
 
-STEP 8(C) - SEND REQUEST TO COMPLETE THE ORIGINAL TRANSACTION
+### STEP 8(C) - SEND REQUEST TO COMPLETE THE ORIGINAL TRANSACTION
+
 After you receive the data from the ACS you need to submit the values to us in the ‘cRes’ element together with the reference to the original transaction.
 
 The merchant sends a PATCH request to the original transaction and includes the following values:
@@ -368,24 +371,25 @@ The merchant may also include the optional cardholder billing address and the se
 
 The following JSON document represents an example of a request with cRes element:
 
+```json YAML
 {
-"authenticationType": "Secure3D21AuthenticationUpdateRequest",
-"storeId": "12345500000",
-"billingAddress": {
-"company": "Test Company",
-"address1": "5565 Glenridge Conn",
-"address2": "Suite 123"
-"city": "Atlanta",
-"region": "Georgia",
-"postalCode": "30342",
-"country": "USA"
-},
-"securityCode": "123",
-"acsResponse": {
-"cRes": "ewogICAiYWNzUmVmZX…Fuc1N0YXR…IKfQ=="
+  "authenticationType": "Secure3D21AuthenticationUpdateRequest",
+  "storeId": "12345500000",
+  "billingAddress": {
+    "company": "Test Company",
+    "address1": "5565 Glenridge Conn",
+    "address2": "Suite 123"
+    "city": "Atlanta",
+    "region": "Georgia",
+    "postalCode": "30342",
+    "country": "USA"
+  },
+  "securityCode": "123",
+  "acsResponse": {
+    "cRes": "ewogICAiYWNzUmVmZX…Fuc1N0YXR…IKfQ=="
+  }
 }
-}
-
+```
 
 STEP 9(C) – FINAL RESPONSE OF 3D SECURE AUTHENTICATION/AUTHORIZATION
 
