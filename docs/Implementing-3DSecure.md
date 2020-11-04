@@ -391,7 +391,7 @@ The following JSON document represents an example of a request with cRes element
 }
 ```
 
-STEP 9(C) – FINAL RESPONSE OF 3D SECURE AUTHENTICATION/AUTHORIZATION
+### STEP 9(C) – FINAL RESPONSE OF 3D SECURE AUTHENTICATION/AUTHORIZATION
 
 Since this transaction was initiated as a Sale, the authorization is performed as part of this final step if the authentication was successful.
 
