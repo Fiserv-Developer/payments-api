@@ -18,6 +18,8 @@ The next diagram shows the flow when your customer has to authenticate, which me
 
 ## Implementing 3DSecure via REST API - Step by step
 
+## Frictionless Flow
+
 ### STEP 1 – COLLECT CARDHOLDER PAYMENT DETAILS
 First, collect the card payment information (credit card number, expiration date, security code) from your customer.
 
@@ -396,47 +398,46 @@ The following JSON document represents an example of a request with cRes element
 Since this transaction was initiated as a Sale, the authorization is performed as part of this final step if the authentication was successful.
 
 The transaction response contains a “Secure3DResponse” object and the transaction is either approved or declined.
-transactionStatus = APPROVED or DECLINED
 
 The “Secure3DRespnse” object will contain the following fields:
-responseCode3dSecure
 
-The following JSON document represents an example of a response you receive from First API indicating, that the authorization has been successful:
+- responseCode3dSecure
 
+The following JSON document represents an example of a response you receive indicating that the authorization has been successful:
+
+```json YAML
 {
-"clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
-"apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
-"ipgTransactionId": "838916029301",
-"transactionType": "SALE",
-"transactionTime": 1518811817,
-"approvedAmount": {
-"total": 122.04,
-"currency": "USD"
-},
-"transactionStatus": "APPROVED",
-"schemeTransactionId": "019078743804756",
-"processor": {
-"responseCode": "00",
-"responseMessage": "APPROVED",
-"authorizationCode": "OK7118"
-},
-“secure3dResponse”: {
-“responseCode3dSecure”: “1”
+  "clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
+  "apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
+  "ipgTransactionId": "838916029301",
+  "transactionType": "SALE",
+  "transactionTime": 1518811817,
+  "approvedAmount": {
+    "total": 122.04,
+    "currency": "USD"
+  },
+  "transactionStatus": "APPROVED",
+  "schemeTransactionId": "019078743804756",
+  "processor": {
+    "responseCode": "00",
+    "responseMessage": "APPROVED",
+    "authorizationCode": "OK7118"
+  },
+  “secure3dResponse”: {
+    “responseCode3dSecure”: “1”
+  }
 }
-}
-}
+```
 
+### Fallback to 3DS 1.0 Protocol 
 
-
-Fallback to 3DS 1.0 Protocol 
 For cases, where Issuers do not support 2.x 3DS protocol version yet, the gateway provides an option to “downgrade” to 3DS 1.0 authentication instead.
-NOTE: The fallback flow is the same as the challenge flow above, except that the values returned by the ACS server are different, resulting in a different set of values to be sent on the final request.
 
-3DS section is really good although complicated!
-Secondary transactions (void and refund) (page)
-Use secondary transactions to Void an original transaction, Return against an original transaction or to complete a Pre-Auth transaction. The transactionId Parameter, populated for the original transaction that requires a secondary action, must be populated for each of these request types. To cancel the original transaction (same day as the original transaction), use the voidTransaction requestType. To return (reverse on subsequent day) an original transaction, use returnTransaction as the requestType. To complete a Pre-Authorised transaction using a Post-Authorisation transaction, reference the original transaction in the parameter data, then place a POST using the PostAuth schema. 
-Transaction Inquiry
-To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
+<!-- theme: warning -->
+
+>NOTE: The fallback flow is the same as the challenge flow above, except that the values returned by the ACS server are different, resulting in a different set of values to be sent on the final request.
+
+
 
 
 
