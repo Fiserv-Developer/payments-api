@@ -1,7 +1,6 @@
 ---
 tags: [Payments]
 ---
-# IPG_Payments_Documentation
 
 # Payments API
 
