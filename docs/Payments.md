@@ -206,13 +206,13 @@ To use the Wallet request types, use the abstract class walletPaymentMethod, def
 
 Apple Pay enables secure, simple checkouts in your app or on your website.
 
-User Action: the buyer taps the Apple Pay button in the app or on the website, selects the payment card and uses the Touch-ID to complete the transaction.
+Your customer will tap the Apple Pay button in the app or on the website, selects the payment card they want to use and uses the Touch-ID to complete the transaction.
 
-1. The Merchant App communicates with the merchant server and creates a transaction ID
-2. The Merchant App obtains the encrypted transaction payload (The tokenized card data "DPAN", Cryptogram, and transaction details) from Apple's Pass Kit Framework
-3. The Merchant App sends the encrypted transaction payload to processor API using the Apple Pay SDK
-4. Processor API decrypts the encrypted transaction payload and processes the transaction
-5. Processor API responds back to the Merchant App (through the SDK) with either an approval or decline
+1. Your App communicates with the your server and creates a transaction ID
+2. Your App obtains the encrypted transaction payload (The tokenized card data "DPAN", Cryptogram, and transaction details) from Apple's Pass Kit Framework
+3. Your App sends the encrypted transaction payload to our /payments API using the Apple Pay SDK
+4. Our payments platform decrypts the encrypted transaction payload and processes the transaction
+5. Our /paymennts API responds back to the Merchant App (through the SDK) with either an approval or decline
 
 To accept Apple Pay, you'll need us to generate a Certificate Signing Request. Please reach out to your local Integration Support team for getting your account enabled. Our Integration team will generate the CSR and share it with you along with the Merchant Identifier.
 
@@ -314,9 +314,139 @@ Once the user authenticates the transaction the apple returns the payment token,
 }
 ```
 
+### Google Pay
 
+Google Payment happens after your customer taps the "Google Pay" button, then selects a payment method and shipping address.
+
+If the purchase originates from a third-party site
+
+1. Your server issues a credential request with the Merchant ID and Processor Name as First Data to Google
+2. Google returns response with encrypted payment credentials signed with the First Data key to the merchant server
+3. You send the encrypted payload to our /payments API
+4. We decrypt and validate the payload, then process the transaction and respond back to you with either an approval or decline response
+
+If the purchase originates from a Google site:
+
+1. Google initiates a purchase request to you after the consumer confirms the order
+2. Your server issues a request with your Merchant ID and Processor Name as First Data to Google
+3. Google returns response with encrypted payment credentials signed with the First Data key to your server
+4. You send the encrypted payload to our /payments API
+5. We decrypt and validate the payload and process the transaction and respond back to you with either an approval or decline response
+
+Google Pay enables developers to add payment processing to Android-compatible apps and on Chrome on Android. These APIs allow consumers to pay with any credit card they have stored in their Google account, including any cards they may have previously set up on their Android Pay digital wallet. 
+
+Implementing Google Pay
+
+1. Merchant Boarding
+
+Please reach out to your local Integration Support team for getting your account enabled. The Integration team will share a Sample Application to generate Google Encrypted payloads.
+
+2. Prerequisites to build and run the sample Application
+
+Developers wishing to use the Fiserv Google Pay sample application will need the following software and hardware:
+
+- Google Play Services version 18.0.0 
+- A physical device or an emulator to use for developing and testing. Google Play services can only be installed on an emulator with an AVD that runs Google APIs platform based on Android 4.4 or higher.
+- The latest version of Android Studio. This includes:
+  - The latest version of the AndroidSDK, including the SDK Tools component. The SDK is available from the
+  - Android SDK Manager
+  - JavaJRE(JDKfordevelopment) as per Android SDK requirements
+
+Your project should be able to compile against Android 4.4 (KITKAT) or higher.
+
+For more details, please refer https://developers.google.com/pay/api/android/guides/setup
+
+3. Changes to be made in the Application 
+
+The following parameters need to be defined 
+
+- [ ] Merchant ID
+- [ ] Merchant Token
+- [ ] APIKey
+- [ ] APISecret
+
+Define the Fiserv Object Parameters: Parameters must be updated in the following files: 
+
+- Constants.java
+- EnvData.java
+
+Update the Constants.java file with the Merchant ID and Gateway Tokenization parameters. Note that:
+
+- The Merchant ID will be shared by the Integration team and
+- The Gateway Tokenization parameter defaults to ‘firstdata’. 
+
+In the EnvData.java file, set the following environment variables, which will be shared by the Integration Team:
+
+- APIKey
+- Token 
+- APISecret 
+ 
+envMap.put("CERT", new EnvPropertiesImpl( "CERT",
+
+ "https://cert.api.firstdata.com/gateway/v1/payments",
+
+ "---------", "----------", "-----------"));
+
+gatewayMerchantId and the APIGEE credentials will be provided by the Integration Team
+
+4. Credit Card for Testing
+
+Note that for testing purposes; the credit card information used in the app must be attached to an active account. The standard test cards will not be validated by Google and will fail in processing, our integration team will provide google pay-specific test cards.
+
+5. Execute Authorize and Purchase Request
+
+The Authorization parameter, required as part of the Header for a Fiserv API transaction, needs to be created. Construct the data param by appending the following parameters in the order shown:
+
+- apikey – the developer’s API key
+- nonce – A secure random number
+- timestamp – Epoch timestamp in milliseconds
+- token – the Merchant Token 
+- payload – The actual body content passed as the POST request 
+
+6. Google Pay APK Installation to Device
+
+- Once the downloaded code for the sample app is built successfully in Android Studio, build the APK and install it on your device. 
+- Once the APK is installed, select the Open option to access the application. 
+- The sample application should now be installed on the test device (nonPROD environment), and the response from a payment processed in the First Data nonPROD environment/Google test environment available
+
+Sample Google Pay Request within the `walletPaymentMethod` object for a `WalletPreAuthTransaction`:
+
+```json yaml
 {
 
+  "requestType": "WalletPreAuthTransaction",
 
+  "walletPaymentMethod": {
 
+    "walletType": "EncryptedGooglePayWalletPaymentMethod",
 
+    "encryptedGooglePay": {
+
+      "data": {
+
+        "encryptedMessage": "8nxjB9mr2tWZeDRQRcGN91UUnb7AioGp3oRo8kmQ6lyvJZiqD7PJlbRCYElNqUmr6Z8zK7b2gO9MKOjpnTCqH0qAe2vuIlwNXB60M2Lh7Qfl3bVgWzwF/FfFcenVW381hoItYi8AjWnWoydz1XMTEv2qhqUG03mEnRXdMyDyk6KKZXoW8Qc0p1F1thbxxu8weU8CZbZsWGGTjB42cilIqLVbribcOAG8Oas1AcgefFsu2hwp4gdSuOg7wmeSV7XKsGQzzVy85qtjuqET2XYzJE3K/Wh9QKkhu5P9Ms5s1+Smr2IjRyidqQa88SxQplrVoo9+PvT0bxFcMspBmO3pLkuaZSUBy++dL2fefcxNJvGCFfFhdxW9DojuuQxgpeu7RAQUsGLyFmr/4ZfBxt882xTmpX9MRx5CAudl9qUgBfKdwWwMX35qSbDTm1ju5XXzNh94VebjD3bB9Zj8qgbmUOr/+6OQLhoFJyBCXgx3EEH8hBwNVFrss/SLwQvFhZh62eO6lOtnmbOtP1yTDDVqGDBfai5SwAmM+KTcc9SGv/xDC+cWe8ck+aCBkG4HoRPapUVMZ3JIgV7yzTsVLJE\\u003d",
+
+        "ephemeralPublicKey": "BGH3fRFdoAobYrAlxnZOCYzkH84Cna92IZxtgsU36CMDaqSaDYb9/LsY8qw+vMtlBnwsUg/YVMOeeKp+qDkOWb4\\u003d",
+
+        "tag": "nvmOUNpnOTZULLhMxT/hWCHzH/4f7gGpfvQgwl3p8ng\\u003d"
+
+      },
+
+      "signature": "MEUCIFWTRWUZAOM5nfJC79FtJm56olnbwG4H5uWWxAUWAquiAiEA24j/BcOroeISsdJzYsyoVi8wzu4tnmKw+jdsGfuvPko=",
+
+      "version": "ECv1"
+
+    }
+
+  },
+
+  "transactionAmount": {
+
+    "total": "1200",
+
+    "currency": "USD"
+
+  }
+
+}
+```
