@@ -94,16 +94,14 @@ The following JSON document represents an example of a Sale transaction request 
   }
 }
 ```
+<!-- theme: info -->
+>NOTE: Not all Issuers support the collection of browser data using the 3DS Method Form.  In those cases, no data will be posted to the methodNotificationURL, and the flow should continue by posting a status of EXPECTED_BUT_NOT_RECEIVED – see Step 4, below.
 
 ### STEP 3 – 3D SECURE AUTHENTICATION PRIMARY RESPONSE
 
-NOTE: Not all Issuers support the collection of browser data using the 3DS Method Form.  In those cases, no data will be posted to the methodNotificationURL, and the flow should continue by posting a status of EXPECTED_BUT_NOT_RECEIVED – see Step 4, below.
+Our response will include a ‘3DSMethod’ element, which generates a hidden iframe that helps to collect the browser data for the issuers. This information adds to the overall consumer profile and helps in identifying potentially fraudulent transactions. It also increases the probability of a frictionless, successful transaction.
 
-The response from the gateway contains a ‘3DSMethod’ element, which generates a hidden iframe that helps to collect the browser data for the issuers. This information adds to the overall consumer profile and helps in identifying potentially fraudulent transactions. It also increases the probability of a frictionless, successful transaction.
-
-You need to include the 3DSMethod in your website as hidden iframe. No user interface screen is presented to the cardholder. 
-
-Need to explain how to do this
+You will need to include the 3DSMethod in your website as hidden iframe. No user interface screen is presented to the cardholder. 
 
 At this point, a verification request takes place to determine if the 3D-Secure system is functional and the cardholder is enrolled for 3D-Secure.  If the 3D-Secure system is not functioning or if the cardholder is not enrolled, the transaction will process normally and be approved or declined by the processing network.
 
@@ -115,60 +113,62 @@ transactionStatus = WAITING
 
 The “authenticationResponse” object will contain the following values:
 
-type = “3D_SECURE”
-version =”2.1” 
-secure3DMethod/methodForm = HTML form data with hidden iFrame used to collect the web browser data for the Issuer.
-secure3DMethod/secure3dTransId = A unique identifier for the transaction provided by the Issuer ACS server.
+Attribute | Description 
+---------|----------
+type | “3D_SECURE”
+version | ”2.1” 
+secure3DMethod/methodForm | HTML form data with hidden iFrame used to collect the web browser data for the Issuer.
+secure3DMethod/secure3dTransId | A unique identifier for the transaction provided by the Issuer ACS server.
 
 The following JSON document represents an example of a response:
 
+```json YAML
 {
-"clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
-"apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
-"ipgTransactionId": "838916029301",
-"transactionType": "SALE",
-"transactionTime": 1518811817,
-"approvedAmount": {
-"total": 122.04,
-"currency": "USD"
+  "clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
+  "apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
+  "ipgTransactionId": "838916029301",
+  "transactionType": "SALE",
+  "transactionTime": 1518811817,
+  "approvedAmount": {
+  "total": 122.04,
+  "currency": "USD"
 },
-"transactionStatus": "WAITING",
-“authenticationResponse”: {
-"type": "3D_SECURE",
-"version": "2.1",
-"secure3dMethod": {
-"methodForm": 
-"&lt;!DOCTYPE iframe SYSTEM "about:legacy-compat"&gt;
-&lt;iframe id="tdsMmethodTgtFrame" name="tdsMmethodTgtFrame"
-style="width: 1px; height: 1px; display: none;" src="javascript:false;"
-xmlns="http://www.w3.org/1999/xhtml"&gt;
-&lt;!--.--&gt; &lt;/iframe&gt;&lt;form id="tdsMmethodForm"
-name="tdsMmethodForm"
-action=https://localhost.modirum.com:8543/dstests/ACSEmu2
-method="post"
-target="tdsMmethodTgtFrame" xmlns="http://www.w3.org/1999/xhtml"&gt;
-&lt;input type="hidden" name="3DSMethodData"
-value="eyAidGhyZWVEU1NlcnZlclRyYW5zSUQiIDogIjAwMDAwMDAwLTU2NzYtNTY2My
-04MDAwLTAwMDAw    &amp;#10;MDAwNDFhOSIsICJ0aHJlZURTTWV0aG9kTm90aWZpY2F0aW9
-uVVJMIiA6ICJodHRwczovL2xvY2Fs&amp;#10;aG9zdC5tb2RpcnVtLmNvbTo4NTQzL21kcGF5bXBpL
-01lcmNoYW50U2VydmVyP21uPVkmdHhpZD0x
-&amp;#10;NjgwOSZkaWdlc3Q9aSUyQnhhUEF5NWFOcVJRbllqNmozbWFDZlFJbTdFdjJYTm
-kwNnh6YmZNJTJG&amp;#10;R3MlM0QiIH0"/&gt; &lt;input type="hidden"
-name="threeDSMethodData"            
-value="eyAidGhyZWVEU1NlcnZlclRyYW5zSUQiIDogIjAwMDAwMDAwLTU2NzYtNTY2
-My04MDAwLTAwMDA
-w&amp;#10;MDAwNDFhOSIsICJ0aHJlZURTTWV0aG9kTm90aWZpY2F0aW9uVVJMIiA
-6ICJodHRwczovL2xvY 2Fs&amp;#10;aG9zdC5tb2RpcnVtLmNvbTo4NTQzL21kcGF5bXBpL01lcm
-NoYW50U2VydmVyP21uPVkmdHhpZD0x&amp;#10;NjgwOSZkaWdlc3Q9aSUyQnhhUEF5NWFOcV
-JRbllqNmozbWFDZlFJbTdFdjJYTmkwNnh6YmZNJTJG&amp;#10;R3MlM0QiIH0"/&gt;
-&lt;/form&gt;&lt;script type="text/javascript" 
-xmlns="http://www.w3.org/1999/xhtml"&gt;
-document.getElementById("tdsMmethodForm").submit(); &lt;/script&gt;",
-"secure3dTransId": "3ac7caa7-aa42-2663-791b-2ac05a542c4a"
+  "transactionStatus": "WAITING",
+  “authenticationResponse”: {
+    "type": "3D_SECURE",
+    "version": "2.1",
+    "secure3dMethod": {
+      "methodForm": &lt;!DOCTYPE iframe SYSTEM "about:legacy-compat"&gt;
+      &lt;iframe id="tdsMmethodTgtFrame" name="tdsMmethodTgtFrame"
+      style="width: 1px; height: 1px; display: none;" src="javascript:false;"
+      xmlns="http://www.w3.org/1999/xhtml"&gt;
+      &lt;!--.--&gt; &lt;/iframe&gt;&lt;form id="tdsMmethodForm"
+      name="tdsMmethodForm"
+      action=https://localhost.modirum.com:8543/dstests/ACSEmu2
+      method="post"
+      target="tdsMmethodTgtFrame" xmlns="http://www.w3.org/1999/xhtml"&gt;
+      &lt;input type="hidden" name="3DSMethodData"
+      value="eyAidGhyZWVEU1NlcnZlclRyYW5zSUQiIDogIjAwMDAwMDAwLTU2NzYtNTY2My
+      04MDAwLTAwMDAw    &amp;#10;MDAwNDFhOSIsICJ0aHJlZURTTWV0aG9kTm90aWZpY2F0aW9
+      uVVJMIiA6ICJodHRwczovL2xvY2Fs&amp;#10;aG9zdC5tb2RpcnVtLmNvbTo4NTQzL21kcGF5bXBpL
+      01lcmNoYW50U2VydmVyP21uPVkmdHhpZD0x
+      &amp;#10;NjgwOSZkaWdlc3Q9aSUyQnhhUEF5NWFOcVJRbllqNmozbWFDZlFJbTdFdjJYTm
+      kwNnh6YmZNJTJG&amp;#10;R3MlM0QiIH0"/&gt; &lt;input type="hidden"
+      name="threeDSMethodData"            
+      value="eyAidGhyZWVEU1NlcnZlclRyYW5zSUQiIDogIjAwMDAwMDAwLTU2NzYtNTY2
+      My04MDAwLTAwMDA
+      w&amp;#10;MDAwNDFhOSIsICJ0aHJlZURTTWV0aG9kTm90aWZpY2F0aW9uVVJMIiA
+      6ICJodHRwczovL2xvY 2Fs&amp;#10;aG9zdC5tb2RpcnVtLmNvbTo4NTQzL21kcGF5bXBpL01lcm
+      NoYW50U2VydmVyP21uPVkmdHhpZD0x&amp;#10;NjgwOSZkaWdlc3Q9aSUyQnhhUEF5NWFOcV
+      JRbllqNmozbWFDZlFJbTdFdjJYTmkwNnh6YmZNJTJG&amp;#10;R3MlM0QiIH0"/&gt;
+      &lt;/form&gt;&lt;script type="text/javascript" 
+      xmlns="http://www.w3.org/1999/xhtml"&gt;
+      document.getElementById("tdsMmethodForm").submit(); &lt;/script&gt;",
+      "secure3dTransId": "3ac7caa7-aa42-2663-791b-2ac05a542c4a"
+    }
+  }
 }
-}
-}
-
+```
 
 STEP 4 – 3D SECURE METHOD NOTIFICATION REQUEST/RESPONSE
 
