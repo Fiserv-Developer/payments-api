@@ -202,11 +202,13 @@ We support Apple Pay and Google Pay transactions via our REST APIs. We can accep
 
 To use the Wallet request types, use the abstract class walletPaymentMethod, defining one of the abstract class’s children to create the walletPaymentMethod using the walletType value. For example, use the encryptedApplePayWalletPaymentMethod to execute the payment using encrypted Apple Pay payment data. An example of the walletPaymentMethod for this type of payment is show below. If you want to decrypt the wallet payment data yourself and provide the unencrypted data, that can be achieved via the dencryptedApplePayWalletPaymentMethod object.
 
-To see step-by-step guides for implementing Apple and Google Pay wallet payment methods, please see this [section](docs/Implementing-Wallet-Payment-Methods.md).
+To see step-by-step guides for implementing Apple and Google Pay wallet payment methods, please see this [section](docs/Implementing-Wallet-Payment-Methods.md) !!!UPDATE URL!!!.
 
 ## 3DSecure Transactions
 
 A major part of accepting ecommerce transactions is the requirement to authenticate consumers and their payment instruments via the 3DSecure ecosystem. This enables each consumer to authenticate themselves with their card issuer, and provides for both a high security payments experience, and a frictionless payment experience (dependent on the data the consumer provides as part of the authentication process).
+
+
 
 How often does 3DSecure happen?
 Explain what SCA is
