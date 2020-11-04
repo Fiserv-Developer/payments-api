@@ -34,24 +34,12 @@ This message needs to include the “authenticationRequest” object in the tran
 
 Why would I include this? Cannot I not submit a payment without it?
 
-
-Column A | Column B | Column C
----------|----------|---------
- A1 | B1 | C1
- A2 | B2 | C2
- A3 | B3 | C3
-
-authenticationType = “Secure3D21AuthenticationRequest” (Are there other auth types?)
-termURL = Indicates the URL where the results of the authentication process should be posted by the ACS server (this is the Access Control Server that executes the cardholder authentication). (WTH is a termURL? Should this be callback URL?)
-methodNotifictionURL = If you wish to be notified about the 3DSMethod form display completion, you need to also submit this optional element in your transaction request. The URL should be uniquely identifiable, so when there is a notification received on this URL, you should be able to map it with the corresponding transaction. This eliminates any dependency on the Secure3dTransId which you will receive with the 3DSMethod form response. An easy way to ensure correct transaction mapping is to pass a transaction reference as a query string. 
-
-(WTH is a methodNotificationURL? Do they mean webhook?)
-For example:
-https://www.mywebshop.com/process3dSecureMethodNotificationtransactionReferenceNumber=ffffffff-ba0b-539f-8000-016b2343ad7e
-
-Note: The purpose of 3DSMethod is explained below under the Sale transaction example.
-
-challengeIndicator = In case you would like to influence which authentication flow should be used, you can submit this optional element with one of the values listed below. In case Challenge Indicator is not sent within your transaction request, the Gateway will populate the value “01” – No preference. 
+Attribute | Description 
+---------|----------
+authenticationType | Default to “Secure3D21AuthenticationRequest” - this is the default 3DS 2.1 request
+termURL | Indicates the callback URL where the results of the authentication process should be posted by the ACS server (this is the Access Control Server that executes the cardholder authentication).
+methodNotifictionURL | If you wish to be notified about the 3DSMethod form display completion, you need to also submit this optional element in your transaction request. The URL should be uniquely identifiable, so when there is a notification received on this URL, you should be able to map it with the corresponding transaction. This eliminates any dependency on the Secure3dTransId which you will receive with the 3DSMethod form response. An easy way to ensure correct transaction mapping is to pass a transaction reference as a query string. For example: https://www.mywebshop.com/process3dSecureMethodNotificationtransactionReferenceNumber=ffffffff-ba0b-539f-8000-016b2343ad7e
+challengeIndicator | In case you would like to influence which authentication flow should be used, you can submit this optional element with one of the values listed below. In case Challenge Indicator is not sent within your transaction request, the Gateway will populate the value “01” – No preference. 
 
 What should the default be?
 
@@ -119,13 +107,19 @@ NOTE: Not all Issuers support the collection of browser data using the 3DS Metho
 The response from the gateway contains a ‘3DSMethod’ element, which generates a hidden iframe that helps to collect the browser data for the issuers. This information adds to the overall consumer profile and helps in identifying potentially fraudulent transactions. It also increases the probability of a frictionless, successful transaction.
 
 You need to include the 3DSMethod in your website as hidden iframe. No user interface screen is presented to the cardholder. 
+
 Need to explain how to do this
+
 At this point, a verification request takes place to determine if the 3D-Secure system is functional and the cardholder is enrolled for 3D-Secure.  If the 3D-Secure system is not functioning or if the cardholder is not enrolled, the transaction will process normally and be approved or declined by the processing network.
 
 transactionStatus = APPROVED or DECLINED
+
 If the cardholder is verified to be enrolled in the 3D-Secure program, then an “authenticationResponse” object will be included in the transaction response.
+
 transactionStatus = WAITING
+
 The “authenticationResponse” object will contain the following values:
+
 type = “3D_SECURE”
 version =”2.1” 
 secure3DMethod/methodForm = HTML form data with hidden iFrame used to collect the web browser data for the Issuer.
