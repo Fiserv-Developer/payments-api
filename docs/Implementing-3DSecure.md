@@ -1,6 +1,6 @@
 # Implementing-3DSecure
 
-/Payments API Authentication 
+## /Payments API Authentication 
 
 When using our /payments API as the 3D-Secure provider, the authentication is performed in-line with the existing transaction flow.  The process starts by performing a typical authorization or sale request with a desire to perform 3D-Secure authentication in the request.
   
@@ -10,29 +10,45 @@ The authorization is then placed into a WAITING status until the authentication 
 
 The sequence diagrams below map to the steps in the text that follows. The first diagram is for the frictionless flow. This means the issuer does not require the cardholder to authenticate.
  
+    Insert Sequence diagram1 
+
 The next diagram shows the flow when your customer has to authenticate, which means their issuer has requested they provide additional authentication details.
- 
 
-The following information shows the steps to follow when 
+    Insert Seqence Diagram 2
 
-STEP 1 – COLLECT CARDHOLDER PAYMENT DETAILS
+## Implementing 3DSecure via REST API - Step by step
+
+### STEP 1 – COLLECT CARDHOLDER PAYMENT DETAILS
 First, collect the card payment information (credit card number, expiration date, security code) from your customer.
 
-STEP 2 – 3D SECURE AUTHENTICATION REQUEST
+### STEP 2 – 3D SECURE AUTHENTICATION REQUEST
 Use either the payment card or the payment token to initiate a Primary Payment Transaction.
 The relevant Request Types for 3D-Secure authentication are as follows:
-•	PaymentCardPreAuthTransaction
-•	PaymentCardSaleTransaction
-•	PaymentTokenPreAuthTransaction
-•	PaymentTokenSaleTransaction
+	
+- PaymentCardPreAuthTransaction
+- PaymentCardSaleTransaction
+- PaymentTokenPreAuthTransaction
+- PaymentTokenSaleTransaction
 
 This message needs to include the “authenticationRequest” object in the transaction request message and includes the following values:
+
 Why would I include this? Cannot I not submit a payment without it?
+
+
+Column A | Column B | Column C
+---------|----------|---------
+ A1 | B1 | C1
+ A2 | B2 | C2
+ A3 | B3 | C3
+
 authenticationType = “Secure3D21AuthenticationRequest” (Are there other auth types?)
 termURL = Indicates the URL where the results of the authentication process should be posted by the ACS server (this is the Access Control Server that executes the cardholder authentication). (WTH is a termURL? Should this be callback URL?)
-methodNotifictionURL = If you wish to be notified about the 3DSMethod form display completion, you need to also submit this optional element in your transaction request. The URL should be uniquely identifiable, so when there is a notification received on this URL, you should be able to map it with the corresponding transaction. This eliminates any dependency on the Secure3dTransId which you will receive with the 3DSMethod form response. An easy way to ensure correct transaction mapping is to pass a transaction reference as a query string. (WTH is a methodNotificationURL? Do they mean webhook?)
+methodNotifictionURL = If you wish to be notified about the 3DSMethod form display completion, you need to also submit this optional element in your transaction request. The URL should be uniquely identifiable, so when there is a notification received on this URL, you should be able to map it with the corresponding transaction. This eliminates any dependency on the Secure3dTransId which you will receive with the 3DSMethod form response. An easy way to ensure correct transaction mapping is to pass a transaction reference as a query string. 
+
+(WTH is a methodNotificationURL? Do they mean webhook?)
 For example:
-https://www.mywebshop.com/process3dSecureMethodNotification?transactionReferenceNumber=ffffffff-ba0b-539f-8000-016b2343ad7e
+https://www.mywebshop.com/process3dSecureMethodNotificationtransactionReferenceNumber=ffffffff-ba0b-539f-8000-016b2343ad7e
+
 Note: The purpose of 3DSMethod is explained below under the Sale transaction example.
 
 challengeIndicator = In case you would like to influence which authentication flow should be used, you can submit this optional element with one of the values listed below. In case Challenge Indicator is not sent within your transaction request, the Gateway will populate the value “01” – No preference. 
@@ -40,10 +56,18 @@ challengeIndicator = In case you would like to influence which authentication fl
 What should the default be?
 
 Challenge indicator available values for 3DS protocol version 2.1 are:
+
 01 = No preference (You have no preference whether a challenge should be performed. This is the default value).
 02 = No challenge requested (You prefer that no challenge should be performed – this means you are willing to accept liability for the transaction)
 03 = Challenge requested: 3DS Requestor Preference (You prefer that a challenge should be performed – this should be set for high risk or high value transactions)
 04 = Challenge requested: Mandate (There are local or regional mandates that mean that a challenge must be performed – this is only relevant in exceptional circumstances – please contact us if you think this is applicable)
+
+
+Column A | Column B | Column C
+---------|----------|---------
+ A1 | B1 | C1
+ A2 | B2 | C2
+ A3 | B3 | C3
 
 challengeWindowSize = If you want to define the size of the challenge window displayed to your customers during the authentication process, you can submit this optional element with one of the values listed below:
 
@@ -52,39 +76,43 @@ challengeWindowSize = If you want to define the size of the challenge window dis
 03 = 500 x 600 
 04 = 600 x 400 
 05 = Full screen
-Note: Based on the payment schemes' observation it is highly recommended to use the value "05 - Full screen" only for browser-based flows. Using full screen mode in app-based flows where the authentication of the cardholder happens on a smartphone or tablet might cause time-outs and trigger an error on issuer/ACS side.
- (this is really interesting since Stripe doesn’t allow this type of flow for mobile)
-NOTE: It is highly recommended to also include also Billing and Shipping details in your transaction request to lower the risk of authentication declines. The description of all related optional parameters can be found in the FIRST API Integration Reference, https://docs.firstdata.com/org/gateway/docs/api.
+
+
+Based on the payment schemes' observation it is highly recommended to use the value "05 - Full screen" only for browser-based flows. Using full screen mode in app-based flows where the authentication of the cardholder happens on a smartphone or tablet might cause time-outs and trigger an error on issuer/ACS side.
+
+(this is really interesting since Stripe doesn’t allow this type of flow for mobile)
+
+It is highly recommended to also include also Billing and Shipping details in your transaction request to lower the risk of authentication declines. The description of all related optional parameters can be found in the FIRST API Integration Reference, https://docs.firstdata.com/org/gateway/docs/api.
 
 The following JSON document represents an example of a Sale transaction request with minimal set of elements:
 
 {
-"requestType": "PaymentCardSaleTransaction",
-"transactionAmount": {
-"total": "122.04",
-"currency": "USD"
-},
-"paymentMethod": {
-"paymentCard": {
-"number": "403587XXXXXX4977",
-"securityCode": "977",
-"expiryDate": {
-"month": "12",
-"year": "24"
-}
-}
-},
-“authenticationRequest”: {
-"authenticationType": "Secure3D21AuthenticationRequest",
-"termURL": "https://www.mywebshop.com/process3dSecure",
-"methodNotificationURL": "https://www.mywebshop.com/process3dSecureMethodNotification?transactionReferenceNumber=ffffffff-ba0b-539f-8000-016b2343ad7e",
-"challengeIndicator": "01",
-"challengeWindowSize": "01"
-}
+  "requestType": "PaymentCardSaleTransaction",
+    "transactionAmount": {
+      "total": "122.04",
+      "currency": "USD"
+      },
+    "paymentMethod": {
+      "paymentCard": {
+        "number": "403587XXXXXX4977",
+        "securityCode": "977",
+        "expiryDate": {
+        "month": "12",
+        "year": "24"
+      }   
+    }
+  },
+  “authenticationRequest”: {
+    "authenticationType": "Secure3D21AuthenticationRequest",
+    "termURL": "https://www.mywebshop.com/process3dSecure",
+    "methodNotificationURL": "https://www.mywebshop.com/process3dSecureMethodNotification?  transactionReferenceNumber=ffffffff-ba0b-539f-8000-016b2343ad7e",
+    "challengeIndicator": "01",
+    "challengeWindowSize": "01"
+  }
 }
 
 
-STEP 3 – 3D SECURE AUTHENTICATION PRIMARY RESPONSE
+### STEP 3 – 3D SECURE AUTHENTICATION PRIMARY RESPONSE
 
 NOTE: Not all Issuers support the collection of browser data using the 3DS Method Form.  In those cases, no data will be posted to the methodNotificationURL, and the flow should continue by posting a status of EXPECTED_BUT_NOT_RECEIVED – see Step 4, below.
 
