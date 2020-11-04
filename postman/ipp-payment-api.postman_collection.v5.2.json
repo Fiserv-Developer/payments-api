@@ -1,0 +1,3660 @@
+{
+	"info": {
+		"_postman_id": "182d89e4-86a7-4253-a990-aaa393d8309d",
+		"name": "IPP Payment API Gateway (v5.2)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01 Information Lookup",
+			"item": [
+				{
+					"name": "Card Information Lookup",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "176297fd-99d0-4299-b1b5-7f4d07584489",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "fcb6df7a-0760-4ccc-8f1e-33997e143625",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"paymentCard\": {\r\n        \"number\": \"{{creditCardNumber}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/card-information",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"card-information"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account Information Lookup (PaymentCardInfoLookupRequest)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "aaacdaf3-f353-4b1f-8396-59b61e83e396",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf6d5505-516c-43c4-a4ae-af4a5a185c29",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requestType\": \"PaymentCardInfoLookupRequest\",\r\n    \"paymentCard\": {\r\n        \"number\": \"{{creditCardNumber}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/account-information",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"account-information"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1b3d0898-91ee-4275-8a47-8b36e21d2a4d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "09ab9374-865e-4433-86a7-361c3329ca09",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "02 Currency Conversion",
+			"item": [
+				{
+					"name": "Currency Conversion - Generate dynamic currency conversion transactions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "237993de-8d32-4343-aa6b-a5ca37551cd5",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "95cc2c11-f89d-4c7d-a5d9-da3de1a36d4b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requestType\": \"DCCExchangeRateRequest\",\r\n    \"baseAmount\": \"{{randomTotalAmount}}\",\r\n    \"bin\": \"476134\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/exchange-rates",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"exchange-rates"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b8ee4e85-94e7-4408-9f64-ea02a9b71bd6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "03c05827-58ae-465c-a6fb-4e48ef6bf2e6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "03 Verification",
+			"item": [
+				{
+					"name": "Verification - Verify a payment card.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "12cee24d-171b-43f1-a3bd-a3f8d8483dc2",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "a768ec61-5a26-4125-83e7-eb157b2e6230",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentCard\": {\r\n    \"number\": \"{{creditCardNumber}}\",\r\n    \"expiryDate\": {\r\n      \"month\": \"{{creditCardExpiryMonth}}\",\r\n      \"year\": \"{{creditCardExpiryYear}}\"\r\n    },\r\n    \"securityCode\": \"{{creditCardSecurityCode}}\"\r\n  },\r\n  \"billingAddress\": {\r\n    \"address1\": \"5565 Glenridge Conn\",\r\n    \"city\": \"Atlanta\",\r\n    \"postalCode\": \"30342\",\r\n    \"country\": \"USA\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/card-verification",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"card-verification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verification - Verify a payment card or payment token.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5ce9a599-a8b6-453e-9c2c-4a3af0628a5a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "7d8acf34-cd24-4dec-9347-fab2606ee753",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"requestType\": \"PaymentCardVerificationRequest\",\r\n  \"paymentCard\": {\r\n    \"number\": \"{{creditCardNumber}}\",\r\n    \"expiryDate\": {\r\n      \"month\": \"{{creditCardExpiryMonth}}\",\r\n      \"year\": \"{{creditCardExpiryYear}}\"\r\n    },\r\n    \"securityCode\": \"{{creditCardSecurityCode}}\"\r\n  },\r\n  \"billingAddress\": {\r\n    \"address1\": \"5565 Glenridge Conn\",\r\n    \"city\": \"Atlanta\",\r\n    \"postalCode\": \"30342\",\r\n    \"country\": \"USA\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/account-verification",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"account-verification"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2184da26-c5d8-458a-b8a0-80b71623b2db",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fc738dd-0610-40c6-831a-610bf5f74569",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "04 Payment (Simple Flow)",
+			"item": [
+				{
+					"name": "Payment Primary Transaction - (PaymentCardSaleTransaction)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4fe13650-d9f6-4754-bf82-a69d0e120c49",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "581eadc6-f666-492c-b85c-dbd54aef13e0",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"    pm.globals.set(\"approvedTransactionAmount\", jsonData.approvedAmount.total);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requestType\": \"PaymentCardSaleTransaction\",\r\n    \"merchantTransactionId\": \"Merchant-1234\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount2Digit}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"{{creditCardNumber}}\",\r\n            \"securityCode\": \"{{creditCardSecurityCode}}\",\r\n            \"expiryDate\": {\r\n                \"month\": \"{{creditCardExpiryMonth}}\",\r\n                \"year\": \"{{creditCardExpiryYear}}\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment - Retrieve the state of a transaction.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dad047fa-10fa-4d9c-8d86-73cd3e6e747d",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "89eb6f4b-23d3-4624-a4ea-d81bc9d04458",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments/{{ipgTransactionId}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payments",
+								"{{ipgTransactionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment - Perform a secondary transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0e39f301-6dd0-4c26-879d-947b7952881b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4f9e9d82-bf69-42cf-b549-bbe7582a83bb",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "storeId",
+								"value": "",
+								"description": "An optional outlet ID for clients that support multiple stores in the same developer app.",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"requestType\": \"ReturnTransaction\",\r\n  \"transactionAmount\": {\r\n    \"total\": \"{{approvedTransactionAmount}}\",\r\n    \"currency\": \"{{transactionCurrency}}\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments/{{ipgTransactionId}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payments",
+								"{{ipgTransactionId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "29484fd9-dbc7-44d7-8021-d631029a8366",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4eae5443-28a4-41c2-b3c6-6737bf719c9c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "05 Order",
+			"item": [
+				{
+					"name": "Payment Primary Transaction - Type: PaymentCardPreAuthTransaction",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4668d737-60da-4b59-a242-3a403bd1d2be",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "66f0a75e-b7d2-4f82-800c-ea520d48676e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requestType\": \"PaymentCardSaleTransaction\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"{{creditCardNumber}}\",\r\n            \"securityCode\": \"{{creditCardSecurityCode}}\",\r\n            \"expiryDate\": {\r\n                \"month\": \"{{creditCardExpiryMonth}}\",\r\n                \"year\": \"{{creditCardExpiryYear}}\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order - Perform return or postAuth secondary transactions.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8b756ea1-c165-45bc-afb5-f98df299637f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "16531758-6d35-41ee-b465-1c8ecdacd71d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"requestType\": \"ReturnTransaction\",\r\n  \"transactionAmount\": {\r\n    \"total\": \"{{randomTotalAmount}}\",\r\n    \"currency\": \"{{transactionCurrency}}\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/orders/{{orderId}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"orders",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order - Retrieve the state of an order.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "155e9fea-e11e-4489-90dd-7724a48b053b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ffceccde-60be-4358-950d-3f0348122801",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "storeId",
+								"value": "",
+								"description": "An optional outlet ID for clients that support multiple stores in the same developer app.",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/orders/{{orderId}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"orders",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "37da5be2-d3d9-43ee-af1e-a6022f0474a9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "86730a0e-8abb-471a-8dd6-5b862221cfe3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "06 Payment Schedules",
+			"item": [
+				{
+					"name": "Payment Schedules - Create gateway payment schedule.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "71517c2e-8d93-4d7d-89d4-1b535ecfd996",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ae11613b-b3f8-40b9-a679-2b80edde802a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requestType\": \"PaymentMethodPaymentSchedulesRequest\",\r\n    \"startDate\": \"2020-11-16\",\r\n    \"numberOfPayments\": 10,\r\n    \"maximumFailures\": 1,\r\n    \"invoiceNumber\": \"{{randomInvoiceNumber}}\",\r\n    \"purchaseOrderNumber\": \"{{randomPurchaseOrderNumber}}\",\r\n    \"transactionOrigin\": \"ECOM\",\r\n    \"dynamicMerchantName\": \"{{dynamicMerchantName}}\",\r\n    \"frequency\": {\r\n        \"every\": 1,\r\n        \"unit\": \"MONTH\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"{{creditCardNumber}}\",\r\n            \"expiryDate\": {\r\n                \"month\": \"{{creditCardExpiryMonth}}\",\r\n                \"year\": \"{{creditCardExpiryYear}}\"\r\n            },\r\n            \"securityCode\": \"{{creditCardSecurityCode}}\",\r\n            \"cardFunction\": \"CREDIT\"\r\n        }\r\n    },\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-schedules",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-schedules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Schedules - View a gateway payment schedule.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fbef49e2-de51-4c36-b733-f190697bf075",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c7a1b160-604c-4f22-8ff7-2dfdf99ae017",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-schedules/{{orderId}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-schedules",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Schedules - Update a gateway payment schedule.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eec7ce32-fc54-40b6-802d-e442e83739cd",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "a0697f07-0fa1-4824-a52f-6c2e74a6f4c9",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requestType\": \"PaymentMethodPaymentSchedulesRequest\",\r\n    \"startDate\": \"2020-11-16\",\r\n    \"numberOfPayments\": 10,\r\n    \"maximumFailures\": 1,\r\n    \"invoiceNumber\": \"96126098\",\r\n    \"purchaseOrderNumber\": \"123055342\",\r\n    \"transactionOrigin\": \"ECOM\",\r\n    \"dynamicMerchantName\": \"{{dynamicMerchantName}}\",\r\n    \"frequency\": {\r\n        \"every\": 1,\r\n        \"unit\": \"MONTH\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"{{creditCardNumber}}\",\r\n            \"expiryDate\": {\r\n                \"month\": \"{{creditCardExpiryMonth}}\",\r\n                \"year\": \"{{creditCardExpiryYear}}\"\r\n            },\r\n            \"securityCode\": \"{{creditCardSecurityCode}}\",\r\n            \"cardFunction\": \"CREDIT\"\r\n        }\r\n    },\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-schedules/{{orderId}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-schedules",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Schedules - Cancel a gateway payment schedule.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c7f01c76-528e-457a-9a37-4d84a0363832",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "95561a16-e482-4b3d-8afd-67c8b34270e9",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-schedules/{{orderId}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-schedules",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cf65300e-2938-4732-8801-b22ec51f7daa",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f72441ca-1f56-413d-854b-72b79ba25d4f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "07 Payment URL",
+			"item": [
+				{
+					"name": "Payment URL - Create a payment URL.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1c90dd90-3d07-402e-9bdb-2cce4d91d0ef",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "69b74eaf-532a-4407-b727-2b33c4f9fc80",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+									"    pm.globals.set(\"transactionId\", jsonData.transactionId);\r",
+									"    pm.globals.set(\"paymentUrl\", jsonData.paymentUrl);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"transactionType\": \"SALE\",\r\n    \"transactionNotificationURL\": \"https://showmethepaymentresult.com\",\r\n    \"expiration\": \"4102358400\",\r\n    \"authenticateTransaction\": true,\r\n    \"dynamicMerchantName\": \"{{dynamicMerchantName}}\",\r\n    \"invoiceNumber\": \"{{randomInvoiceNumber}}\",\r\n    \"purchaseOrderNumber\": \"{{randomPurchaseOrderNumber}}\",\r\n    \"hostedPaymentPageText\": \"{{dynamicMerchantName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-url",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-url"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment URL - Retrieve the state of payment URL.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "95d6ca77-a97f-41f8-898c-181f7ba2af39",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f9c94246-c4e1-4ee7-b7c0-5ba5b4038521",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "fromDate",
+								"value": "{{fromDate}}",
+								"description": "*Required - The start date for payment URL in seconds since epoch.",
+								"type": "text"
+							},
+							{
+								"key": "toDate",
+								"value": "{{toDate}}",
+								"description": "*Required - The end date for payment URL search query in seconds since epoch.",
+								"type": "text"
+							},
+							{
+								"key": "status",
+								"value": "",
+								"description": "The status of payment URL.",
+								"type": "text"
+							},
+							{
+								"key": "merchantTransactionId",
+								"value": "{{transactionId}}",
+								"description": "Gateway merchant identifier as returned in the parameter merchantTransactionId.",
+								"type": "text"
+							},
+							{
+								"key": "orderId",
+								"value": "{{orderId}}",
+								"description": "Gateway order identifier as returned in the parameter orderId.",
+								"type": "text"
+							},
+							{
+								"key": "storeId",
+								"value": "",
+								"description": "An optional outlet ID for clients that support multiple stores in the same developer app.",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-url?fromDate={{fromDate}}&toDate={{toDate}}&storeId={{storeId}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-url"
+							],
+							"query": [
+								{
+									"key": "fromDate",
+									"value": "{{fromDate}}"
+								},
+								{
+									"key": "toDate",
+									"value": "{{toDate}}"
+								},
+								{
+									"key": "storeId",
+									"value": "{{storeId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment URL - Delete a payment URL.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2099cbaa-60b5-40c9-8359-fe28942a1381",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "bcfda01f-1f54-4dfc-a948-d61240d058a9",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "transactionId",
+								"value": "{{transactionId}}",
+								"description": "Gateway transaction identifier as returned in the parameter ipgTransactionId or merchantTransactionId",
+								"type": "text"
+							},
+							{
+								"key": "orderId",
+								"value": "{{orderId}}",
+								"description": "Gateway order identifier as returned in the parameter orderId.",
+								"type": "text"
+							},
+							{
+								"key": "paymentUrlId",
+								"value": "",
+								"description": "The ID code from the payment URL.",
+								"type": "text"
+							},
+							{
+								"key": "transactionTime",
+								"value": "",
+								"description": "The transaction time in seconds since epoch.",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-url",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-url"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5398fd1a-bd74-4838-b295-5551737a29dd",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e511773d-252a-48fa-b670-1fa97dece24a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "08 Authentication (Access-Token)",
+			"item": [
+				{
+					"name": "Authentication - Generate an access token for user authentication.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bc1b3d37-2a49-4949-8f18-2441bab5edd8",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "d21a9054-dd2f-4c33-9469-81c026985e09",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"accessToken\", jsonData.tokenId);\r",
+									"    pm.globals.set(\"publicKeyBase64\", jsonData.publicKeyBase64);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"domain\": \"somedomain.com\",\r\n    \"token\": \"gfgF92JHDJFjxcJHCQ23IbI12D\",\r\n    \"publicKeyRequired\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/authentication/access-tokens",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"authentication",
+								"access-tokens"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fbc6137e-c417-4cb9-84aa-f27f30e75bfc",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "184b7fbd-a4b7-44ec-8bfa-e8408a9e5077",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "09 Payment Token",
+			"item": [
+				{
+					"name": "Payment Tokens - Create a payment token from a payment card.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "043ccea8-8a7e-42d9-bb89-2ca7ad30c868",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c02b01d-6f75-4440-9941-d388d4aca59f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = JSON.parse(responseBody);\r",
+									"    pm.globals.set(\"paymentToken\", jsonData.paymentToken.value);    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requestType\": \"PaymentCardPaymentTokenizationRequest\",\r\n    \"paymentCard\": {\r\n        \"number\": \"{{creditCardNumber}}\",\r\n        \"expiryDate\": {\r\n            \"month\": \"{{creditCardExpiryMonth}}\",\r\n            \"year\": \"{{creditCardExpiryYear}}\"\r\n        },\r\n        \"securityCode\": \"{{creditCardSecurityCode}}\"\r\n    },\r\n    \"createToken\": {\r\n        \"reusable\": true,\r\n        \"declineDuplicates\": false\r\n    },\r\n    \"accountVerification\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-tokens",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-tokens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Tokens - Update one or more payment tokens.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "aa507b6d-0150-4217-831d-a5663a41bc2c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "50537a43-3796-4257-9e01-8f046b07b15c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);  \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"requestType\": \"PaymentCardPaymentTokenUpdateRequest\",\r\n    \"paymentTokens\": [\r\n        {\r\n            \"value\": \"{{paymentToken}}\",\r\n            \"reusable\": true,\r\n            \"declineDuplicates\": true,\r\n            \"paymentCard\": {\r\n                \"number\": \"{{creditCardNumber}}\",\r\n                \"expiryDate\": {\r\n                    \"month\": \"{{creditCardExpiryMonth}}\",\r\n                    \"year\": \"{{creditCardExpiryYear}}\"\r\n                }\r\n            }\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-tokens",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-tokens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Tokens - Get payment card details associated with token.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "461440b2-2be3-4401-9eb3-8f2d71f5c26b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d7c833fb-0381-4c49-8d07-d45caa96ba0c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-tokens/{{paymentToken}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-tokens",
+								"{{paymentToken}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Tokens - Delete a payment token.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69d2309e-754d-4254-ad85-57d9c566f1cc",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0a32ea14-057d-4c6d-99d9-f741a0afff65",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-tokens/{{paymentToken}}",
+							"protocol": "https",
+							"host": [
+								"{{environment}}",
+								"{{url}}"
+							],
+							"path": [
+								"ipp",
+								"payments-gateway",
+								"v2",
+								"payment-tokens",
+								"{{paymentToken}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b391635e-4740-4908-a37b-de83c21bb9b6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd92909e-047f-4358-a1c8-997928024c54",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "90 Payment Scenarios",
+			"item": [
+				{
+					"name": "01 Token-Payment",
+					"item": [
+						{
+							"name": "01 Payment Tokens - Create a payment token from a payment card",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "933a1960-f120-413d-b511-97520f58c21e",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "e6dcf822-047e-46f3-811d-d58f2604b8fc",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    pm.globals.set(\"paymentToken\", jsonData.paymentToken.value);    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"requestType\": \"PaymentCardPaymentTokenizationRequest\",\r\n    \"paymentCard\": {\r\n        \"number\": \"{{creditCardNumber}}\",\r\n        \"expiryDate\": {\r\n            \"month\": \"{{creditCardExpiryMonth}}\",\r\n            \"year\": \"{{creditCardExpiryYear}}\"\r\n        },\r\n        \"securityCode\": \"{{creditCardSecurityCode}}\"\r\n    },\r\n    \"createToken\": {\r\n        \"reusable\": true,\r\n        \"declineDuplicates\": false\r\n    },\r\n    \"accountVerification\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-tokens",
+									"protocol": "https",
+									"host": [
+										"{{environment}}",
+										"{{url}}"
+									],
+									"path": [
+										"ipp",
+										"payments-gateway",
+										"v2",
+										"payment-tokens"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "02 Payment Tokens - Get payment card details associated with token. Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cb548f10-5701-458c-ba65-1814124e976b",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "0bc00a76-9d76-4ccd-b9e1-2c74bd4f24f7",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payment-tokens/{{paymentToken}}",
+									"protocol": "https",
+									"host": [
+										"{{environment}}",
+										"{{url}}"
+									],
+									"path": [
+										"ipp",
+										"payments-gateway",
+										"v2",
+										"payment-tokens",
+										"{{paymentToken}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "03 Payment Transaction (PaymentTokenSaleTransaction)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "774cc714-0722-40d8-b519-d74fa58d5b70",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "9b6d4359-50d5-4ae1-87f6-f5d0ce84885d",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+											"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+											"    pm.globals.set(\"approvedTransactionAmount\", jsonData.approvedAmount.total);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"requestType\": \"PaymentTokenSaleTransaction\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentToken\": {\r\n            \"value\": \"{{paymentToken}}\",\r\n            \"securityCode\": \"{{creditCardSecurityCode}}\"\r\n        }\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+									"protocol": "https",
+									"host": [
+										"{{environment}}",
+										"{{url}}"
+									],
+									"path": [
+										"ipp",
+										"payments-gateway",
+										"v2",
+										"payments"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "acd0e78f-fecf-4172-9eb8-6e232bf467aa",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "3b3dac4f-f02d-490f-a6a0-cdda4bf8f384",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "02 Pre- & Post-Authorization Payment",
+					"item": [
+						{
+							"name": "Payment Primary Transaction (PaymentCardPreAuthTransaction)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "57fd74ff-9c1e-4494-9017-edd6fde77ac2",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "2ad4dd55-265b-4ef1-bf97-eecc77105809",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+											"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+											"    pm.globals.set(\"approvedTransactionAmount\", jsonData.approvedAmount.total);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"requestType\": \"PaymentCardPreAuthTransaction\",\r\n    \"merchantTransactionId\": \"Merchant-1234\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"{{creditCardNumber}}\",\r\n            \"securityCode\": \"{{creditCardSecurityCode}}\",\r\n            \"expiryDate\": {\r\n                \"month\": \"{{creditCardExpiryMonth}}\",\r\n                \"year\": \"{{creditCardExpiryYear}}\"\r\n            }\r\n        }\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+									"protocol": "https",
+									"host": [
+										"{{environment}}",
+										"{{url}}"
+									],
+									"path": [
+										"ipp",
+										"payments-gateway",
+										"v2",
+										"payments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Order (PostAuthTransaction)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "565649d2-972a-4cbc-bba7-a78b0eba61b4",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "e68a32d8-a591-4042-ab03-3824b150fda0",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+											"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"requestType\": \"PostAuthTransaction\",\r\n  \"transactionAmount\": {\r\n    \"total\": \"{{randomTotalAmount}}\",\r\n    \"currency\": \"{{transactionCurrency}}\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/orders/{{orderId}}",
+									"protocol": "https",
+									"host": [
+										"{{environment}}",
+										"{{url}}"
+									],
+									"path": [
+										"ipp",
+										"payments-gateway",
+										"v2",
+										"orders",
+										"{{orderId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Order - Retrieve the state of an order",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2f1b960b-ae6c-4cc2-ba53-a49df737d540",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+											"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "d14704c5-9042-4b74-979b-c22490c88d75",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "An optional outlet ID for clients that support multiple stores in the same developer app.",
+										"key": "storeId",
+										"type": "text",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/orders/{{orderId}}",
+									"protocol": "https",
+									"host": [
+										"{{environment}}",
+										"{{url}}"
+									],
+									"path": [
+										"ipp",
+										"payments-gateway",
+										"v2",
+										"orders",
+										"{{orderId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "a943c474-022c-481a-9e01-27ebc88e25d8",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ebbda374-29c0-4336-a526-41e4dda34289",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "03 3DSecure Payments",
+					"item": [
+						{
+							"name": "03.0 Fallback to 1.0",
+							"item": [
+								{
+									"name": "01 PaymentCardSaleTransaction",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "47d1b95f-6f7d-412e-b30b-0516a65b9159",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "d5598470-b516-4457-9269-b476f72e9281",
+												"exec": [
+													"/**\r",
+													" * Parse JSON Response Body \r",
+													" */\r",
+													"const jsonResponseBody = JSON.parse(responseBody);\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    /**\r",
+													"     * Check HTTP Status Code\r",
+													"     */\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Extract Transaction Data\", function () {\r",
+													"    pm.globals.set(\"ipgTransactionId\", jsonResponseBody.ipgTransactionId);\r",
+													"    pm.globals.set(\"orderId\", jsonResponseBody.orderId);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate Transaction Status\", function () {\r",
+													"    const transactionStatus = jsonResponseBody.transactionStatus;\r",
+													"    pm.expect(transactionStatus).eql('WAITING');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Extract 3DSecure Response Data\", function () {\r",
+													"    /**\r",
+													"     * Extract 3DS Data from JSON Response\r",
+													"     */\r",
+													"    pm.globals.set(\"3dsVersion\", jsonResponseBody.authenticationResponse.version);\r",
+													"    pm.globals.set(\"3dsAcsUrl\", _.get(jsonResponseBody, \"authenticationResponse.params.acsURL\", \"\"));\r",
+													"    pm.globals.set(\"3dsTermUrl\", _.get(jsonResponseBody, \"authenticationResponse.params.termURL\", \"\"));\r",
+													"    pm.globals.set(\"3dsPayerAuthenticationRequest\", _.get(jsonResponseBody, \"authenticationResponse.params.payerAuthenticationRequest\", \"\"));\r",
+													"    pm.globals.set(\"3dsChallengeAuthenticationRequest\", _.get(jsonResponseBody, \"authenticationResponse.params.cReq\", \"\"));\r",
+													"    pm.globals.set(\"3dsMerchantData\", _.get(jsonResponseBody, \"authenticationResponse.params.merchantData\", \"\"));\r",
+													"    pm.globals.set(\"3dsMethodForm\",  _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.methodForm\", \"\"));\r",
+													"    pm.globals.set(\"3dsTransactionId\",  _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.secure3dTransId\", \"\")); \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"requestType\": \"PaymentCardSaleTransaction\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount2Digit}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"5204740000001002\",\r\n            \"securityCode\": \"002\",\r\n            \"expiryDate\": {\r\n                \"month\": \"12\",\r\n                \"year\": \"24\"\r\n            }\r\n        }\r\n    },\r\n    \"authenticationRequest\": {\r\n        \"authenticationType\": \"{{3dsIntegratedAuthenticationType1}}\",\r\n        \"termURL\": \"{{3dsTermUrl}}\",\r\n        \"methodNotificationURL\": \"{{3dsMethodNotificationUrl}}\",\r\n        \"challengeIndicator\": \"{{3dsChallengeIndicator}}\",\r\n        \"challengeWindowSize\": \"{{3dsChallengeWindowSize}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "02 Send Payer Authentication Data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "76ed1c01-e779-4b19-b142-ad71cdbd92ab",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    /*\r",
+													"        Check HTTP Status\r",
+													"    */\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Extract 3DS Payer Authentication Data\", function() {\r",
+													"    const cheerio = require('cheerio');\r",
+													"    const responseDocument = cheerio.load(responseBody);\r",
+													"    /* \r",
+													"        Extract 3DS Data from JSON Response\r",
+													"    */\r",
+													"    pm.globals.set(\"3dsPayerAuthenticationResponse\",  responseDocument('input[name=\"PaRes\"]').attr('value'));\r",
+													"    pm.globals.set(\"3dsMerchantData\",  responseDocument('input[name=\"MD\"]').attr('value'));\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "creq",
+													"value": "{{3dsChallengeAuthenticationRequest}}",
+													"type": "text"
+												},
+												{
+													"key": "PaReq",
+													"value": "{{3dsPayerAuthenticationRequest}}",
+													"type": "text"
+												},
+												{
+													"key": "TermUrl",
+													"value": "{{3dsTermUrl}}",
+													"type": "text"
+												},
+												{
+													"key": "MD",
+													"value": "{{3dsMerchantData}}",
+													"type": "text"
+												},
+												{
+													"key": "outcome",
+													"value": "correct",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{3dsAcsUrl}}-done",
+											"host": [
+												"{{3dsAcsUrl}}-done"
+											],
+											"query": [
+												{
+													"key": "PaReq",
+													"value": "{{3dsPayerAuthenticationRequest}}",
+													"disabled": true
+												},
+												{
+													"key": "creq",
+													"value": "{{3dsChallengeAuthenticationRequest}}",
+													"disabled": true
+												},
+												{
+													"key": "TermUrl",
+													"value": "{{3dsTermUrl}}",
+													"disabled": true
+												},
+												{
+													"key": "MD",
+													"value": "{{3dsMerchantData}}",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "03 Secure3D21AuthenticationUpdateRequest",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "7c61fa8c-73d7-4222-8c48-a06e3eb9e5e2",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "57dadf40-d60a-4c7e-89aa-92eb8cb29499",
+												"exec": [
+													"/**\r",
+													" * Parse JSON Response Body \r",
+													" */\r",
+													"const jsonResponseBody = JSON.parse(responseBody);\r",
+													"\r",
+													"pm.test(\"Extract 3DSecure Response Data\", function () {\r",
+													"    /**\r",
+													"     * Extract 3DS Data from JSON Response\r",
+													"     */\r",
+													"    pm.globals.set(\"3dsAcsUrl\", jsonResponseBody.authenticationResponse.params.acsURL);\r",
+													"    pm.globals.set(\"3dsTermUrl\", jsonResponseBody.authenticationResponse.params.termURL);\r",
+													"    pm.globals.set(\"3dsPayerAuthenticationRequest\", jsonResponseBody.authenticationResponse.params.payerAuthenticationRequest);\r",
+													"    pm.globals.set(\"3dsChallengeAuthenticationRequest\", jsonResponseBody.authenticationResponse.params.cReq);\r",
+													"    pm.globals.set(\"3dsMerchantData\", jsonResponseBody.authenticationResponse.params.merchantData);    \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"authenticationType\": \"{{3dsIntegratedAuthenticationType3}}\",\r\n    \"payerAuthenticationResponse\": \"{{3dsPayerAuthenticationResponse}}\",\r\n    \"merchantData\": \"{{3dsMerchantData}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments/{{ipgTransactionId}}",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments",
+												"{{ipgTransactionId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "03.1 Frictionless Flow (without 3DS-Method)",
+							"item": [
+								{
+									"name": "01 PaymentCardSaleTransaction",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "c1f5840c-2ad4-4d86-81be-90e46a498e20",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "ccf31948-78a4-4e09-bae0-35e745b115b7",
+												"exec": [
+													"/**\r",
+													" * Parse JSON Response Body \r",
+													" */\r",
+													"const jsonResponseBody = JSON.parse(responseBody);\r",
+													"\r",
+													"pm.test(\"Extract Transaction Data\", function () {\r",
+													"    pm.globals.set(\"ipgTransactionId\", jsonResponseBody.ipgTransactionId);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate 3DSecure Response Code\", function () {\r",
+													"    const responseCode3dSecure = jsonResponseBody.secure3dResponse.responseCode3dSecure;\r",
+													"    pm.expect(responseCode3dSecure).eql('1');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"requestType\": \"PaymentCardSaleTransaction\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount2Digit}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"4016990000000014\",\r\n            \"securityCode\": \"014\",\r\n            \"expiryDate\": {\r\n                \"month\": \"12\",\r\n                \"year\": \"24\"\r\n            }\r\n        }\r\n    },\r\n    \"authenticationRequest\": {\r\n        \"authenticationType\": \"{{3dsIntegratedAuthenticationType1}}\",\r\n        \"termURL\": \"{{3dsTermUrl}}\",\r\n        \"methodNotificationURL\": \"{{3dsMethodNotificationUrl}}\",\r\n        \"challengeIndicator\": \"{{3dsChallengeIndicator}}\",\r\n        \"challengeWindowSize\": \"{{3dsChallengeWindowSize}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "04 Payment - Retrieve the state of a transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "6bcfb161-e222-42d7-98e7-99a49d10c5b8",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "31fab4b9-a7d3-4372-954e-83ec64dfffe3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments/{{ipgTransactionId}}",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments",
+												"{{ipgTransactionId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9c029751-9800-4d81-97bb-da0f7e15647f",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "d5a9c03b-10d1-4ba6-b870-abcd6d4ce8df",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "03.2 Frictionless Flow (with 3DS-Method)",
+							"item": [
+								{
+									"name": "01 PaymentCardSaleTransaction",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "70e6d733-6487-4705-99c5-c254407ec156",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "82ac717f-e57b-4663-85a9-8147accef697",
+												"exec": [
+													"/**\r",
+													" * Parse JSON Response Body \r",
+													" */\r",
+													"const jsonResponseBody = JSON.parse(responseBody);\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    /**\r",
+													"     * Check HTTP Status Code\r",
+													"     */\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Extract Transaction Data\", function () {\r",
+													"    pm.globals.set(\"ipgTransactionId\", jsonResponseBody.ipgTransactionId);\r",
+													"    pm.globals.set(\"orderId\", jsonResponseBody.orderId);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate Transaction Status\", function () {\r",
+													"    const transactionStatus = jsonResponseBody.transactionStatus;\r",
+													"    pm.expect(transactionStatus).eql('WAITING');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Analyse 3DSecure iFrame Data\", function () {\r",
+													"    /**\r",
+													"     * Analyze 3DS iFrame \r",
+													"     */\r",
+													"    var threedsMethodForm = _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.methodForm\", \"\");\r",
+													"    const cheerio = require('cheerio');\r",
+													"    const iFrameDocument = cheerio.load(threedsMethodForm);\r",
+													"    var threedsiFrameAction = iFrameDocument('form').attr('action');\r",
+													"    var threedsiFrameMethodData = iFrameDocument('input[name=\"3DSMethodData\"]').attr('value');\r",
+													"    console.log(CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(threedsiFrameMethodData)));\r",
+													"\r",
+													"    /**\r",
+													"     * Set Global Parameters\r",
+													"     */\r",
+													"    pm.globals.set(\"3dsMethodForm\",  threedsMethodForm);\r",
+													"    pm.globals.set(\"3dsMethodFormAction\",  threedsiFrameAction);\r",
+													"    pm.globals.set(\"3dsMethodFormMethodData\",  threedsiFrameMethodData);  \r",
+													"});\r",
+													"\r",
+													"pm.test(\"Extract 3DSecure Response Data\", function () {\r",
+													"    /**\r",
+													"     * Extract 3DS Data from JSON Response\r",
+													"     */\r",
+													"    pm.globals.set(\"3dsVersion\", jsonResponseBody.authenticationResponse.version);\r",
+													"    pm.globals.set(\"3dsAcsUrl\", _.get(jsonResponseBody, \"authenticationResponse.params.acsURL\", \"\"));\r",
+													"    pm.globals.set(\"3dsTermUrl\", _.get(jsonResponseBody, \"authenticationResponse.params.termURL\", \"\"));\r",
+													"    pm.globals.set(\"3dsPayerAuthenticationRequest\", _.get(jsonResponseBody, \"authenticationResponse.params.payerAuthenticationRequest\", \"\"));\r",
+													"    pm.globals.set(\"3dsChallengeAuthenticationRequest\", _.get(jsonResponseBody, \"authenticationResponse.params.cReq\", \"\"));\r",
+													"    pm.globals.set(\"3dsMerchantData\", _.get(jsonResponseBody, \"authenticationResponse.params.merchantData\", \"\"));\r",
+													"    pm.globals.set(\"3dsMethodForm\",  _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.methodForm\", \"\"));\r",
+													"    pm.globals.set(\"3dsTransactionId\",  _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.secure3dTransId\", \"\")); \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"requestType\": \"PaymentCardSaleTransaction\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount2Digit}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"4012000000012011004\",\r\n            \"securityCode\": \"004\",\r\n            \"expiryDate\": {\r\n                \"month\": \"12\",\r\n                \"year\": \"24\"\r\n            }\r\n        }\r\n    },\r\n    \"authenticationRequest\": {\r\n        \"authenticationType\": \"{{3dsIntegratedAuthenticationType1}}\",\r\n        \"termURL\": \"{{3dsTermUrl}}\",\r\n        \"methodNotificationURL\": \"{{3dsMethodNotificationUrl}}\",\r\n        \"challengeIndicator\": \"{{3dsChallengeIndicator}}\",\r\n        \"challengeWindowSize\": \"{{3dsChallengeWindowSize}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "02 3DS-iFrame (within next 10 minutes)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "3DSMethodData",
+													"value": "{{3dsMethodFormMethodData}}",
+													"type": "text"
+												},
+												{
+													"key": "threeDSMethodData",
+													"value": "{{3dsMethodFormMethodData}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{3dsMethodFormAction}}",
+											"host": [
+												"{{3dsMethodFormAction}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "03 Secure3D21AuthenticationUpdateRequest",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "433fd445-c685-47e8-b936-8e96e446dadf",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "8e5779d6-a6b5-48c2-9711-0f4ed26bcea4",
+												"exec": [
+													"/**\r",
+													" * Parse JSON Response Body \r",
+													" */\r",
+													"const jsonResponseBody = JSON.parse(responseBody);\r",
+													"\r",
+													"pm.test(\"Extract 3DSecure Response Data\", function () {\r",
+													"    /**\r",
+													"     * Extract 3DS Data from JSON Response\r",
+													"     */\r",
+													"    pm.globals.set(\"3dsAcsUrl\", jsonResponseBody.authenticationResponse.params.acsURL);\r",
+													"    pm.globals.set(\"3dsTermUrl\", jsonResponseBody.authenticationResponse.params.termURL);\r",
+													"    pm.globals.set(\"3dsPayerAuthenticationRequest\", jsonResponseBody.authenticationResponse.params.payerAuthenticationRequest);\r",
+													"    pm.globals.set(\"3dsChallengeAuthenticationRequest\", jsonResponseBody.authenticationResponse.params.cReq);\r",
+													"    pm.globals.set(\"3dsMerchantData\", jsonResponseBody.authenticationResponse.params.merchantData);    \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"authenticationType\": \"{{3dsIntegratedAuthenticationType2}}\",\r\n    \"methodNotificationStatus\": \"RECEIVED\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments/{{ipgTransactionId}}",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments",
+												"{{ipgTransactionId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "2f4ed1f0-c974-4d78-a264-63a840c2b004",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "cc6c7fd7-7279-4299-9705-11078f8404d6",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "03.3 Challenge Flow (without 3DS-Method)",
+							"item": [
+								{
+									"name": "01 PaymentCardSaleTransaction",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "2e0a32af-cef5-4604-a5d7-b89cc0224bf7",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "a43faa9b-fe82-4338-adc1-33fe158fb081",
+												"exec": [
+													"/**\r",
+													" * Parse JSON Response Body \r",
+													" */\r",
+													"const jsonResponseBody = JSON.parse(responseBody);\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    /**\r",
+													"     * Check HTTP Status\r",
+													"     */\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Extract Transaction Data\", function () {\r",
+													"    pm.globals.set(\"ipgTransactionId\", jsonResponseBody.ipgTransactionId);\r",
+													"    pm.globals.set(\"orderId\", jsonResponseBody.orderId);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate Transaction Status\", function () {\r",
+													"    const transactionStatus = jsonResponseBody.transactionStatus;\r",
+													"    pm.expect(transactionStatus).eql('WAITING');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Extract 3DSecure Response Data\", function () {\r",
+													"    /**\r",
+													"     * Extract 3DS Data from JSON Response\r",
+													"     */\r",
+													"    pm.globals.set(\"3dsVersion\", jsonResponseBody.authenticationResponse.version);\r",
+													"    pm.globals.set(\"3dsAcsUrl\", _.get(jsonResponseBody, \"authenticationResponse.params.acsURL\", \"\"));\r",
+													"    pm.globals.set(\"3dsTermUrl\", _.get(jsonResponseBody, \"authenticationResponse.params.termURL\", \"\"));\r",
+													"    pm.globals.set(\"3dsPayerAuthenticationRequest\", _.get(jsonResponseBody, \"authenticationResponse.params.payerAuthenticationRequest\", \"\"));\r",
+													"    pm.globals.set(\"3dsChallengeAuthenticationRequest\", _.get(jsonResponseBody, \"authenticationResponse.params.cReq\", \"\"));\r",
+													"    pm.globals.set(\"3dsMerchantData\", _.get(jsonResponseBody, \"authenticationResponse.params.merchantData\", \"\"));\r",
+													"    pm.globals.set(\"3dsMethodForm\",  _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.methodForm\", \"\"));\r",
+													"    pm.globals.set(\"3dsTransactionId\",  _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.secure3dTransId\", \"\"));\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"requestType\": \"PaymentCardSaleTransaction\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount2Digit}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"5239290700000002\",\r\n            \"securityCode\": \"002\",\r\n            \"expiryDate\": {\r\n                \"month\": \"12\",\r\n                \"year\": \"24\"\r\n            }\r\n        }\r\n    },\r\n    \"authenticationRequest\": {\r\n        \"authenticationType\": \"{{3dsIntegratedAuthenticationType1}}\",\r\n        \"termURL\": \"{{3dsTermUrl}}\",\r\n        \"methodNotificationURL\": \"{{3dsMethodNotificationUrl}}\",\r\n        \"challengeIndicator\": \"{{3dsChallengeIndicator}}\",\r\n        \"challengeWindowSize\": \"{{3dsChallengeWindowSize}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "02 ACS-Url Form (can be skipped)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b64f4f5e-398e-4660-a073-48f8ece94edc",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "creq",
+													"value": "{{3dsChallengeAuthenticationRequest}}",
+													"type": "text"
+												},
+												{
+													"key": "PaReq",
+													"value": "{{3dsPayerAuthenticationRequest}}",
+													"type": "text"
+												},
+												{
+													"key": "TermUrl",
+													"value": "{{3dsTermUrl}}",
+													"type": "text"
+												},
+												{
+													"key": "MD",
+													"value": "{{3dsMerchantData}}",
+													"type": "text"
+												},
+												{
+													"key": "outcome",
+													"value": "correct",
+													"description": "Possible Values:\n\n<option value=\"correct\">Correct password (transStatus=Y)</option>\n<option value=\"wrong\">Wrong password (transStatus=N)</option>\n<option value=\"attempt\">Attempt (transStatus=A)</option>\n\t<option value=\"rejected\">Rejected (transStatus=R)</option>\n\t\t\t\t\t\t\t<option value=\"unavailable\">Unavailable (transStatus=U)</option>\n\t\t\t\t\t\t\t\t\t<option value=\"cancel\">Cancel (transStatus=N,challengeCancel=01)</option>\n\t\t\t\t\t\t\t\t\t<option value=\"timeout\">Timeout at ACS (transStatus=N,challengeCancel=04)</option>",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{3dsAcsUrl}}",
+											"host": [
+												"{{3dsAcsUrl}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "02 Send Challenge Data via ACS-URL",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d8ef1683-4872-462a-8db8-a41b6921ae89",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    /*\r",
+													"        Check HTTP Status\r",
+													"    */\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Extract 3DS Challenge Data\", function() {\r",
+													"    const cheerio = require('cheerio');\r",
+													"    const responseDocument = cheerio.load(responseBody);\r",
+													"    /* \r",
+													"        Extract 3DS Data from JSON Response\r",
+													"    */\r",
+													"    pm.globals.set(\"3dsChallengeResponseData\",  responseDocument('input[name=\"cres\"]').attr('value'));\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "creq",
+													"value": "{{3dsChallengeAuthenticationRequest}}",
+													"type": "text"
+												},
+												{
+													"key": "PaReq",
+													"value": "{{3dsPayerAuthenticationRequest}}",
+													"type": "text"
+												},
+												{
+													"key": "TermUrl",
+													"value": "{{3dsTermUrl}}",
+													"type": "text"
+												},
+												{
+													"key": "MD",
+													"value": "{{3dsMerchantData}}",
+													"type": "text"
+												},
+												{
+													"key": "outcome",
+													"value": "correct",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{3dsAcsUrl}}-done",
+											"host": [
+												"{{3dsAcsUrl}}-done"
+											],
+											"query": [
+												{
+													"key": "PaReq",
+													"value": "{{3dsPayerAuthenticationRequest}}",
+													"disabled": true
+												},
+												{
+													"key": "creq",
+													"value": "{{3dsChallengeAuthenticationRequest}}",
+													"disabled": true
+												},
+												{
+													"key": "TermUrl",
+													"value": "{{3dsTermUrl}}",
+													"disabled": true
+												},
+												{
+													"key": "MD",
+													"value": "{{3dsMerchantData}}",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "03 Payment Primary Transaction - Type: Secure3D21AuthenticationUpdateRequest Copy",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "38d717d0-199d-47ef-9636-d54927e34ebb",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "484bcc09-c4ff-47a8-be35-6dffada6c042",
+												"exec": [
+													"/**\r",
+													" * Parse JSON Response Body \r",
+													" */\r",
+													"const jsonResponseBody = JSON.parse(responseBody);\r",
+													"\r",
+													"pm.test(\"Validate 3DSecure Response Code\", function () {\r",
+													"    const responseCode3dSecure = jsonResponseBody.secure3dResponse.responseCode3dSecure;\r",
+													"    pm.expect(responseCode3dSecure).eql('1');\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"authenticationType\": \"{{3dsIntegratedAuthenticationType2}}\",\r\n    \"acsResponse\": {\r\n        \"cRes\": \"{{3dsChallengeResponseData}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments/{{ipgTransactionId}}",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments",
+												"{{ipgTransactionId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "3cc5f12d-3174-4294-90a3-e35bd84dd2bd",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "b30c9758-e08f-4484-a8d3-83da13e73aa5",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "03.4 Challenge Flow (with 3DS-Method)",
+							"item": [
+								{
+									"name": "01 PaymentCardSaleTransaction",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "17e0614d-f4d8-4be2-b0b3-6cf6a75f3170",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "f2441a48-5167-4879-aee1-77701bfb1ecd",
+												"exec": [
+													"/**\r",
+													" * Parse JSON Response Body \r",
+													" */\r",
+													"const jsonResponseBody = JSON.parse(responseBody);\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    /**\r",
+													"     * Check HTTP Status Code\r",
+													"     */\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Extract Transaction Data\", function () {\r",
+													"    pm.globals.set(\"ipgTransactionId\", jsonResponseBody.ipgTransactionId);\r",
+													"    pm.globals.set(\"orderId\", jsonResponseBody.orderId);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Validate Transaction Status\", function () {\r",
+													"    const transactionStatus = jsonResponseBody.transactionStatus;\r",
+													"    pm.expect(transactionStatus).eql('WAITING');\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Analyse 3DSecure iFrame Data\", function () {\r",
+													"    /**\r",
+													"     * Analyze 3DS iFrame \r",
+													"     */\r",
+													"    var threedsMethodForm = _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.methodForm\", \"\");\r",
+													"    const cheerio = require('cheerio');\r",
+													"    const iFrameDocument = cheerio.load(threedsMethodForm);\r",
+													"    var threedsiFrameAction = iFrameDocument('form').attr('action');\r",
+													"    var threedsiFrameMethodData = iFrameDocument('input[name=\"3DSMethodData\"]').attr('value');\r",
+													"    console.log(CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(threedsiFrameMethodData)));\r",
+													"\r",
+													"    /**\r",
+													"     * Set Global Parameters\r",
+													"     */\r",
+													"    pm.globals.set(\"3dsMethodForm\",  threedsMethodForm);\r",
+													"    pm.globals.set(\"3dsMethodFormAction\",  threedsiFrameAction);\r",
+													"    pm.globals.set(\"3dsMethodFormMethodData\",  threedsiFrameMethodData);  \r",
+													"});\r",
+													"\r",
+													"pm.test(\"Extract 3DSecure Response Data\", function () {\r",
+													"    /**\r",
+													"     * Extract 3DS Data from JSON Response\r",
+													"     */\r",
+													"    pm.globals.set(\"3dsVersion\", jsonResponseBody.authenticationResponse.version);\r",
+													"    pm.globals.set(\"3dsAcsUrl\", _.get(jsonResponseBody, \"authenticationResponse.params.acsURL\", \"\"));\r",
+													"    pm.globals.set(\"3dsTermUrl\", _.get(jsonResponseBody, \"authenticationResponse.params.termURL\", \"\"));\r",
+													"    pm.globals.set(\"3dsPayerAuthenticationRequest\", _.get(jsonResponseBody, \"authenticationResponse.params.payerAuthenticationRequest\", \"\"));\r",
+													"    pm.globals.set(\"3dsChallengeAuthenticationRequest\", _.get(jsonResponseBody, \"authenticationResponse.params.cReq\", \"\"));\r",
+													"    pm.globals.set(\"3dsMerchantData\", _.get(jsonResponseBody, \"authenticationResponse.params.merchantData\", \"\"));\r",
+													"    pm.globals.set(\"3dsMethodForm\",  _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.methodForm\", \"\"));\r",
+													"    pm.globals.set(\"3dsTransactionId\",  _.get(jsonResponseBody, \"authenticationResponse.secure3dMethod.secure3dTransId\", \"\")); \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"requestType\": \"PaymentCardSaleTransaction\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount2Digit}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"4016000000051\",\r\n            \"securityCode\": \"051\",\r\n            \"expiryDate\": {\r\n                \"month\": \"12\",\r\n                \"year\": \"24\"\r\n            }\r\n        }\r\n    },\r\n    \"authenticationRequest\": {\r\n        \"authenticationType\": \"{{3dsIntegratedAuthenticationType1}}\",\r\n        \"termURL\": \"{{3dsTermUrl}}\",\r\n        \"methodNotificationURL\": \"{{3dsMethodNotificationUrl}}\",\r\n        \"challengeIndicator\": \"{{3dsChallengeIndicator}}\",\r\n        \"challengeWindowSize\": \"{{3dsChallengeWindowSize}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "02 3DS-iFrame (within next 10 minutes)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "3DSMethodData",
+													"value": "{{3dsMethodFormMethodData}}",
+													"type": "text"
+												},
+												{
+													"key": "threeDSMethodData",
+													"value": "{{3dsMethodFormMethodData}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{3dsMethodFormAction}}",
+											"host": [
+												"{{3dsMethodFormAction}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "03 Secure3D21AuthenticationUpdateRequest",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "2cbc6033-659e-478a-9b95-49e4f011b5bf",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "43793969-b232-4333-a5c8-2c46d04ea00f",
+												"exec": [
+													"/**\r",
+													" * Parse JSON Response Body \r",
+													" */\r",
+													"const jsonResponseBody = JSON.parse(responseBody);\r",
+													"\r",
+													"pm.test(\"Extract 3DSecure Response Data\", function () {\r",
+													"    /**\r",
+													"     * Extract 3DS Data from JSON Response\r",
+													"     */\r",
+													"    pm.globals.set(\"3dsAcsUrl\", jsonResponseBody.authenticationResponse.params.acsURL);\r",
+													"    pm.globals.set(\"3dsTermUrl\", jsonResponseBody.authenticationResponse.params.termURL);\r",
+													"    pm.globals.set(\"3dsPayerAuthenticationRequest\", jsonResponseBody.authenticationResponse.params.payerAuthenticationRequest);\r",
+													"    pm.globals.set(\"3dsChallengeAuthenticationRequest\", jsonResponseBody.authenticationResponse.params.cReq);\r",
+													"    pm.globals.set(\"3dsMerchantData\", jsonResponseBody.authenticationResponse.params.merchantData);    \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"authenticationType\": \"{{3dsIntegratedAuthenticationType2}}\",\r\n    \"methodNotificationStatus\": \"RECEIVED\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments/{{ipgTransactionId}}",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments",
+												"{{ipgTransactionId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "04 Send Challenge Data via ACS-URL",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "a0abf8a6-a3ba-4449-9b9b-3312698b7809",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    /*\r",
+													"        Check HTTP Status\r",
+													"    */\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Extract 3DS Challenge Data\", function() {\r",
+													"    const cheerio = require('cheerio');\r",
+													"    const responseDocument = cheerio.load(responseBody);\r",
+													"    /* \r",
+													"        Extract 3DS Data from JSON Response\r",
+													"    */\r",
+													"    pm.globals.set(\"3dsChallengeResponseData\",  responseDocument('input[name=\"cres\"]').attr('value'));\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "creq",
+													"value": "{{3dsChallengeAuthenticationRequest}}",
+													"type": "text"
+												},
+												{
+													"key": "PaReq",
+													"value": "{{3dsPayerAuthenticationRequest}}",
+													"type": "text"
+												},
+												{
+													"key": "TermUrl",
+													"value": "{{3dsTermUrl}}",
+													"type": "text"
+												},
+												{
+													"key": "MD",
+													"value": "{{3dsMerchantData}}",
+													"type": "text"
+												},
+												{
+													"key": "outcome",
+													"value": "correct",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{3dsAcsUrl}}-done",
+											"host": [
+												"{{3dsAcsUrl}}-done"
+											],
+											"query": [
+												{
+													"key": "PaReq",
+													"value": "{{3dsPayerAuthenticationRequest}}",
+													"disabled": true
+												},
+												{
+													"key": "creq",
+													"value": "{{3dsChallengeAuthenticationRequest}}",
+													"disabled": true
+												},
+												{
+													"key": "TermUrl",
+													"value": "{{3dsTermUrl}}",
+													"disabled": true
+												},
+												{
+													"key": "MD",
+													"value": "{{3dsMerchantData}}",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "05 Secure3D21AuthenticationUpdateRequest",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "68538ab9-582b-4e16-bfe4-fe67649f0d13",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "2debfa3c-d2b4-4179-ba4f-f5ac07f14af9",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    var jsonData = JSON.parse(responseBody);\r",
+													"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+													"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+													"    /* 3DS-Result */\r",
+													"    pm.globals.set(\"3dsAcsUrl\", jsonData.authenticationResponse.params.acsURL);\r",
+													"    pm.globals.set(\"3dsTermUrl\", jsonData.authenticationResponse.params.termURL);\r",
+													"    pm.globals.set(\"3dsPayerAuthenticationRequest\", jsonData.authenticationResponse.params.payerAuthenticationRequest);\r",
+													"    pm.globals.set(\"3dsCAuthenticationRequest\", jsonData.authenticationResponse.params.cReq);\r",
+													"    pm.globals.set(\"3dsMerchantData\", jsonData.authenticationResponse.params.merchantData);    \r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"authenticationType\": \"{{3dsIntegratedAuthenticationType2}}\",\r\n    \"acsResponse\": {\r\n        \"cRes\": \"{{3dsChallengeResponseData}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments/{{ipgTransactionId}}",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments",
+												"{{ipgTransactionId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "06 Payment - Retrieve the state of a transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "045ea4ae-0c4a-4d90-99ca-f5939a341d03",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "64adffb1-83be-45fa-9fd2-4d021e88d156",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments/{{ipgTransactionId}}",
+											"protocol": "https",
+											"host": [
+												"{{environment}}",
+												"{{url}}"
+											],
+											"path": [
+												"ipp",
+												"payments-gateway",
+												"v2",
+												"payments",
+												"{{ipgTransactionId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "23d27462-8d10-481b-9c92-9e22dc6cd9dd",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "3ed39df6-1706-40f0-a96b-3856039f2d49",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "11618b1b-946c-4fbe-aee4-3c11183f608c",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "81e0ef98-d781-4aad-9a05-cbebeff0ceb4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "04 Return Transaction",
+					"item": [
+						{
+							"name": "Payment Primary Transaction - (PaymentCardSaleTransaction)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9a8aa16f-8d25-437a-9b22-2e823227c0b6",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "0e106013-40e9-4dd4-8f6a-73388911db82",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+											"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+											"    pm.globals.set(\"approvedTransactionAmount\", jsonData.approvedAmount.total);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"requestType\": \"PaymentCardSaleTransaction\",\r\n    \"merchantTransactionId\": \"Merchant-1234\",\r\n    \"transactionAmount\": {\r\n        \"total\": \"{{randomTotalAmount2Digit}}\",\r\n        \"currency\": \"{{transactionCurrency}}\"\r\n    },\r\n    \"paymentMethod\": {\r\n        \"paymentCard\": {\r\n            \"number\": \"{{creditCardNumber}}\",\r\n            \"securityCode\": \"{{creditCardSecurityCode}}\",\r\n            \"expiryDate\": {\r\n                \"month\": \"{{creditCardExpiryMonth}}\",\r\n                \"year\": \"{{creditCardExpiryYear}}\"\r\n            }\r\n        }\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/payments",
+									"protocol": "https",
+									"host": [
+										"{{environment}}",
+										"{{url}}"
+									],
+									"path": [
+										"ipp",
+										"payments-gateway",
+										"v2",
+										"payments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Order - Perform return secondary transactions",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "1076b381-655d-4285-be42-634ebfb15f64",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "ac884901-8e7c-4b8a-a99b-a21a8e769509",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = JSON.parse(responseBody);\r",
+											"    pm.globals.set(\"ipgTransactionId\", jsonData.ipgTransactionId);\r",
+											"    pm.globals.set(\"orderId\", jsonData.orderId);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"requestType\": \"ReturnTransaction\",\r\n  \"transactionAmount\": {\r\n    \"total\": \"{{randomTotalAmount}}\",\r\n    \"currency\": \"{{transactionCurrency}}\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{environment}}.{{url}}/ipp/payments-gateway/v2/orders/{{orderId}}",
+									"protocol": "https",
+									"host": [
+										"{{environment}}",
+										"{{url}}"
+									],
+									"path": [
+										"ipp",
+										"payments-gateway",
+										"v2",
+										"orders",
+										"{{orderId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "86e7cebd-d6bb-4534-b294-929decae72b2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "cd292e3b-6dde-4a2f-a204-28744a328365",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "acc3b8c4-a924-4692-9f8a-6df4624c8133",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6a8aa79c-de00-4b8b-9c57-4d48f7d30226",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b3ef6a97-1f08-47de-9ce9-93a6a22c1fc3",
+				"type": "text/javascript",
+				"exec": [
+					"require('lodash');",
+					"/*",
+					"    General Settings",
+					"*/",
+					"var uuid = require('uuid');",
+					"var moment = require('moment');",
+					"var headerTimestamp = moment().valueOf();",
+					"var headerClientRequestId = uuid.v4();",
+					"var headerAppKey = pm.environment.get('apiAppKey');",
+					"var headerSecretKey = pm.variables.get('apiAppSecret');",
+					"var requestMessageContent = _.isEmpty(request.data) ? '' : request.data;",
+					"",
+					"/*",
+					"    Message Relevant Environment Variables",
+					"*/",
+					"const randomTotalAmount = _.random(100, true).toFixed(3);",
+					"const randomTotalAmount2Digit = _.random(100, true).toFixed(2);",
+					"const randomTotalAmount2DigitHigher = _.random(randomTotalAmount2Digit, 200).toFixed(2);",
+					"const randomTotalAmount2DigitLower = _.random(1,randomTotalAmount2Digit).toFixed(2);",
+					"",
+					"pm.environment.set('randomTotalAmount', randomTotalAmount);",
+					"pm.environment.set('randomTotalAmountLower', _.random(1,randomTotalAmount));",
+					"pm.environment.set('randomTotalAmountHigher', _.random(randomTotalAmount, 200));",
+					"pm.environment.set('randomTotalAmount2Digit', randomTotalAmount2Digit);",
+					"pm.environment.set('randomTotalAmount2DigitLower', randomTotalAmount2DigitLower);",
+					"pm.environment.set('randomTotalAmount2DigitHigher', randomTotalAmount2DigitHigher);",
+					"pm.environment.set('randomInvoiceNumber', uuid.v4());",
+					"pm.environment.set('randomPurchaseOrderNumber', uuid.v4());",
+					"pm.environment.set('fromDate', moment().subtract(1, 'month').unix());",
+					"pm.environment.set('toDate', moment().add(1, 'month').unix());",
+					"",
+					"/*",
+					"    Replace Placeholder-Variables in Message Content",
+					"*/",
+					"requestMessageContent =  pm.variables.replaceIn(requestMessageContent);",
+					"",
+					"/* ",
+					"    Calculate Message Signature",
+					"*/",
+					"const messageSignatureContent = [headerAppKey, headerClientRequestId, headerTimestamp, requestMessageContent].join(\"\");",
+					"const messageSignature = CryptoJS.HmacSHA256(messageSignatureContent, headerSecretKey);",
+					"const messageSignatureBase64 = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(messageSignature));",
+					"",
+					"/*",
+					"    Set Environment Variables",
+					"*/",
+					"pm.environment.set('timestamp', headerTimestamp);",
+					"pm.environment.set('clientRequestId', headerClientRequestId);",
+					"pm.environment.set('messageSignature', messageSignatureBase64);",
+					"",
+					"/*",
+					"    Set HTTP Headers",
+					"*/",
+					"pm.request.headers.add({key: 'Api-Key', value: headerAppKey});",
+					"pm.request.headers.add({key: 'Timestamp', value: headerTimestamp});",
+					"pm.request.headers.add({key: 'Client-Request-Id', value: headerClientRequestId});",
+					"pm.request.headers.add({key: 'Message-Signature', value: messageSignatureBase64});",
+					"pm.request.headers.add({key: 'Content-Type', value: 'application/json'});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ee7fa0cb-b54e-4c6f-b3ab-95980095cb75",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
