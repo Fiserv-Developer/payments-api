@@ -170,25 +170,30 @@ The following JSON document represents an example of a response:
 }
 ```
 
-STEP 4 – 3D SECURE METHOD NOTIFICATION REQUEST/RESPONSE
+### STEP 4 – 3D SECURE METHOD NOTIFICATION REQUEST/RESPONSE
 
 The 3D-Secure “methodForm” is used to provide details of the cardholder environment to the Issuer Access Control Server (ACS). This is an optional step. The “methodForm” contains the HTML for a hidden iFrame which is to be included in a merchant web page.  This will force the information to be automatically posted to the ACS server via Fiserv. The HTML information is a self-contained HTML block that does not need to be modified or posted, as it will be taken care of automatically when the page in which it is inserted is rendered.  Alternatively, this can be created on a page which never becomes visible to the merchant.
 
 If received properly, the response data will be posted to the URL provided in the original “methodNotificationURL” field and the posted message will contain a “threeDSServerTransID” field containing the unique ACS transaction id associated with the original request.  Note that the payload for this response will contain a single element called “threeDSMethodData”.  That element will contain a base64 encoded JSON response that contains the “threeDSServerTransID” field.
 
 Example:
-<form name=”frm” method=”POST” action=”{value from methodNotificationURL}>
-<input type=”hidden” name=”threeDSMethodData” value=”"eyJ0aHJlZURTU2VydmVyVHJhbnNJRCI6IjNhYzdjYWE3LWFhNDItMjY2My03OTFiLTJhYzA1YTU0MmM0YSJ9”>
-</form>
+
+    "<form name=”frm” method=”POST” action=”{value from methodNotificationURL}>
+     <input type=”hidden” name=”threeDSMethodData” value=”    "eyJ0aHJlZURTU2VydmVyVHJhbnNJRCI6IjNhYzdjYWE3LWFhNDItMjY2My03OTFiLTJhYzA1YTU0MmM0YSJ9”>
+    </form>"
 
 Decoded threeDSMethodData: {"threeDSServerTransID":"3ac7caa7-aa42-2663-791b-2ac05a542c4a"}
 
-NOTE: The threeDSServerTransID is not required for any further 3DS processing.  However, it is recommended that the merchant save this value for reference to the ACS server in the future is necessary.
+<!-- theme: info -->
+>NOTE: The threeDSServerTransID is not required for any further 3DS processing. However, it is recommended that the merchant save this value for reference to the ACS server in the future is necessary.
+
 The merchant should wait a minimum of 10 seconds for the above POST operation to complete and then determine the “methodNotificationStatus” as follows:
 
-methodNotificationStatus = “RECEIVED” in case you have submitted the element methodNotificationURL in the initial Sale transaction request and have received the notification from ACS within 10 seconds, you will receive HTTP POST message from ACS, which will contain  a unique transaction identifier represented by secure3dTransId
-methodNotificationStatus = “EXPECTED_BUT_NOT_RECEIVED” in case you have submitted the element methodNotificationURL in the initial Sale transaction request and have not received the notification from ACS within 10 seconds
-methodNotificationStatus = “NOT_EXPECTED” in case you have NOT submitted the element methodNotificationURL in the initial Sale transaction request.
+Status | Description 
+---------|----------
+RECEIVED | You have submitted the element methodNotificationURL in the initial Sale transaction request and have received the notification from ACS within 10 seconds, you will receive HTTP POST message from ACS, which will contain  a unique transaction identifier represented by secure3dTransId
+EXPECTED_BUT_NOT_RECEIVED | You have submitted the element methodNotificationURL in the initial Sale transaction request and have not received the notification from ACS within 10 seconds
+NOT_EXPECTED | You have NOT submitted the element methodNotificationURL in the initial Sale transaction request
 
 3D Secure Frictionless Flow
 
