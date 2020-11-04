@@ -255,17 +255,20 @@ An updated version of the Decision Matrix diagram provided earlier is shown belo
 
 INSERT DIAGRAM
 
-Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the ipgTransactionId field for the relevant primary transaction. 
+Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the `ipgTransactionId` field for the relevant primary transaction. 
 
 requestType | Method | Description
 ---------|----------|---------
- VoidTransaction | POST | The VoidTransaction requestType enables you to cancel a transaction you submitted earlier the same day
- VoidPreAuthTransaction | POST | The VoidTransaction requestType enables you to cancel a PreAuthorisation Transaction
- PostAuthTransaction | POST | The PostAuthTransaction requestType enables you to complete a Pre-Authorisation Transaction against the same 
- ReturnTransaction | POST | C3
- Transaction Inquiry | GET | C3
+ [VoidTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/VoidTransaction) | POST | The VoidTransaction requestType enables you to cancel a transaction you submitted earlier the same day
+ [VoidPreAuthTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/VoidPreAuthTransaction) | POST | The VoidTransaction requestType enables you to cancel a PreAuthorisation Transaction
+ [PostAuthTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PostAuthTransaction) | POST | The PostAuthTransaction requestType enables you to complete a Pre-Authorisation Transaction against the same 
+ [ReturnTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/ReturnTransaction) | POST | The ReturnTransaction requestType enables you to complete a return against a transaction taken prior to the current day
+ [Transaction Inquiry](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payments~1%7Btransaction-id%7D/get) | GET | execute a simple GET call against the end point with the `ipgtransactionid` value from the transaction you want to inquire against 
+
+In all of these cases, the 
 
 Transaction Inquiry
+
 To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
 
 
