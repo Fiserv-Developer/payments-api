@@ -83,7 +83,7 @@ The PaymentCardSaleTransaction request type requires the following fields to pos
 
 ### Request Types
 
-Different payment actions require different requestType values. The table below explains the situations in which you might want to use the different requestType values. The technical detail for each of these requestTypes is included in the Schema section of the API explorer. 
+Different payment actions require different requestType values. The table below explains the situations in which you might want to use the different requestType values. The technical detail for each of these requestTypes is included in the Schema section of the API explorer. All API calls are `POST`.
 
 Payment Type | requestType | Payment Scenario
 ---------|----------|---------
@@ -253,10 +253,17 @@ To cancel the original transaction (same day as the original transaction), use t
 
 An updated version of the Decision Matrix diagram provided earlier is shown below, with the secondary transaction requestTypes now included. 
 
-INSERT
+INSERT DIAGRAM
 
+Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the ipgTransactionId field for the relevant primary transaction. 
 
-
+requestType | Method | Description
+---------|----------|---------
+ VoidTransaction | POST | The VoidTransaction requestType enables you to cancel a transaction you submitted earlier the same day
+ VoidPreAuthTransaction | POST | The VoidTransaction requestType enables you to cancel a PreAuthorisation Transaction
+ PostAuthTransaction | POST | The PostAuthTransaction requestType enables you to 
+ ReturnTransaction | POST | C3
+ Transaction Inquiry | GET | C3
 
 Transaction Inquiry
 To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
