@@ -266,7 +266,7 @@ To accept Apple Pay, you'll need to follow these steps:
 - Transaction type: Select PreAuth or Sale.
 - Apple Pay Button: Click this to produce payment sheet and fingerprint authentication for the transaction.
 
-Once the user authenticates the transaction the apple returns the payment token, then the SDK generates the following payload:
+Once the user authenticates the transaction the apple returns the payment token, then the SDK generates the following payload. The sample below is a `walletPaymentMethod` object within a `WalletSaleTransaction` requestType POST call to the /payments API.
 
 ```json yaml
 {
@@ -450,3 +450,12 @@ Sample Google Pay Request within the `walletPaymentMethod` object for a `WalletP
 
 }
 ```
+
+## 3DSecure Transactions
+
+A major part of accepting ecommerce transactions is the requirement to authenticate consumers and their payment instruments via the 3DSecure ecosystem. This enables each consumer to authenticate themselves with their card issuer, and provides for both a high security payments experience, and a frictionless payment experience (dependent on the data the consumer provides as part of the authentication process).
+
+How often does 3DSecure happen?
+Explain what SCA is
+
+
