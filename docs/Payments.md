@@ -245,13 +245,16 @@ In addition, some low value, low risk or recurring transactions can be exempted.
 
 So, to take payments in Europe, you need to implement 3DSecure. To implement 3DSecure processing using our REST APIs, please follow the guide steps [here](docs/Implementing-3DSecure.md).
 
-# Secondary Transactions
+## /Payments/{Transaction-id}
 
 Use secondary transactions to Void an original transaction, Return against an original transaction or to complete a Post-Auth transaction. The transactionId Parameter, populated for the original transaction that requires a secondary action, must be populated for each of these request types. 
 
 To cancel the original transaction (same day as the original transaction), use the voidTransaction requestType. To return (reverse on subsequent day) an original transaction, use returnTransaction as the requestType. To complete a Pre-Authorised transaction using a Post-Authorisation transaction, reference the original transaction in the parameter data, then place a POST using the PostAuth schema. 
 
 An updated version of the Decision Matrix diagram provided earlier is shown below, with the secondary transaction requestTypes now included. 
+
+INSERT
+
 
 
 
