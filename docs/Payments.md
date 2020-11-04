@@ -36,7 +36,6 @@ Polymorphism for our Payments API is based on request types (the requestType fie
 
 As an example, you'll use the paymentCardSaleTransaction requestType to take a normal card payment when a customer wants to check out. You can then use a secondary transaction requestType to refund or void the transaction.
 
-
 # /payments
 
 The /payments API allows you to create, inquire about, and finalize payment transactions. It will also enable you to void a previous transaction, to refund a previous transaction or to execute partial refunds or voids. Finally, and where necessary, it will enable you to pre-authorise transactions that can be completed later.
@@ -100,7 +99,7 @@ Wallet Pre-Auth |	[WalletPreAuthTransaction](WalletPreAuthTransaction) |	Use thi
 
 For Primary Transactions, the decision matrix for defining which requestType to use is laid out below:
 
-
+DECISION MATRIX
 
 The differences that are required in the JSON for each of these request types are explained through the rest of this guide.
 
@@ -208,15 +207,54 @@ To see step-by-step guides for implementing Apple and Google Pay wallet payment 
 
 A major part of accepting ecommerce transactions is the requirement to authenticate consumers and their payment instruments via the 3DSecure ecosystem. This enables each consumer to authenticate themselves with their card issuer, and provides for both a high security payments experience, and a frictionless payment experience (dependent on the data the consumer provides as part of the authentication process).
 
+3DSecure has 2 major versions:
+
+<!--
+type: tab
+title: 3D Secure 1.X
+-->
+
+### 3DSecure 1.0
+
+3DSecure 1.0 involves redirecting the customer to an authentication page provided by their bank, and having them enter a password or a verification code that authenticates them. 3DS 1.0 is quite disruptive to the checkout process. Redirection errors and technical failures made this a less-than-perfect experience.
+
+<!--
+type: tab
+title: 3D Secure 2.X
+-->
+
+### 3DSecure 2.0
+
+3DSecure 2.0 authenticates the customer based on Strong Customer Authentication (SCA). This means the customer has been validated as having evidenced knowledge or ownership of 2 of the following three things:
+
+1. Something they are (e.g. Biometric marker)
+2. Something they have (e.g. Device)
+3. Something they know (e.g. Password)
+
+3DSecure therefore improves shopper security, but also enables the issuing bank (the bank at which the customer holds their account), the payments network (e.g. Visa) and the payments processor (us) to verify the customer's device fingerprint in the background and seamlessly/invisibly authenticate them. If this can't be achieved, the customer is pushed through a "challenge flow" and is asked to authenticate via SCA.
+
+A vital part of 3DS2.0 is the shift of liability from you/us to the issuing bank. This means that if the customer's bank authenticates the payment fully, they become liable for any costs in the event the transaction is fraudulent. 
+
+<!-- type: tab-end -->
+
+In Europe, the European Commission has mandated that all customer payments should be authenticated using SCA as part of the PSD2 legislation passed in 2015. SCA is also a requirement of various other regulators around the world. Australia,India and Brazil have all introduced requirements to authenticate using SCA for certain payment types. 
+
+There are some exceptions to SCA, which means 3DSecure doesn't need to be applied. These include inter-regional transactions (e.g. a customer in the US buys from a merchant in France) and Mail and Telephone Order (MOTO) transactions. 
+
+In addition, some low value, low risk or recurring transactions can be exempted. To discuss whether your transactions can be exempted from SCA requirements, please contact us and we'll work with you to figure out how to provide you with a solution that maximises conversion whilst protecting customers and preventing liability shifting to you.
+
+So, to take payments in Europe, you need to implement 3DSecure. To implement 3DSecure processing using our REST APIs, please follow the guide steps [here](docs/Implementing-3DSecure.md).
+
+# Secondary Transactions
+
+Use secondary transactions to Void an original transaction, Return against an original transaction or to complete a Post-Auth transaction. The transactionId Parameter, populated for the original transaction that requires a secondary action, must be populated for each of these request types. 
+
+To cancel the original transaction (same day as the original transaction), use the voidTransaction requestType. To return (reverse on subsequent day) an original transaction, use returnTransaction as the requestType. To complete a Pre-Authorised transaction using a Post-Authorisation transaction, reference the original transaction in the parameter data, then place a POST using the PostAuth schema. 
+
+An updated version of the Decision Matrix diagram provided earlier is shown below, with the secondary transaction requestTypes now included. 
 
 
 
-How often does 3DSecure happen?
-Explain what SCA is
-
-## Secondary transactions
-
-Use secondary transactions to Void an original transaction, Return against an original transaction or to complete a Pre-Auth transaction. The transactionId Parameter, populated for the original transaction that requires a secondary action, must be populated for each of these request types. To cancel the original transaction (same day as the original transaction), use the voidTransaction requestType. To return (reverse on subsequent day) an original transaction, use returnTransaction as the requestType. To complete a Pre-Authorised transaction using a Post-Authorisation transaction, reference the original transaction in the parameter data, then place a POST using the PostAuth schema. 
 Transaction Inquiry
 To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
 
