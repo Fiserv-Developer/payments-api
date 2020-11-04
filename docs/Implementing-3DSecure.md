@@ -178,9 +178,9 @@ If received properly, the response data will be posted to the URL provided in th
 
 Example:
 
-    "<form name=”frm” method=”POST” action=”{value from methodNotificationURL}>
+    <form name=”frm” method=”POST” action=”{value from methodNotificationURL}>
      <input type=”hidden” name=”threeDSMethodData” value=”    "eyJ0aHJlZURTU2VydmVyVHJhbnNJRCI6IjNhYzdjYWE3LWFhNDItMjY2My03OTFiLTJhYzA1YTU0MmM0YSJ9”>
-    </form>"
+    </form>
 
 Decoded threeDSMethodData: {"threeDSServerTransID":"3ac7caa7-aa42-2663-791b-2ac05a542c4a"}
 
@@ -195,36 +195,39 @@ RECEIVED | You have submitted the element methodNotificationURL in the initial S
 EXPECTED_BUT_NOT_RECEIVED | You have submitted the element methodNotificationURL in the initial Sale transaction request and have not received the notification from ACS within 10 seconds
 NOT_EXPECTED | You have NOT submitted the element methodNotificationURL in the initial Sale transaction request
 
-3D Secure Frictionless Flow
+### 3D Secure Frictionless Flow vs Friction Flow
 
 When a transaction is considered to be a low risk transaction or an exemption is requested, a frictionless flow is applied. In this case the gateway proceeds with the authorization without additional authentication by the cardholder.
 
-STEP 5(F) – REQUEST TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
+UPDATE
+
+### STEP 5(F) – REQUEST TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
+
 Once the 3DS Method call has been completed, you need to notify the gateway that the authentication process can continue by submitting the “methodNotificationStatus” element with the values based on corresponding conditions from the 3D-Secure Method Form above.  This is done by performing a PATCH operation on the original transaction.
 
 The merchant may also include the optional cardholder billing address and the security code at this time.
 
 The following JSON document represents an example of a request to be sent after 3DSMethod form display:
 
+```json YAML
 {
-"authenticationType": "Secure3D21AuthenticationUpdateRequest",
-"storeId": "12345500000",
-"billingAddress": {
-"company": "Test Company",
-"address1": "5565 Glenridge Conn",
-"address2": "Suite 123",
-"city": "Atlanta",
-"region": "Georgia",
-"postalCode": "30342",
-"country": "USA"
+  "authenticationType": "Secure3D21AuthenticationUpdateRequest",
+  "storeId": "12345500000",
+  "billingAddress": {
+  "company": "Test Company",
+  "address1": "5565 Glenridge Conn",
+  "address2": "Suite 123",
+  "city": "Atlanta",
+  "region": "Georgia",
+  "postalCode": "30342",
+  "country": "USA"
 },
-"securityCode": "123",
-"methodNotificationStatus": "RECEIVED".
+  "securityCode": "123",
+  "methodNotificationStatus": "RECEIVED"
 }
+```
 
-
-
-STEP 6(F) – FINAL RESPONSE OF 3D SECURE AUTHENTICATION/AUTHORIZATION
+### STEP 6(F) – FINAL RESPONSE OF 3D SECURE AUTHENTICATION/AUTHORIZATION
 
 When it is determined that a frictionless flow can be performed, the transaction authorization is processed and the 3D-Secure process is completed.
 
@@ -236,29 +239,30 @@ responseCode3dSecure
 
 The following JSON document represents an example of a response you receive from First API indicating, that the authorization has been successful:
 
+```json YAML
 {
-"clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
-"apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
-"ipgTransactionId": "838916029301",
-"transactionType": "SALE",
-"transactionTime": 1518811817,
-"approvedAmount": {
-"total": 122.04,
-"currency": "USD"
-},
-"transactionStatus": "APPROVED",
-"schemeTransactionId": "019078743804756",
-"processor": {
-"responseCode": "00",
-"responseMessage": "APPROVED",
-"authorizationCode": "OK7118"
-},
-“secure3dResponse”: {
-“responseCode3dSecure”: “1”
-}
-}
-}
-
+  "clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
+  "apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
+  "ipgTransactionId": "838916029301",
+  "transactionType": "SALE",
+  "transactionTime": 1518811817,
+  "approvedAmount": {
+    "total": 122.04,
+    "currency": "USD"
+    },
+  "transactionStatus": "APPROVED",
+  "schemeTransactionId": "019078743804756",
+  "processor": {
+    "responseCode": "00",
+    "responseMessage": "APPROVED",
+    "authorizationCode": "OK7118"
+    },
+  “secure3dResponse”: {
+    “responseCode3dSecure”: “1”
+    }
+  }
+} 
+```
 
 
 3D Secure Challenge Flow
