@@ -273,6 +273,8 @@ There are a number of business scenarios that require combinations of different 
 
 ### Incrementing or decrementing a Pre-Auth
 
+
+
 ### Completing a Pre-Auth, then Voiding the completion, then partially completing the Pre-Auth
 
 ### Getting Token Data, then executing the payment using the token
