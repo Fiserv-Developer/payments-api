@@ -52,8 +52,6 @@ Challenge Indicator | Description
 03 | Challenge requested: 3DS Requestor Preference (You prefer that a challenge should be performed – this should be set for high risk or high value transactions)
 04 | Challenge requested: Mandate (There are local or regional mandates that mean that a challenge must be performed – this is only relevant in exceptional circumstances – please contact us if you think this is applicable)
 
-
-
 challengeWindowSize options:
 
 Challenge Window Code | Description 
@@ -66,12 +64,11 @@ Challenge Window Code | Description
 
 The payment schemes recommended using the value "05 - Full screen" only for browser-based flows. Using full screen mode in app-based flows where the authentication of the cardholder happens on a smartphone or tablet might cause time-outs and trigger an error on the issuer/ACS side.
 
-(this is really interesting since Stripe doesn’t allow this type of flow for mobile)
-
-It is highly recommended to also include also Billing and Shipping details in your transaction request to lower the risk of authentication declines. The description of all related optional parameters can be found in the FIRST API Integration Reference, https://docs.firstdata.com/org/gateway/docs/api.
+It is highly recommended to also include also Billing and Shipping details in your transaction request to lower the risk of authentication declines. To do this, ensure you populate the 
 
 The following JSON document represents an example of a Sale transaction request with minimal set of elements:
 
+``` json YAML
 {
   "requestType": "PaymentCardSaleTransaction",
     "transactionAmount": {
@@ -96,7 +93,7 @@ The following JSON document represents an example of a Sale transaction request 
     "challengeWindowSize": "01"
   }
 }
-
+```
 
 ### STEP 3 – 3D SECURE AUTHENTICATION PRIMARY RESPONSE
 
