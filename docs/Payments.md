@@ -210,7 +210,14 @@ A major part of accepting ecommerce transactions is the requirement to authentic
 
 
 
+
 How often does 3DSecure happen?
 Explain what SCA is
+
+## Secondary transactions
+
+Use secondary transactions to Void an original transaction, Return against an original transaction or to complete a Pre-Auth transaction. The transactionId Parameter, populated for the original transaction that requires a secondary action, must be populated for each of these request types. To cancel the original transaction (same day as the original transaction), use the voidTransaction requestType. To return (reverse on subsequent day) an original transaction, use returnTransaction as the requestType. To complete a Pre-Authorised transaction using a Post-Authorisation transaction, reference the original transaction in the parameter data, then place a POST using the PostAuth schema. 
+Transaction Inquiry
+To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
 
 
