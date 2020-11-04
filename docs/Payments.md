@@ -82,25 +82,29 @@ The PaymentCardSaleTransaction request type requires the following fields to pos
 }
 ```
 
+### Request Types
+
 Different payment actions require different requestType values. The table below explains the situations in which you might want to use the different requestType values. The technical detail for each of these requestTypes is included in the Schema section of the API explorer. 
 
 Payment Type | requestType | Payment Scenario
 ---------|----------|---------
-Single Card Payment |	PaymentCardSaleTransaction | Use this requestType to execute a normal customer payment transaction with a credit or debit card.
-Refund | PaymentCardCreditTransaction |	Use this requestType to execute an original credit payment transaction to a customer’s credit or debit card. This means you’ll refund this amount to the customer’s card without 
-Pre-auth (taking a deposit) |	PaymentCardPreAuthTransaction |	Use this requestType to pre-authorise an amount against a card, for completion at a later point.
-Payment with a token	| PaymentTokenSaleTransaction |	Use this requestType to execute a normal customer payment transaction with a token generated previously.
-Token Refund | PaymentTokenCreditTransaction |	Use this requestType to execute an original credit payment transaction to a customer’s credit or debit card using a token generated previously.
-Token pre-auth |	PaymentTokenPreAuthTransaction |	Use this requestType to pre-authorise an amount against a token, for completion at a later point.
-What is sepa |	SepaSaleTransaction |	Use this requestType to take payment from a customer via SEPA.
-Wallet Sale	| WalletSaleTransaction	| Use this requestType to execute a normal customer payment transaction with a wallet payment method.
-Wallet Pre-Auth |	WalletPreAuthTransaction |	Use this requestType to execute a Pre-Authorisation using a Wallet Payment Method
+Single Card Payment |	[PaymentCardSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentCardSaleTransaction) | Use this requestType to execute a normal customer payment transaction with a credit or debit card.
+Refund | [PaymentCardCreditTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentCardCreditTransaction) |	Use this requestType to execute an original credit payment transaction to a customer’s credit or debit card. This means you’ll refund this amount to the customer’s card without 
+Pre-auth (taking a deposit) |	[PaymentCardPreAuthTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentCardPreAuthTransaction) |	Use this requestType to pre-authorise an amount against a card, for completion at a later point.
+Payment with a token	| [PaymentTokenSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenSaleTransaction) |	Use this requestType to execute a normal customer payment transaction with a token generated previously.
+Token Refund | [PaymentTokenCreditTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenCreditTransaction) |	Use this requestType to execute an original credit payment transaction to a customer’s credit or debit card using a token generated previously.
+Token pre-auth |	[PaymentTokenPreAuthTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenPreAuthTransaction) |	Use this requestType to pre-authorise an amount against a token, for completion at a later point.
+What is sepa |	[SepaSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/SepaSaleTransaction) |	Use this requestType to take payment from a customer via SEPA.
+Wallet Sale	| [WalletSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/WalletSaleTransaction)	| Use this requestType to execute a normal customer payment transaction with a wallet payment method.
+Wallet Pre-Auth |	[WalletPreAuthTransaction](WalletPreAuthTransaction) |	Use this requestType to execute a Pre-Authorisation using a Wallet Payment Method
 
 For Primary Transactions, the decision matrix for defining which requestType to use is laid out below:
 
 
 
 The differences that are required in the JSON for each of these request types are explained through the rest of this guide.
+
+### Payment Methods
 
 To create a customer payment using a Primary Transaction, you must include the paymentMethod object in the JSON call. Dependent on the requestType, you’ll make some changes to the paymentMethod object to reflect different payment instruments and transaction types. 
 
@@ -131,9 +135,76 @@ To take a Token Payment, use the PaymentTokenPaymentMethod:
 }
 ```
 
-Other PaymentMethods are defined within the 
+Within the paymentMethod object, you’ll provide different values dependent on the payment method type being used for payment. This defines the payment instrument the customer is using to make the transaction. The available options available are defined below. These will be regularly updated as more payment methods become available. Further information on the payload changes associated with each of these methods is accessed via clicking the paymentMethodType. 
 
-To take a payment from a consumer paying with a credit or debit card, include the paymentMethod object in the PaymentCardSaleTransaction request. The paymentMethod object should include the paymentCard payment instrument object. The paymentMethod object for this type of transaction is shown below, and the schema for the full payload can be found here.
+paymentMethodType |	Description
+---------|----------
+[PAYMENT_CARD](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentCardPaymentMethod) |	The Payment Card payment method covers all Credit and Debit Card types and networks. Your merchant acquiring contract will tell you which of the payment networks you can accept payments for.
+[PAYMENT_TOKEN](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenPaymentMethod) |	The Payment Token payment method enables you to use a token created by us, instead of the actual payment method details. More information is provided on using Tokens here.
+[SEPA](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/SepaPaymentMethod) |	A SEPA transaction enables the customer to pay you via a bank-to-bank request over the European SEPA network.
+[WALLET](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/WalletPaymentMethod) |	Enables payment via a Wallet transaction. Wallet transactions require a specific paymentMethod object. More information on this object is provided in the Wallet Payments section here.
+
+### Tokens
+
+Tokens are useful when storing the details of a customer’s payment instruments to secure and speed up checkout later. When you collect a customer's payment methods, you can request a token, which you can then use in place of a customer’s card details to execute future payments. You will need to store the token on your platform, mapped to the customer’s account details. 
+
+To create a token for a customer’s payment instrument, see the Tokens section [here](url).
+
+Tokens are useful as they reduce the risk of attacks on your and our payments systems being successful. Tokenisation also reduces the PCI Requirement for you, as it means you don't need to store card details within your systems, which should reduce your costs associated with PCI Compliance.  
+
+To generate a Token for future use at the same time as submitting a payment, use the createToken object to set a Token up for multiple use (set reusable to True). In addition, you can create your own token for the merchant, send it to us within the object, and set rules as to whether you want to decline payments with duplicate payment details.
+
+```json yaml
+{
+  },
+  "createToken": {
+    "value": optional - define your own token,
+    "reusable": true / false,
+    "declineDuplicates": true / false
+  }
+}
+```
+
+Once the token is created and you have stored it against the customer’s account detail, you can use it to execute payments for the customer. To use a tokenised payment instrument, use the relevant PaymentToken* requestTypes. If you supply a token value, we will store that, otherwise we'll generate a token value and pass it back to you in the response.
+
+When a customer is checking out, and you've previously tokenised their payment details (and you’ve stored the token with the customer’s account record in your systems), you can request token details to enable the customer to confirm they want to pay with the stored payment instrument. To do this, use the GET call against [this end point](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payment-tokens~1%7Btoken-id%7D/get), providing the `tokenid` to receive a [PaymentTokenDetails](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenDetails) response. Our suggestion is you use the `last4` value and `brand` to enable the customer to correctly identify their payment instrument.
+
+You can then use the Payment Token in the relevant Primary Payment request type to execute the customer payment. To Update or Delete customer payment tokens, see the Token section [here](url).
+
+### SEPA Transactions
+
+To use the SepaSaleTransaction request type, the paymentMethod object is replaced by the sepa object. The sepa object includes all data points required to execute a sepa transaction. Sepa stands for the “Single European Payments Area”, and enables payments to be executed immediately between bank accounts at low cost. This capability is only enabled for domestic payments in Germany at present. Additional countries will be added in the near future.
+
+You must be signed up for SEPA payments and have a mandate reference ID to supply in order to populate the mandate object.
+
+The SEPA PaymentMethod Object is shown below:
+
+```json yaml
+{
+  "sepa": {
+    "iban": "DE34500100600032121604",
+    "name": "Alan Turner",
+    "country": "DEU",
+    "email": "AlanTurner@Bonn.com",
+    "mandate": {
+      "reference": "3JLCSTIG",
+      "url": "https://www.fiserv.com",
+      "signatureDate": "2020-10-15",
+      "type": "SINGLE"
+    }
+  }
+}
+```
+
+### Wallet Transactions
+
+We support Apple Pay and Google Pay transactions via our REST APIs. 
+
+
+Below shows the example of ApplePay but how do I get that encrypted data? We need to detail how to set up every single wallet.
+To use the Wallet request types, use the abstract class walletPaymentMethod, defining one of the abstract class’s children to create the walletPaymentMethod using the walletType value. For example, use the encryptedApplePayWalletPaymentMethod to execute the payment using encrypted Apple Pay payment data. An example of the walletPaymentMethod for this type of payment is show below. If you want to decrypt the wallet payment data yourself and provide the unencrypted data, that can be achieved via the dencryptedApplePayWalletPaymentMethod object.
+{
+
 
 
 

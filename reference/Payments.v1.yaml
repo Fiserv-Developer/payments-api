@@ -2395,6 +2395,21 @@ components:
         additionalDetails:
           operatorId: OPERATOR_ID_123XXX
           salesSystemId: W-EU-H3866-FLS2
+      x-examples:
+        example-1:
+          requestType: PaymentCardPaymentTokenizationRequest
+          paymentCard:
+            number: '4012000033330026'
+            expiryDate:
+              month: '12'
+              year: '24'
+          createToken:
+            reusable: true
+            declineDuplicates: false
+          accountVerification: false
+          additionalDetails:
+            operatorId: OPERATOR_ID_123XXX
+            salesSystemId: W-EU-H3866-FLS2
     UsePaymentToken:
       description: Payment token usage details.
       required:
@@ -4896,6 +4911,18 @@ components:
             url: 'https://www.firstdata.com'
             signatureDate: '2017-07-15'
             type: SINGLE
+      x-examples:
+        example-1:
+          sepa:
+            iban: DE34500100600032121604
+            name: John Doe
+            country: DEU
+            email: john.doe@test.com
+            mandate:
+              reference: 3RBQVEE
+              url: 'https://www.firstdata.com'
+              signatureDate: '2017-07-15'
+              type: SINGLE
     PaymentTokenPaymentMethod:
       description: Payment method containing payment tokenization information.
       allOf:
