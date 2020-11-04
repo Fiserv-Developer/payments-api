@@ -195,12 +195,6 @@ RECEIVED | You have submitted the element methodNotificationURL in the initial S
 EXPECTED_BUT_NOT_RECEIVED | You have submitted the element methodNotificationURL in the initial Sale transaction request and have not received the notification from ACS within 10 seconds
 NOT_EXPECTED | You have NOT submitted the element methodNotificationURL in the initial Sale transaction request
 
-### 3D Secure Frictionless Flow vs Friction Flow
-
-When a transaction is considered to be a low risk transaction or an exemption is requested, a frictionless flow is applied. In this case the gateway proceeds with the authorization without additional authentication by the cardholder.
-
-UPDATE
-
 ### STEP 5(F) – REQUEST TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
 
 Once the 3DS Method call has been completed, you need to notify the gateway that the authentication process can continue by submitting the “methodNotificationStatus” element with the values based on corresponding conditions from the 3D-Secure Method Form above.  This is done by performing a PATCH operation on the original transaction.
@@ -264,8 +258,7 @@ The following JSON document represents an example of a response you receive from
 } 
 ```
 
-
-3D Secure Challenge Flow
+### 3D Secure Challenge Flow
 
 The challenge flow is triggered, when the transaction is not considered as low risk or when the Issuer requires additional authentication by the cardholder. The whole process starts with an initial Authorization or Sale transaction request through the step where 3DS Method is displayed, as described in Steps 1 through 4 above.
 
