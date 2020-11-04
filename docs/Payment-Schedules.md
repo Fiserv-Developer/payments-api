@@ -1,0 +1,3 @@
+# Payment-Schedules
+
+The beginning of an awesome article...
