@@ -261,7 +261,7 @@ requestType | Method | Description
 ---------|----------|---------
  VoidTransaction | POST | The VoidTransaction requestType enables you to cancel a transaction you submitted earlier the same day
  VoidPreAuthTransaction | POST | The VoidTransaction requestType enables you to cancel a PreAuthorisation Transaction
- PostAuthTransaction | POST | The PostAuthTransaction requestType enables you to 
+ PostAuthTransaction | POST | The PostAuthTransaction requestType enables you to complete a Pre-Authorisation Transaction against the same 
  ReturnTransaction | POST | C3
  Transaction Inquiry | GET | C3
 
