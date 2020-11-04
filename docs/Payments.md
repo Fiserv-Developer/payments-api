@@ -36,7 +36,7 @@ Polymorphism for our Payments API is based on request types (the requestType fie
 
 As an example, you'll use the paymentCardSaleTransaction requestType to take a normal card payment when a customer wants to check out. You can then use a secondary transaction requestType to refund or void the transaction.
 
-# /payments
+## /payments
 
 The /payments API allows you to create, inquire about, and finalize payment transactions. It will also enable you to void a previous transaction, to refund a previous transaction or to execute partial refunds or voids. Finally, and where necessary, it will enable you to pre-authorise transactions that can be completed later.
 
@@ -93,7 +93,7 @@ Pre-auth (taking a deposit) |	[PaymentCardPreAuthTransaction](https://docs.fiser
 Payment with a token	| [PaymentTokenSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenSaleTransaction) |	Use this requestType to execute a normal customer payment transaction with a token generated previously.
 Token Refund | [PaymentTokenCreditTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenCreditTransaction) |	Use this requestType to execute an original credit payment transaction to a customer’s credit or debit card using a token generated previously.
 Token pre-auth |	[PaymentTokenPreAuthTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenPreAuthTransaction) |	Use this requestType to pre-authorise an amount against a token, for completion at a later point.
-What is sepa |	[SepaSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/SepaSaleTransaction) |	Use this requestType to take payment from a customer via SEPA.
+SEPA Payments |	[SepaSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/SepaSaleTransaction) |	Use this requestType to take payment from a customer via SEPA.
 Wallet Sale	| [WalletSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/WalletSaleTransaction)	| Use this requestType to execute a normal customer payment transaction with a wallet payment method.
 Wallet Pre-Auth |	[WalletPreAuthTransaction](WalletPreAuthTransaction) |	Use this requestType to execute a Pre-Authorisation using a Wallet Payment Method
 
@@ -257,6 +257,8 @@ INSERT DIAGRAM
 
 Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the `ipgTransactionId` field for the relevant primary transaction. 
 
+To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
+
 requestType | Method | Description
 ---------|----------|---------
  [VoidTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/VoidTransaction) | POST | The VoidTransaction requestType enables you to cancel a transaction you submitted earlier the same day
@@ -265,10 +267,10 @@ requestType | Method | Description
  [ReturnTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/ReturnTransaction) | POST | The ReturnTransaction requestType enables you to complete a return against a transaction taken prior to the current day
  [Transaction Inquiry](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payments~1%7Btransaction-id%7D/get) | GET | execute a simple GET call against the end point with the `ipgtransactionid` value from the transaction you want to inquire against 
 
-In all of these cases, the 
+## Additional Payment Scenarios
 
-Transaction Inquiry
+There are a number of business scenarios that require combinations of different calls to different end points. 
 
-To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
+
 
 
