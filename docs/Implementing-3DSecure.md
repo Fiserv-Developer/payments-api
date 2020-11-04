@@ -40,33 +40,31 @@ authenticationType | Default to “Secure3D21AuthenticationRequest” - this is 
 termURL | Indicates the callback URL where the results of the authentication process should be posted by the ACS server (this is the Access Control Server that executes the cardholder authentication).
 methodNotifictionURL | If you wish to be notified about the 3DSMethod form display completion, you need to also submit this optional element in your transaction request. The URL should be uniquely identifiable, so when there is a notification received on this URL, you should be able to map it with the corresponding transaction. This eliminates any dependency on the Secure3dTransId which you will receive with the 3DSMethod form response. An easy way to ensure correct transaction mapping is to pass a transaction reference as a query string. For example: https://www.mywebshop.com/process3dSecureMethodNotificationtransactionReferenceNumber=ffffffff-ba0b-539f-8000-016b2343ad7e
 challengeIndicator | In case you would like to influence which authentication flow should be used, you can submit this optional element with one of the values listed below. In case Challenge Indicator is not sent within your transaction request, the Gateway will populate the value “01” – No preference. 
+challengeWindowSize | If you want to define the size of the challenge window displayed to your customers during the authentication process, you can submit this optional element with one of the values listed below.
 
-What should the default be?
 
 Challenge indicator available values for 3DS protocol version 2.1 are:
 
-01 = No preference (You have no preference whether a challenge should be performed. This is the default value).
-02 = No challenge requested (You prefer that no challenge should be performed – this means you are willing to accept liability for the transaction)
-03 = Challenge requested: 3DS Requestor Preference (You prefer that a challenge should be performed – this should be set for high risk or high value transactions)
-04 = Challenge requested: Mandate (There are local or regional mandates that mean that a challenge must be performed – this is only relevant in exceptional circumstances – please contact us if you think this is applicable)
+Challenge Indicator | Description 
+---------|----------
+01 | No preference (You have no preference whether a challenge should be performed. This is the default value).
+02 | No challenge requested (You prefer that no challenge should be performed – this means you are willing to accept liability for the transaction)
+03 | Challenge requested: 3DS Requestor Preference (You prefer that a challenge should be performed – this should be set for high risk or high value transactions)
+04 | Challenge requested: Mandate (There are local or regional mandates that mean that a challenge must be performed – this is only relevant in exceptional circumstances – please contact us if you think this is applicable)
 
 
-Column A | Column B | Column C
----------|----------|---------
- A1 | B1 | C1
- A2 | B2 | C2
- A3 | B3 | C3
 
-challengeWindowSize = If you want to define the size of the challenge window displayed to your customers during the authentication process, you can submit this optional element with one of the values listed below:
+challengeWindowSize options:
 
-01 = 250 x 400 
-02 = 390 x 400 
-03 = 500 x 600 
-04 = 600 x 400 
-05 = Full screen
+Challenge Window Code | Description 
+---------|----------
+01 | 250 x 400 
+02 | 390 x 400 
+03 | 500 x 600 
+04 | 600 x 400 
+05 | Full screen
 
-
-Based on the payment schemes' observation it is highly recommended to use the value "05 - Full screen" only for browser-based flows. Using full screen mode in app-based flows where the authentication of the cardholder happens on a smartphone or tablet might cause time-outs and trigger an error on issuer/ACS side.
+The payment schemes recommended using the value "05 - Full screen" only for browser-based flows. Using full screen mode in app-based flows where the authentication of the cardholder happens on a smartphone or tablet might cause time-outs and trigger an error on the issuer/ACS side.
 
 (this is really interesting since Stripe doesn’t allow this type of flow for mobile)
 
