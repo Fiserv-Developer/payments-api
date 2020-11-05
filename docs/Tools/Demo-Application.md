@@ -1,5 +1,7 @@
 # Demo Application
 
+![Demo Application Screenshot](./assets/images/Demo.png)
+
 We have a demo application which will show you how to access our Payment APIs and complete a 3DS Payment.
 
 [Github](https://github.com/Fiserv-Developer/fiserv-payments-demo)
