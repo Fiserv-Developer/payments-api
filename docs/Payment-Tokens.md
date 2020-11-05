@@ -2,7 +2,7 @@
 
 ## /payment-tokens
 
-Payment Tokens allow you to store customer payment cards within your systems without having to store card data, which creates security and compliance requirements such as PCI. You can either submit a request to tokenise a payment card as part of a payment, or you can tokenise the card separately. Tokenising a payment card as part of a payment is covered as part of the /payments guide documentation in the Payments section. 
+Payment tokens allow you to store customer payment cards within your systems without having to store card data, which creates security and compliance requirements such as PCI. You can either submit a request to tokenise a payment card as part of a payment, or you can tokenise the card separately. Tokenising a payment card as part of a payment is covered as part of the /payments guide documentation in the Payments section. 
 
 ### Create a Payment Token
 
@@ -59,10 +59,10 @@ You can update one or more Payment Tokens at a time, and change the settings ass
       "reusable": true,
       "declineDuplicates": false,
       "paymentCard": {
-        "number": "4012000033330026",
+        "number": "4773410012347324",
         "expiryDate": {
-          "month": "10",
-          "year": "22"
+          "month": "12",
+          "year": "26"
         },
         "securityCode": "123"
       }
@@ -70,4 +70,29 @@ You can update one or more Payment Tokens at a time, and change the settings ass
   ]
 }
 ```
+
+If one of the updates fails, this will be specified in the response - see below for an example of a response to the above in which the second update failed. 
+
+```json YAML
+{
+  "requestStatus": "PARTIAL_SUCCESS",
+  "requestTime": "1554308829345",
+  "errors": {
+    "details": [
+      {
+        "message": "HOSTED_DATA_ID4773410012347324. Invalid credit card number: CreditCard [cardNumber=4773410...7324, expirationMonth=12, expirationYear=2026"
+      },
+    ]
+  }
+}
+```
+
+### Other Payment Token Functions.
+
+A payment token can be deleted by sending a DELETE to /payment-tokens/{token-id}. 
+
+You can retrieve the payment card data associated with a token, and the token settings, but sending a GET to /payment-tokens/{token-id}. 
+
+
+
 
