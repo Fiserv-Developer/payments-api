@@ -20,7 +20,6 @@ Attribute | Explanation
 `invoiceNumber` | Put your invoice number here. 
 `purchaseOrderNumber` | Put the customers Purchase Order number here.
 `hostedPaymentPageText` | This sets the text that will appear on the hosted payment page that the customer uses to make payment
-`ip` | Text
 
 The example below creates a URL for a sale payment to send to a customer.
 
@@ -38,12 +37,11 @@ The example below creates a URL for a sale payment to send to a customer.
   "invoiceNumber": "96126098",
   "purchaseOrderNumber": "123055342",
   "hostedPaymentPageText": "Dear Mr Leamas, Please pay our invoice 123456. Many Thanks, Bayswater Library"
-  "ip": "264.31.73.24"
 }
 ```
 
-### Other Payment URL Functions.
+### Other Payment URL functions
 
-A payment URL can be deleted by sending a DELETE to /payment-URL/{paymenturl} 
+To delete a Payment URL, add your `storeId` and the `transactionId` from the Payment URL creation request response (`ipgTransactionId`) to the /payment-url header, and use the DELETE method to call the /payment-url API.
 
-You can retrieve the data associated with a payment URL by sending a GET to /paymentURL/{paymenturl}. 
+You can retrieve the data associated with a payment URL by sending a GET to /paymentURL. Add `storeId` and the `transactionId` from the Payment URL creation request response (`ipgTransactionId`) to the /payment-url header to retrieve the details for a specific Payment URL, or set `storeId`, `fromDate` and `toDate` to call a response with all Payment URLs and their details created within a specific time range.
