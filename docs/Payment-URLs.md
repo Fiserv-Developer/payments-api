@@ -44,6 +44,6 @@ The example below creates a URL for a sale payment to send to a customer.
 
 ### Other Payment URL Functions.
 
-A payment URL can be deleted by sending a DELETE to /payment-URL/{token-id}. 
+A payment URL can be deleted by sending a DELETE to /payment-URL/{paymenturl} 
 
-You can retrieve the payment card data associated with a token, and the token settings, but sending a GET to /payment-tokens/{token-id}. 
+You can retrieve the data associated with a payment URL by sending a GET to /paymentURL/{paymenturl}. 

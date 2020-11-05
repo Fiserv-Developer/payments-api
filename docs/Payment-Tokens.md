@@ -91,7 +91,7 @@ If one of the updates fails, this will be specified in the response - see below 
 
 A payment token can be deleted by sending a DELETE to /payment-tokens/{token-id}. 
 
-You can retrieve the payment card data associated with a token, and the token settings, but sending a GET to /payment-tokens/{token-id}. 
+You can retrieve the payment card data associated with a token, and the token settings, by sending a GET to /payment-tokens/{token-id}. 
 
 
 
