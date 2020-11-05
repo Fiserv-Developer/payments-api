@@ -3091,8 +3091,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/PrimaryTransaction'
         - type: object
-          required:
-            - paymentMethod
           properties:
             paymentMethod:
               $ref: '#/components/schemas/PaymentCardPaymentMethod'
@@ -3110,6 +3108,14 @@ components:
               $ref: '#/components/schemas/AuthenticationResult'
             decrementalFlag:
               $ref: '#/components/schemas/DecrementalPreAuthFlag'
+            '':
+              type: string
+          required:
+            - paymentMethod
+        - type: object
+          properties:
+            '':
+              type: string
       example:
         transactionAmount:
           total: '12.04'
@@ -3125,6 +3131,22 @@ components:
         splitShipment:
           totalCount: 1
           finalShipment: true
+      x-examples:
+        example-1:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaymentCardPreAuthTransaction
+          paymentMethod:
+            paymentCard:
+              number: '5424180279791732'
+              securityCode: '977'
+              expiryDate:
+                month: '12'
+                year: '24'
+          splitShipment:
+            totalCount: 1
+            finalShipment: true
     PaymentCardSaleTransaction:
       description: Request to create sale transaction using payment card.
       allOf:
@@ -3923,6 +3945,15 @@ components:
         splitShipment:
           totalCount: 1
           finalShipment: true
+      x-examples:
+        example-1:
+          requestType: PostAuthTransaction
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          splitShipment:
+            totalCount: 1
+            finalShipment: true
     AchPostAuthTransaction:
       description: Request to perform ACH telecheck post auth transaction.
       allOf:
@@ -4401,6 +4432,9 @@ components:
           $ref: '#/components/schemas/Color'
       example:
         color: '#FFEE00'
+      x-examples:
+        example-1:
+          color: '#FFEE00'
     Footer:
       type: object
       properties:

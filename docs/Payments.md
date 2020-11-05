@@ -292,11 +292,53 @@ There are a number of business scenarios that require combinations of different 
 
 ### Incrementing or decrementing a Pre-Auth
 
-To increase or decrease the value of a pre-authorisation transaction, 
+To increase or decrease the value of a pre-authorisation transaction, submit another pre-auth for the same cardholder referencing the `orderId` field value from the reponse associated with the original Pre-Auth transaction:
 
-### Completing a Pre-Auth, then Voiding the completion, then partially completing the Pre-Auth
+    
+```json YAML
+{​​​​​​​​
+  "requestType": "PaymentCardPreAuthTransaction",
+  "transactionAmount": {​​​​​​​​
+    "total": "17.00",
+    "currency": "EUR"
+  }​​​​​​​​,
+  "paymentMethod": {​​​​​​​​
+    "paymentCard": {​​​​​​​​
+      "number": "4149011500000147",
+      "securityCode": "147",
+      "expiryDate": {​​​​​​​​
+        "month": "12",
+        "year": "20"
+      }​​​​​​​​
+    }​​​​​​​​
+  }​​​​​​​​,
+  "order": {​​​​​​​​
+    "orderId": "{​​​​​​​​{​​​​​​​​lastOrderId}​​​​​​​​}​​​​​​​​"
+  }​​​​​​​​
+}​​​​​​​​
+```
 
-### Getting Token Data, then executing the payment using the token
+The original Pre-Authorisation transaction will then be incremented/decremented as set in your request.
+
+### Completing and voiding pre-auth transactions
+
+To complete a Pre-Auth, POST a postAuth transaction to complete the Pre-Authorisation, post a secondary transaction to /payments/{transaction-id} stating the `orderId` field value from the reponse associated with the original Pre-Auth transaction in {transaction-id}. The splitShipment object enables multiple partial Post-Authorisations in scenarios in which there are multiple shipments against a single original Pre-Authorisation.  
+
+```json YAML
+{
+  "requestType": "PostAuthTransaction",
+  "transactionAmount": {
+    "total": "12.04",
+    "currency": "USD"
+  },
+  "splitShipment": {
+    "totalCount": 1,
+    "finalShipment": true
+  }
+}
+```
+
+To void the Post-Auth, thereby re-opening the Pre-Auth, POST a voidTransaction request type as a secondary transaction setting the `orderId` value from the postAuth response as the {transaction-id}. To void the Pre-Authorisation transaction, POST a voidPreAuthTransaction request type as a secondary transaction setting the `orderId` value from the Pre-Authorisation response as the {transaction-id}. 
 
 
 
