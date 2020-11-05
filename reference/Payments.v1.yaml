@@ -1913,6 +1913,26 @@ components:
         clientLocale:
           language: EN
           country: USA
+      x-examples:
+        example-1:
+          requestType: ReferencedOrderPaymentSchedulesRequest
+          referencedOrderId: R-f9c2c198-b7cc-491a-a711-93d22fd0e589
+          startDate: '2020-11-16'
+          numberOfPayments: 10
+          maximumFailures: 1
+          invoiceNumber: '96126098'
+          purchaseOrderNumber: '123055342'
+          transactionOrigin: ECOM
+          dynamicMerchantName: MyWebsite
+          frequency:
+            every: 1
+            unit: MONTH
+          transactionAmount:
+            total: '25.24'
+            currency: GBP
+          clientLocale:
+            language: EN
+            country: USA
     PaymentSchedulesRequest:
       description: 'Request to create a gateway schedule. Abstract class, do not use this class directly, use one of its children.'
       required:
