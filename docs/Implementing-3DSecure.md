@@ -3,18 +3,16 @@
 ## /Payments API Authentication 
 
 When using our /payments API as the 3D-Secure provider, the authentication is performed in-line with the existing transaction flow.  The process starts by performing a typical authorization or sale request with a desire to perform 3D-Secure authentication in the request.
-  
-	Insert picture and flowchart of how 3DSecure works 
 
 The authorization is then placed into a WAITING status until the authentication process is completed.  During authentication, the merchant may be required to update the original transaction request one or more times in order to move the process flow forward.  At the end of the authentication process, the original transaction is updated with the authentication results and the authorization is completed.
 
 The sequence diagrams below map to the steps in the text that follows. The first diagram is for the frictionless flow. This means the issuer does not require the cardholder to authenticate.
  
-    Insert Sequence diagram1 
+    ![Frictionless 3DSecure Flow](../assets/images/3DS_Sequence_v00 2SIMPLE.jpg) 
 
 The next diagram shows the flow when your customer has to authenticate, which means their issuer has requested they provide additional authentication details.
 
-    Insert Seqence Diagram 2
+    ![Challenge 3DSecure Flow](../assets/images/3DS_Sequence_v00 1.jpg) 
 
 ## Implementing 3DSecure via REST API - Step by step
 
@@ -33,8 +31,6 @@ The relevant Request Types for 3D-Secure authentication are as follows:
 - PaymentTokenSaleTransaction
 
 This message needs to include the “authenticationRequest” object in the transaction request message and includes the following values:
-
-Why would I include this? Cannot I not submit a payment without it?
 
 Attribute | Description 
 ---------|----------

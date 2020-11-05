@@ -100,6 +100,10 @@ Within the /payments model, the most important objects are the `transactionAmoun
 }
 ```
 
+The flow below shows a standard payments process using a card payment transaction.
+
+![Standard Payments Flow](assets/images/Payments - New frame.jpg) 
+
 ### Request Types
 
 Different payment actions require different requestType values. The table below explains the situations in which you might want to use the different requestType values. The technical detail for each of these requestTypes is included in the Schema section of the API explorer. All API calls are `POST`.
@@ -118,7 +122,7 @@ Wallet Pre-Auth |	[WalletPreAuthTransaction](WalletPreAuthTransaction) |	Use thi
 
 For Primary Transactions, the decision matrix for defining which requestType to use is laid out below:
 
-DECISION MATRIX
+![Request Type Decision Matrix](../assets/images/Payments (3).jpg)
 
 The differences that are required in the JSON for each of these request types are explained through the rest of this guide.
 
@@ -220,7 +224,7 @@ We support Apple Pay and Google Pay transactions via our REST APIs. We can accep
 
 To use the Wallet request types, use the abstract class walletPaymentMethod, defining one of the abstract class’s children to create the walletPaymentMethod using the walletType value. For example, use the encryptedApplePayWalletPaymentMethod to execute the payment using encrypted Apple Pay payment data. An example of the walletPaymentMethod for this type of payment is show below. If you want to decrypt the wallet payment data yourself and provide the unencrypted data, that can be achieved via the dencryptedApplePayWalletPaymentMethod object.
 
-To see step-by-step guides for implementing Apple and Google Pay wallet payment methods, please see this [section](docs/Implementing-Wallet-Payment-Methods.md) !!!UPDATE URL!!!.
+To see step-by-step guides for implementing Apple and Google Pay wallet payment methods, please see this [section](docs/Implementing-Wallet-Payment-Methods.md).
 
 ## 3DSecure Transactions
 
