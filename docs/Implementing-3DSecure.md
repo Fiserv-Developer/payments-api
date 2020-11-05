@@ -66,7 +66,7 @@ Challenge Window Code | Description
 
 The payment schemes recommended using the value "05 - Full screen" only for browser-based flows. Using full screen mode in app-based flows where the authentication of the cardholder happens on a smartphone or tablet might cause time-outs and trigger an error on the issuer/ACS side.
 
-It is highly recommended to also include also Billing and Shipping details in your transaction request to lower the risk of authentication declines. To do this, ensure you populate the 
+It is highly recommended to also include also Billing and Shipping details in your transaction request to lower the risk of authentication declines. To do this, ensure you populate the objects in any of the sale or preauth requestType payloads.
 
 The following JSON document represents an example of a Sale transaction request with minimal set of elements:
 

@@ -12,15 +12,17 @@ Use POST to make a call to /payment-url and specify the values for the payload a
 
 Attribute | Explanation 
 ---------|----------
-transactionType | Text
-transactionNotificationURL | Text
-expiration | Text
-authenticateTransaction | Text
-dynamicMerchantName | Text
-invoiceNumber | Text
-purchaseOrderNumber | Text
-ip | Text
+`transactionType` | this attribute tells our platform what type of transaction to execute when the customer completes the payment via the URL. To take a payment, use SALE. To create a pre-authorisation, use PREAUTH. To credit the customer, use CREDIT.  
+`transactionNotificationURL` | Set the URL to which you would like notification posted when the payment has been completed by the customer
+`expiration` | This is the date on which the URL will expire and no longer be useable by the customer
+`authenticateTransaction` | set to TRUE to have the transaction authenticated by 3DSecure (this will happen within our hosted page, not via the REST API driven 3DSecure flow)
+`dynamicMerchantName` | This sets the merchant name that will appear on the customers card statement, so you can set this to whatever you want to appear there.
+`invoiceNumber` | Put your invoice number here. 
+`purchaseOrderNumber` | Put the customers Purchase Order number here.
+`hostedPaymentPageText` | This sets the text that will appear on the hosted payment page that the customer uses to make payment
+`ip` | Text
 
+The example below creates a URL for a sale payment to send to a customer.
 
 ```json YAML
 {
@@ -29,12 +31,19 @@ ip | Text
     "currency": "EUR"
   },
   "transactionType": "SALE",
-  "transactionNotificationURL": "https://showmethepaymentresult.com",
+  "transactionNotificationURL": "https://Bayswaterlibraryoutstandingpayments.com/Leamas",
   "expiration": "4102358400",
   "authenticateTransaction": true,
   "dynamicMerchantName": "MyWebsite",
   "invoiceNumber": "96126098",
   "purchaseOrderNumber": "123055342",
+  "hostedPaymentPageText": "Dear Mr Leamas, Please pay our invoice 123456. Many Thanks, Bayswater Library"
   "ip": "264.31.73.24"
 }
 ```
+
+### Other Payment URL Functions.
+
+A payment URL can be deleted by sending a DELETE to /payment-URL/{token-id}. 
+
+You can retrieve the payment card data associated with a token, and the token settings, but sending a GET to /payment-tokens/{token-id}. 
