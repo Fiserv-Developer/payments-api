@@ -81,6 +81,25 @@ The PaymentCardSaleTransaction request type requires the following fields to pos
 }
 ```
 
+Within the /payments model, the most important objects are the `transactionAmount` and the `paymentMethod`. Without these objects, we can't process the payment. We also recommend you include billing information and shipping information as this allows the 3DSecure fingerprint check to run in the background (see the [Implementing-3DSecure](docs/Implementing-3DSecure.md) page for more information), making the checkout process frictionless for your customer and allows our Fraud systems to protect you more easily. Both the `billing` and `shipping` objects follow the same structure:
+
+```json YAML
+{
+  "name": "Alec Leamas",
+  "customerId": "1234567890",
+  "contact": {
+    "phone": "07777777777",
+    "email": "alecleamas@tswciftc.com"
+  }
+  "address": {
+    "address1": "Bernauer Strasse 111",
+    "city": "Berlin",
+    "postalCode": "13355",
+    "country": "Germany"
+  }
+}
+```
+
 ### Request Types
 
 Different payment actions require different requestType values. The table below explains the situations in which you might want to use the different requestType values. The technical detail for each of these requestTypes is included in the Schema section of the API explorer. All API calls are `POST`.
@@ -273,7 +292,7 @@ There are a number of business scenarios that require combinations of different 
 
 ### Incrementing or decrementing a Pre-Auth
 
-
+To increase or decrease the value of a pre-authorisation transaction, 
 
 ### Completing a Pre-Auth, then Voiding the completion, then partially completing the Pre-Auth
 

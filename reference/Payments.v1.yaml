@@ -5983,6 +5983,16 @@ components:
           region: Georgia
           postalCode: '30303'
           country: USA
+      x-examples:
+        example-1:
+          name: John Doe
+          customerId: '1234567890'
+          address:
+            address1: 123 Main St.
+            city: Sandy Springs
+            region: Georgia
+            postalCode: '30303'
+            country: USA
     Contact:
       description: Customer contact information.
       properties:
