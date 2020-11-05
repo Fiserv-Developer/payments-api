@@ -36,7 +36,7 @@ Polymorphism for our Payments API is based on request types (the requestType fie
 
 As an example, you'll use the paymentCardSaleTransaction requestType to take a normal card payment when a customer wants to check out. You can then use a secondary transaction requestType to refund or void the transaction.
 
-# /payments
+## /payments
 
 The /payments API allows you to create, inquire about, and finalize payment transactions. It will also enable you to void a previous transaction, to refund a previous transaction or to execute partial refunds or voids. Finally, and where necessary, it will enable you to pre-authorise transactions that can be completed later.
 
@@ -81,6 +81,25 @@ The PaymentCardSaleTransaction request type requires the following fields to pos
 }
 ```
 
+Within the /payments model, the most important objects are the `transactionAmount` and the `paymentMethod`. Without these objects, we can't process the payment. We also recommend you include billing information and shipping information as this allows the 3DSecure fingerprint check to run in the background (see the [Implementing-3DSecure](docs/Implementing-3DSecure.md) page for more information), making the checkout process frictionless for your customer and allows our Fraud systems to protect you more easily. Both the `billing` and `shipping` objects follow the same structure:
+
+```json YAML
+{
+  "name": "Alec Leamas",
+  "customerId": "1234567890",
+  "contact": {
+    "phone": "07777777777",
+    "email": "alecleamas@tswciftc.com"
+  }
+  "address": {
+    "address1": "Bernauer Strasse 111",
+    "city": "Berlin",
+    "postalCode": "13355",
+    "country": "Germany"
+  }
+}
+```
+
 ### Request Types
 
 Different payment actions require different requestType values. The table below explains the situations in which you might want to use the different requestType values. The technical detail for each of these requestTypes is included in the Schema section of the API explorer. All API calls are `POST`.
@@ -93,7 +112,7 @@ Pre-auth (taking a deposit) |	[PaymentCardPreAuthTransaction](https://docs.fiser
 Payment with a token	| [PaymentTokenSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenSaleTransaction) |	Use this requestType to execute a normal customer payment transaction with a token generated previously.
 Token Refund | [PaymentTokenCreditTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenCreditTransaction) |	Use this requestType to execute an original credit payment transaction to a customer’s credit or debit card using a token generated previously.
 Token pre-auth |	[PaymentTokenPreAuthTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenPreAuthTransaction) |	Use this requestType to pre-authorise an amount against a token, for completion at a later point.
-What is sepa |	[SepaSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/SepaSaleTransaction) |	Use this requestType to take payment from a customer via SEPA.
+SEPA Payments |	[SepaSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/SepaSaleTransaction) |	Use this requestType to take payment from a customer via SEPA.
 Wallet Sale	| [WalletSaleTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/WalletSaleTransaction)	| Use this requestType to execute a normal customer payment transaction with a wallet payment method.
 Wallet Pre-Auth |	[WalletPreAuthTransaction](WalletPreAuthTransaction) |	Use this requestType to execute a Pre-Authorisation using a Wallet Payment Method
 
@@ -255,17 +274,74 @@ An updated version of the Decision Matrix diagram provided earlier is shown belo
 
 INSERT DIAGRAM
 
-Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the ipgTransactionId field for the relevant primary transaction. 
+Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the `ipgTransactionId` field for the relevant primary transaction. 
+
+To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
 
 requestType | Method | Description
 ---------|----------|---------
- VoidTransaction | POST | The VoidTransaction requestType enables you to cancel a transaction you submitted earlier the same day
- VoidPreAuthTransaction | POST | The VoidTransaction requestType enables you to cancel a PreAuthorisation Transaction
- PostAuthTransaction | POST | The PostAuthTransaction requestType enables you to complete a Pre-Authorisation Transaction against the same 
- ReturnTransaction | POST | C3
- Transaction Inquiry | GET | C3
+ [VoidTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/VoidTransaction) | POST | The VoidTransaction requestType enables you to cancel a transaction you submitted earlier the same day
+ [VoidPreAuthTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/VoidPreAuthTransaction) | POST | The VoidTransaction requestType enables you to cancel a PreAuthorisation Transaction
+ [PostAuthTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PostAuthTransaction) | POST | The PostAuthTransaction requestType enables you to complete a Pre-Authorisation Transaction against the same 
+ [ReturnTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/ReturnTransaction) | POST | The ReturnTransaction requestType enables you to complete a return against a transaction taken prior to the current day
+ [Transaction Inquiry](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payments~1%7Btransaction-id%7D/get) | GET | execute a simple GET call against the end point with the `ipgtransactionid` value from the transaction you want to inquire against 
 
-Transaction Inquiry
-To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
+## Additional Payment Scenarios
+
+There are a number of business scenarios that require combinations of different calls to the same, or different end points. The examples below demonstrate the way in which the different requestTypes and calls can be made to the /payments API to generate different payments outcomes.
+
+### Incrementing or decrementing a Pre-Auth
+
+To increase or decrease the value of a pre-authorisation transaction, submit another pre-auth for the same cardholder referencing the `orderId` field value from the reponse associated with the original Pre-Auth transaction:
+
+    
+```json YAML
+{​​​​​​​​
+  "requestType": "PaymentCardPreAuthTransaction",
+  "transactionAmount": {​​​​​​​​
+    "total": "17.00",
+    "currency": "EUR"
+  }​​​​​​​​,
+  "paymentMethod": {​​​​​​​​
+    "paymentCard": {​​​​​​​​
+      "number": "4149011500000147",
+      "securityCode": "147",
+      "expiryDate": {​​​​​​​​
+        "month": "12",
+        "year": "20"
+      }​​​​​​​​
+    }​​​​​​​​
+  }​​​​​​​​,
+  "order": {​​​​​​​​
+    "orderId": "{​​​​​​​​{​​​​​​​​lastOrderId}​​​​​​​​}​​​​​​​​"
+  }​​​​​​​​
+}​​​​​​​​
+```
+
+The original Pre-Authorisation transaction will then be incremented/decremented as set in your request.
+
+### Completing and voiding pre-auth transactions
+
+To complete a Pre-Auth, POST a postAuth transaction to complete the Pre-Authorisation, post a secondary transaction to /payments/{transaction-id} stating the `orderId` field value from the reponse associated with the original Pre-Auth transaction in {transaction-id}. The splitShipment object enables multiple partial Post-Authorisations in scenarios in which there are multiple shipments against a single original Pre-Authorisation.  
+
+```json YAML
+{
+  "requestType": "PostAuthTransaction",
+  "transactionAmount": {
+    "total": "12.04",
+    "currency": "USD"
+  },
+  "splitShipment": {
+    "totalCount": 1,
+    "finalShipment": true
+  }
+}
+```
+
+To void the Post-Auth, thereby re-opening the Pre-Auth, POST a voidTransaction request type as a secondary transaction setting the `orderId` value from the postAuth response as the {transaction-id}. To void the Pre-Authorisation transaction, POST a voidPreAuthTransaction request type as a secondary transaction setting the `orderId` value from the Pre-Authorisation response as the {transaction-id}. 
+
+
+
+
 
 

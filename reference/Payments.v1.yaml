@@ -1913,6 +1913,26 @@ components:
         clientLocale:
           language: EN
           country: USA
+      x-examples:
+        example-1:
+          requestType: ReferencedOrderPaymentSchedulesRequest
+          referencedOrderId: R-f9c2c198-b7cc-491a-a711-93d22fd0e589
+          startDate: '2020-11-16'
+          numberOfPayments: 10
+          maximumFailures: 1
+          invoiceNumber: '96126098'
+          purchaseOrderNumber: '123055342'
+          transactionOrigin: ECOM
+          dynamicMerchantName: MyWebsite
+          frequency:
+            every: 1
+            unit: MONTH
+          transactionAmount:
+            total: '25.24'
+            currency: GBP
+          clientLocale:
+            language: EN
+            country: USA
     PaymentSchedulesRequest:
       description: 'Request to create a gateway schedule. Abstract class, do not use this class directly, use one of its children.'
       required:
@@ -2009,6 +2029,33 @@ components:
         clientLocale:
           language: EN
           country: USA
+      x-examples:
+        example-1:
+          requestType: PaymentMethodPaymentSchedulesRequest
+          startDate: '2020-11-16'
+          numberOfPayments: 10
+          maximumFailures: 1
+          invoiceNumber: '96126098'
+          purchaseOrderNumber: '123055342'
+          transactionOrigin: ECOM
+          dynamicMerchantName: MyWebsite
+          frequency:
+            every: 1
+            unit: MONTH
+          paymentMethod:
+            paymentCard:
+              number: '5426064000424979'
+              expiryDate:
+                month: '12'
+                year: '20'
+              securityCode: '147'
+              cardFunction: CREDIT
+          transactionAmount:
+            total: '25.24'
+            currency: GBP
+          clientLocale:
+            language: EN
+            country: USA
     Frequency:
       description: How often payments are sent.
       required:
@@ -3091,8 +3138,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/PrimaryTransaction'
         - type: object
-          required:
-            - paymentMethod
           properties:
             paymentMethod:
               $ref: '#/components/schemas/PaymentCardPaymentMethod'
@@ -3110,6 +3155,14 @@ components:
               $ref: '#/components/schemas/AuthenticationResult'
             decrementalFlag:
               $ref: '#/components/schemas/DecrementalPreAuthFlag'
+            '':
+              type: string
+          required:
+            - paymentMethod
+        - type: object
+          properties:
+            '':
+              type: string
       example:
         transactionAmount:
           total: '12.04'
@@ -3125,6 +3178,22 @@ components:
         splitShipment:
           totalCount: 1
           finalShipment: true
+      x-examples:
+        example-1:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaymentCardPreAuthTransaction
+          paymentMethod:
+            paymentCard:
+              number: '5424180279791732'
+              securityCode: '977'
+              expiryDate:
+                month: '12'
+                year: '24'
+          splitShipment:
+            totalCount: 1
+            finalShipment: true
     PaymentCardSaleTransaction:
       description: Request to create sale transaction using payment card.
       allOf:
@@ -3923,6 +3992,15 @@ components:
         splitShipment:
           totalCount: 1
           finalShipment: true
+      x-examples:
+        example-1:
+          requestType: PostAuthTransaction
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          splitShipment:
+            totalCount: 1
+            finalShipment: true
     AchPostAuthTransaction:
       description: Request to perform ACH telecheck post auth transaction.
       allOf:
@@ -4401,6 +4479,9 @@ components:
           $ref: '#/components/schemas/Color'
       example:
         color: '#FFEE00'
+      x-examples:
+        example-1:
+          color: '#FFEE00'
     Footer:
       type: object
       properties:
@@ -5983,6 +6064,16 @@ components:
           region: Georgia
           postalCode: '30303'
           country: USA
+      x-examples:
+        example-1:
+          name: John Doe
+          customerId: '1234567890'
+          address:
+            address1: 123 Main St.
+            city: Sandy Springs
+            region: Georgia
+            postalCode: '30303'
+            country: USA
     Contact:
       description: Customer contact information.
       properties:
