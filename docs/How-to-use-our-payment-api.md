@@ -97,7 +97,7 @@ var computedHash = CryptoJS.algo.HMAC.create(
 
 Update your `computedHash` with your `rawSignature`
 
-```javscript
+```javascript
 computedHash.update(rawSignature);
 computedHash = computedHash.finalize();
 var messageSignature = CryptoJS.enc.Base64.stringify(computedHash);
