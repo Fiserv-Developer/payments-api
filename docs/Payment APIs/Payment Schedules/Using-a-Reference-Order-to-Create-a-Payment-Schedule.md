@@ -1,3 +1,30 @@
-# Using-a-Reference-Order-to-Create-a-Payment-Schedule
+### Using a reference order to create a payment schedule
 
-The beginning of an awesome article...
+To create a payment schedule using a single payment already submitted, submit the payload as per the below to the /payment-schedule API, but include the `referenceOrderId` attribute as the orderId from the response of the original payment. This is useful when a customer buys something as a single purchase, but then elects to continue their access as a subscription to your product or service. 
+
+``` json YAML
+{
+  "requestType": "ReferencedOrderPaymentSchedulesRequest",
+  "referencedOrderId": "R-f9c2c198-b7cc-491a-a711-93d22fd0e589",
+  "startDate": "2020-11-16",
+  "numberOfPayments": 10,
+  "maximumFailures": 1,
+  "invoiceNumber": "96126098",
+  "purchaseOrderNumber": "123055342",
+  "transactionOrigin": "ECOM",
+  "dynamicMerchantName": "MyWebsite",
+  "frequency": {
+    "every": 1,
+    "unit": "MONTH"
+  },
+  "transactionAmount": {
+    "total": "25.24",
+    "currency": "GBP"
+  },
+  "clientLocale": {
+    "language": "EN",
+    "country": "USA"
+  }
+}
+```
+

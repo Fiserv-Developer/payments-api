@@ -1,3 +1,5 @@
-# Retrieving-Payment-Schedule-Data
+### Retrieving Payment Schedule data
 
-The beginning of an awesome article...
+Retrieve Payment Schedule data by making a GET call to /payment-schedules/{order-id} where the {order-id} value is the `orderId` value from the response of the original PaymentSchedulesRequest POST. 
+
+

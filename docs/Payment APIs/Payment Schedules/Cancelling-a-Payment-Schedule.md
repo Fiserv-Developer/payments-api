@@ -1,3 +1,7 @@
-# Cancelling-a-Payment-Schedule
+### Cancelling a Payment Schedule
 
-The beginning of an awesome article...
+Cancel a Payment Schedule by making a DELETE call to /payment-schedules/{order-id} where the {order-id} value is the `orderId` value from the response of the original PaymentSchedulesRequest POST.
+
+
+
+
