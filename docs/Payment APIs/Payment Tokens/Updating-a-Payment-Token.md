@@ -1,3 +1,57 @@
-# Updating-a-Payment-Token
+### Updating Payment Tokens
 
-The beginning of an awesome article...
+You can update one or more Payment Tokens at a time, and change the settings associated with the Token, or the payment card associated with the Token. To make these updates, make a PATCH to /payment-tokens using requestType PaymentCardPaymentTokenUpdateRequest. Note - the PaymentTokens object is a list, and can include multiple payment tokens. See the example below to see how to construct the payload. Each of the token objects below includes the updates required - these will automatically be written to the token record on our systems if the request is processed successfully.
+
+```json YAML
+{
+  "requestType": "PaymentCardPaymentTokenUpdateRequest",
+  "paymentTokens": [
+    {
+      "value": "1751905117310026",
+      "reusable": true,
+      "declineDuplicates": false,
+      "paymentCard": {
+        "number": "5424180279791732",
+        "expiryDate": {
+          "month": "03",
+          "year": "21"
+        },
+        "securityCode": "977"
+      }
+    },
+    {
+      "value": "9877hkhk68688888ffgh",
+      "reusable": true,
+      "declineDuplicates": false,
+      "paymentCard": {
+        "number": "4773410012347324",
+        "expiryDate": {
+          "month": "12",
+          "year": "26"
+        },
+        "securityCode": "123"
+      }
+    }
+  ]
+}
+```
+
+If one of the updates fails, this will be specified in the response - see below for an example of a response to the above in which the second update failed. 
+
+```json YAML
+{
+  "requestStatus": "PARTIAL_SUCCESS",
+  "requestTime": "1554308829345",
+  "errors": {
+    "details": [
+      {
+        "message": "HOSTED_DATA_ID4773410012347324. Invalid credit card number: CreditCard [cardNumber=4773410...7324, expirationMonth=12, expirationYear=2026"
+      },
+    ]
+  }
+}
+```
+
+
+
+

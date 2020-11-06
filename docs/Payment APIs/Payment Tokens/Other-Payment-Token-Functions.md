@@ -1,3 +1,9 @@
-# Other-Payment-Token-Functions
+### Other Payment Token Functions.
 
-The beginning of an awesome article...
+A payment token can be deleted by sending a DELETE to /payment-tokens/{token-id}. 
+
+You can retrieve the payment card data associated with a token, and the token settings, by sending a GET to /payment-tokens/{token-id}. 
+
+
+
+
