@@ -1,0 +1,3 @@
+# Retrieving-Payment-Schedule-Data
+
+The beginning of an awesome article...

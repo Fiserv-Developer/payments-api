@@ -1,0 +1,3 @@
+# Using-a-Reference-Order-to-Create-a-Payment-Schedule
+
+The beginning of an awesome article...

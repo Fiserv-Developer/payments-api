@@ -1,0 +1,3 @@
+# Other-Payment-URL-Functions
+
+The beginning of an awesome article...

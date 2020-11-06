@@ -1,0 +1,3 @@
+# Other-Payment-Token-Functions
+
+The beginning of an awesome article...

@@ -1,3 +1,3 @@
-# Making-Payments-using-our-REST-APIs
+# Apple-Pay
 
 The beginning of an awesome article...

@@ -1,0 +1,3 @@
+# Request-Types
+
+The beginning of an awesome article...

@@ -1,0 +1,3 @@
+# Using-Payment-Tokens
+
+The beginning of an awesome article...
