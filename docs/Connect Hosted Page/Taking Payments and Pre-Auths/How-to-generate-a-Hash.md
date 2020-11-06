@@ -1,0 +1,3 @@
+# How-to-generate-a-Hash
+
+The beginning of an awesome article...

@@ -1,0 +1,3 @@
+# Values-for-defining-the-Payment-Method
+
+The beginning of an awesome article...
