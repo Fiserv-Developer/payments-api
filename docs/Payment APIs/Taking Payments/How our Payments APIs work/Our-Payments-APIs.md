@@ -1,3 +1,16 @@
-# Our-Payments-APIs
+---
+tags: [Payments]
+---
+# Payments API
 
-The beginning of an awesome article...
+## Use this API to accept Payments of all types, and to process secondary actions like Voids, Refunds or Pre-Auth Completions
+
+You can use our payment API to offer a range of payment methods to your customers. It allows you to take payment using whatever the most appropriate transaction type is. 
+
+Fiserv’s Payment API supports the following major payment methods; Visa, Mastercard, Amex, Apple Pay, Google Pay, Sepa, as well as multiple other international and local payment methods.
+
+This API can be used to create and complete a payment, create and manage a recurring payment schedule, generate a payment link to send to a customer, verify a customer’s card or offer them the option to pay in their local currency. 
+You can also use our Store Management APIs to manage your store configuration.
+
+Once you’ve executed a transaction using these APIs, you can pull all the detail you need on the transaction using our Merchant Intelligence APIs.
+

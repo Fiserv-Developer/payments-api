@@ -1,3 +1,12 @@
-# Header-Parameters
+### Header and Parameters
 
-The beginning of an awesome article...
+Our Payments API has a consistent Header structure based on a set of Parameters. To create the header, provide the following values:
+
+Header Parameter | Type | Description
+-----------------|------|------------
+ Content-Type | String | Define this attribute as application/json
+ Client-Request-Id | String | This is an ID you generate so we can mutually track your requests. It should be unique per request. We recommend this is built in 128-bit UUID format. 
+ Api-Key | String | This is the key you'll use to identify yourself to us. You'll be given a key for development and testing, then a different key when you're ready to go live. 
+ Timestamp | Integer | You should define this as an epoch timestamp in milliseconds. This is used for message signature generation and for time limit control.
+ Message-Signature | String | We use this for security. The Message-Signature is the Base64 encoded HMAC hash (SHA256 algorithm with the API Secret as the key.) For more information, refer to the supporting documentation on the Developer Portal.
+
