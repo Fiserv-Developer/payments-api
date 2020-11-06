@@ -1,4 +1,4 @@
-## Implementing Google Pay
+## Google Pay
 
 ### 1. Merchant Boarding
 
@@ -23,10 +23,10 @@ For more details, please refer https://developers.google.com/pay/api/android/gui
 
 The following parameters need to be defined 
 
-- [ ] Merchant ID
-- [ ] Merchant Token
-- [ ] APIKey
-- [ ] APISecret
+- Merchant ID
+- Merchant Token
+- APIKey
+- APISecret
 
 Define the Fiserv Object Parameters: Parameters must be updated in the following files: 
 
