@@ -1,7 +1,3 @@
-# Implementing Wallet Payment Methods
-
-This section provides a step-by-step for implementing Apple Pay and Google Pay.
-
 ## Apple Pay
 
 Apple Pay enables secure, simple checkouts in your app or on your website.
