@@ -13,12 +13,22 @@ For steps where no direct consumer interaction is required and no sensitive card
 
 The following five steps provide an overview of a standard online store integration with links to alternative options where applicable:
 
+<!-- theme: success -->
+
 > Step 1: Checkout Process in Your Webstore (Pre-Authorization or Sale)
- 
+
+<!-- theme: success -->
+
 > Step 2: Receiving the Transaction Result
  
+<!-- theme: success -->
+
 > Step 3: Completion When Goods Get Shipped (Post-Authorization)
- 
+
+<!-- theme: success -->
+
 > Step 4: Voiding a Transaction
- 
-> Step 5: Giving Money Back When Goods Have Been Returned (Refund)
+
+<!-- theme: success -->
+
+> Step 5: Giving Money Back When Goods Have Been Returned (Refunds and Voids)
