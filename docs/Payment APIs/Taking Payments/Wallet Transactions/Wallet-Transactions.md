@@ -1,3 +1,4 @@
-# Wallet-Transactions
+# Implementing Wallet Payment Methods
 
-The beginning of an awesome article...
+This section provides a step-by-step for implementing Apple Pay and Google Pay.
+
