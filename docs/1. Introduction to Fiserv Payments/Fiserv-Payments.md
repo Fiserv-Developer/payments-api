@@ -22,7 +22,7 @@ Take a look at Connect [here](LINK).
 
 ## RESTful APIs
 
-
+If you want to build your own UI and manage the full checkout flow natively within your own site or application, use our RESTful APIs for  
 
 
 
