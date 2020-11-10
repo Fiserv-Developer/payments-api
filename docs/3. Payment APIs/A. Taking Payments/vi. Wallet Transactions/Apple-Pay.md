@@ -1,4 +1,4 @@
-## Apple Pay
+# Apple Pay
 
 Apple Pay enables secure, simple checkouts in your app or on your website.
 

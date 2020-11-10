@@ -1,4 +1,7 @@
-## /Payments/{Transaction-id}
+
+# /Payments/{Transaction-id}
+
+## Secondary Transactions
 
 Use secondary transactions to Void an original transaction, Return against an original transaction or to complete a Post-Auth transaction. The transactionId Parameter, populated for the original transaction that requires a secondary action, must be populated for each of these request types. 
 
@@ -20,11 +23,11 @@ requestType | Method | Description
  [ReturnTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/ReturnTransaction) | POST | The ReturnTransaction requestType enables you to complete a return against a transaction taken prior to the current day
  [Transaction Inquiry](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payments~1%7Btransaction-id%7D/get) | GET | execute a simple GET call against the end point with the `ipgtransactionid` value from the transaction you want to inquire against 
 
-### Additional Payment Scenarios
+## Additional Payment Scenarios
 
 There are a number of business scenarios that require combinations of different calls to the same, or different end points. The examples below demonstrate the way in which the different requestTypes and calls can be made to the /payments API to generate different payments outcomes.
 
-#### Incrementing or decrementing a Pre-Auth
+### Incrementing or decrementing a Pre-Auth
 
 To increase or decrease the value of a pre-authorisation transaction, submit another pre-auth for the same cardholder referencing the `orderId` field value from the reponse associated with the original Pre-Auth transaction:
 
@@ -54,7 +57,7 @@ To increase or decrease the value of a pre-authorisation transaction, submit ano
 
 The original Pre-Authorisation transaction will then be incremented/decremented as set in your request.
 
-### Completing and voiding pre-auth transactions
+## Completing and voiding pre-auth transactions
 
 To complete a Pre-Auth, POST a postAuth transaction to complete the Pre-Authorisation, post a secondary transaction to /payments/{transaction-id} stating the `orderId` field value from the reponse associated with the original Pre-Auth transaction in {transaction-id}. The splitShipment object enables multiple partial Post-Authorisations in scenarios in which there are multiple shipments against a single original Pre-Authorisation.  
 

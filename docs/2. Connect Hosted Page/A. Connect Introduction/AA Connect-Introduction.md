@@ -1,6 +1,6 @@
-## Fiserv's Connect Hosted Page
+# Fiserv's Connect Hosted Page
 
-### Adding Payment Capabilities to a Website
+## Adding Payment Capabilities to a Website
 
 The easiest way to add payment capabilities to your website is to implement a HTML form that you post to our Gateway URL.
 
@@ -9,7 +9,7 @@ This type of integration allows you to let our Gateway manage the customer redir
 Application Programming Interface
 For steps where no direct consumer interaction is required and no sensitive cardholder data is getting processed, it's best to use our Application Programming Interface (API). Please note that if you plan to collect your customer's card details within your environment and send it to our API, you must ensure that your system components are PCI DSS compliant.
 
-### Key Steps
+## Key Steps
 
 The following five steps provide an overview of a standard online store integration with links to alternative options where applicable:
 

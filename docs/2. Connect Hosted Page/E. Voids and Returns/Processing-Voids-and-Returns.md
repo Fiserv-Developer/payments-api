@@ -1,4 +1,4 @@
-## Voiding or Returning a Transaction
+# Voiding or Returning a Transaction
 
 If your customer has canceled the order or you detect suspicious order details, you can void the transaction referencing the original Transaction ID.
 
