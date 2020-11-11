@@ -23,3 +23,6 @@ The SEPA PaymentMethod Object is shown below:
 }
 ```
 
+<!-- theme: success -->
+
+> MODEL: You can find the model for the /payments resource for the SepaSaleTransaction requestType [here](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/SepaSaleTransaction).
