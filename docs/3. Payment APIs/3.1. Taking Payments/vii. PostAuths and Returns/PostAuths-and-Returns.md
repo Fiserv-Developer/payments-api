@@ -13,7 +13,29 @@ INSERT DIAGRAM
 
 Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the `ipgTransactionId` field for the relevant primary transaction. 
 
-To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted.
+To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted. The below sample response generator uses a ReturnTransaction requestType.
+
+```json http
+{
+  "method": "post",
+  "url": "https://prod.api.firstdata.com/ipp/payments-gateway/v2/payments/1001-1001-1001-1001",
+  "query": {},
+  "headers": {
+    "Content-Type": "application/json",
+    "Client-Request-Id": "",
+    "Api-Key": "",
+    "Timestamp": "",
+    "Message-Signature": ""
+  }
+  "body": {
+  "requestType": "ReturnTransaction",
+  "transactionAmount": {
+    "total": 3,
+    "currency": "USD"
+  }
+  }
+}
+```
 
 requestType | Method | Description
 ---------|----------|---------
