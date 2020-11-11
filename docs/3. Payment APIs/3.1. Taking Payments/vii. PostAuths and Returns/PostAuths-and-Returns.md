@@ -37,6 +37,8 @@ To retrieve the status of a transaction you’ve already submitted, place a GET 
 }
 ```
 
+The available requestTypes are listed below, with explanation as to what each of them is used for.
+
 requestType | Method | Description
 ---------|----------|---------
  [VoidTransaction](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/VoidTransaction) | POST | The VoidTransaction requestType enables you to cancel a transaction you submitted earlier the same day
