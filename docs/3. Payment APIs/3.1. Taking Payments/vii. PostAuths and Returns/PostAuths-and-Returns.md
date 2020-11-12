@@ -13,7 +13,9 @@ INSERT DIAGRAM
 
 Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the `ipgTransactionId` field for the relevant primary transaction.
 
-You can find the model for the /payments/{transaction-id} end point [here](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payments~1%7Btransaction-id%7D/post).
+<!-- theme: success -->
+
+> You can find the model for the /payments/{transaction-id} end point [here](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payments~1%7Btransaction-id%7D/post).
 
 To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted. The below sample response generator uses a ReturnTransaction requestType.
 

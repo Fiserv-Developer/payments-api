@@ -16,3 +16,6 @@ The /orders API enables you to post a secondary transaction using your own order
   }
 }
 ```
+<!-- theme: success -->
+
+> You can find the model for the /orders API [here](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1orders~1%7Border-id%7D/post).

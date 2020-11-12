@@ -32,6 +32,12 @@ Use the Card Verification service to check a card is available for charging befo
 }
 ```
 
+<!-- theme: success -->
+
+> You can find the model for /card-verification [here](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1card-verification/post).
+
+Below is an example of a card verification payload (body only).
+
 ```json YAML
 {
   "paymentCard": {
