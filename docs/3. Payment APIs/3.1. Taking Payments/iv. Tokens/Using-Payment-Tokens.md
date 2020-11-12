@@ -23,5 +23,5 @@ Once the token is created and you have stored it against the customer’s accoun
 
 When a customer is checking out, and you've previously tokenised their payment details (and you’ve stored the token with the customer’s account record in your systems), you can request token details to enable the customer to confirm they want to pay with the stored payment instrument. To do this, use the GET call against [this end point](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payment-tokens~1%7Btoken-id%7D/get), providing the `tokenid` to receive a [PaymentTokenDetails](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/components/schemas/PaymentTokenDetails) response. Our suggestion is you use the `last4` value and `brand` to enable the customer to correctly identify their payment instrument.
 
-You can then use the Payment Token in the relevant Primary Payment request type to execute the customer payment. To Update or Delete customer payment tokens, see the Token section [here](url).
+You can then use the Payment Token in the relevant Primary Payment request type to execute the customer payment. To Update or Delete customer payment tokens, see the Token section [here](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payment-tokens/patchl).
 
