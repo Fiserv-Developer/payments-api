@@ -205,27 +205,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
-              examples:
-                example-1:
-                  value:
-                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
-                    apiTraceId: rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2
-                    ipgTransactionId: '838916029301'
-                    transactionType: SALE
-                    transactionTime: 1518811817
-                    approvedAmount:
-                      total: 10.24
-                      currency: USD
-                    transactionStatus: APPROVED
-                    schemeTransactionId: '019078743804756'
-                    processor:
-                      responseCode: '00'
-                      responseMessage: APPROVED
-                      authorizationCode: OK7118
-            application/xml:
-              schema:
-                type: object
-                properties: {}
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
