@@ -1,6 +1,4 @@
-# Fiserv Payments
-
-## Welcome to Fiserv Payments!
+# Welcome to Fiserv Payments!
 
 In this section we'll tell you about our payments services, and guide you through integrating to and using the different capabilities within our payments products.
 
