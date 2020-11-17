@@ -1,58 +1,18 @@
 openapi: 3.0.2
 info:
   version: 2.0.0
-  title: Payments
-  description: 'The documentation here is designed to provide all of the technical guidance required to consume and integrate with our APIs for payment processing. To learn more about our APIs please visit https://docs.firstdata.com/org/gateway'
+  title: API Reference
+  description: The documentation here is designed to provide all of the technical guidance required to consume and integrate with our APIs for payment processing.
 servers:
-  - url: 'https://prod.api.firstdata.com/ipp/payments-gateway/v2'
+  - url: 'https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2'
     description: Production
+  - url: 'https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2'
+    description: Sandbox
 paths:
-  /authentication/access-tokens:
-    post:
-      tags:
-        - Authentication
-      x-proxy-name: Access Tokens
-      summary: Generate an access token for user authentication.
-      description: This is the access token generation call for authorizing subsequent financial transactions. A valid access token is required for web client requests.
-      parameters:
-        - $ref: '#/components/parameters/ContentTypeParam'
-        - $ref: '#/components/parameters/ClientRequestIdParam'
-        - $ref: '#/components/parameters/TimestampParam'
-        - $ref: '#/components/parameters/MessageSignatureParam'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AccessTokenRequest'
-        description: Access token request
-        required: true
-      responses:
-        '200':
-          description: Success response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccessTokenResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthenticated'
-        '403':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '415':
-          $ref: '#/components/responses/UnsupportedMediaType'
-        '500':
-          $ref: '#/components/responses/ServerError'
-      security:
-        - Api-Key: []
   /payments:
     post:
-      tags:
-        - Payment
       x-proxy-name: Create Primary Transaction
-      summary: Generate a primary transaction.
+      summary: Generate a primary transaction
       description: 'Use this to originate a financial transaction like a sale, preauthorization, or credit.'
       operationId: submitPrimaryTransaction
       parameters:
@@ -65,7 +25,21 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PrimaryTransaction'
-        description: 'Accepted request types: AliPaySaleTransaction, ChinaPnRSaleTransaction, PaymentCardCreditTransaction, PaymentCardForcedTicketTransaction, PaymentCardSaleTransaction, PaymentCardPreAuthTransaction, PaymentCardPayerAuthTransaction, PaymentCardDisbursementTransaction, PaymentTokenCreditTransaction, PaymentTokenPreAuthTransaction, PaymentTokenSaleTransaction, PaymentTokenDisbursementTransaction, PaypalCreditTransaction, SepaSaleTransaction, WalletSaleTransaction, and WalletPreAuthTransaction, PaymentDeviceSaleTransaction, PaymentDevicePreAuthTransaction, PaymentDeviceCreditTransaction, PaymentDeviceDisbursementTransaction, AchPreAuthTransaction, AchSaleTransaction, AchCreditTransaction.'
+            examples:
+              Example:
+                value:
+                  requestType: PaymentCardSaleTransaction
+                  transactionAmount:
+                    total: '12.04'
+                    currency: USD
+                  paymentMethod:
+                    paymentCard:
+                      number: '5424180279791732'
+                      securityCode: '977'
+                      expiryDate:
+                        month: '12'
+                        year: '24'
+        description: ''
         required: true
       responses:
         '200':
@@ -74,6 +48,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2
+                    ipgTransactionId: '838916029301'
+                    transactionType: SALE
+                    transactionTime: 1518811817
+                    approvedAmount:
+                      total: 10.24
+                      currency: USD
+                    transactionStatus: APPROVED
+                    schemeTransactionId: '019078743804756'
+                    processor:
+                      responseCode: '00'
+                      responseMessage: APPROVED
+                      authorizationCode: OK7118
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -94,12 +85,12 @@ paths:
           $ref: '#/components/responses/EndpointCommunicationError'
       security:
         - Api-Key: []
+      tags:
+        - Payments
   '/payments/{transaction-id}':
     get:
-      tags:
-        - Payment
       x-proxy-name: Transaction Inquiry
-      summary: Retrieve the state of a transaction.
+      summary: Retrieve the state of a transaction
       description: Use this query to get the current state of an existing transaction.
       operationId: transactionInquiry
       parameters:
@@ -110,11 +101,28 @@ paths:
         - $ref: '#/components/parameters/TransactionIdParam'
       responses:
         '200':
-          description: Success response.
+          description: Success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2
+                    ipgTransactionId: '838916029301'
+                    transactionType: SALE
+                    transactionTime: 1518811817
+                    approvedAmount:
+                      total: 10.24
+                      currency: USD
+                    transactionStatus: APPROVED
+                    schemeTransactionId: '019078743804756'
+                    processor:
+                      responseCode: '00'
+                      responseMessage: APPROVED
+                      authorizationCode: OK7118
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -135,13 +143,13 @@ paths:
           $ref: '#/components/responses/EndpointCommunicationError'
       security:
         - Api-Key: []
-    patch:
       tags:
-        - Payment
+        - Payments
+    patch:
       x-proxy-name: Finalize Secure Transaction
       operationId: finalizeSecureTransaction
-      summary: Update a 3DSecure or UnionPay payment and continue processing.
-      description: 'Use this to handle a 3DSecure redirect response or UnionPay authentication, updating the transaction and continuing processing.'
+      summary: Update a 3DSecure payment and continue processing.
+      description: 'Use this to handle a 3DSecure redirect response authentication, updating the transaction and continuing processing.'
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
         - $ref: '#/components/parameters/ClientRequestIdParam'
@@ -154,15 +162,44 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AuthenticationUpdateRequest'
+            examples:
+              Example:
+                value:
+                  authenticationType: Secure3D21AuthenticationUpdateRequest
+                  billingAddress:
+                    address1: 5565 Glenridge Conn
+                    city: Atlanta
+                    postalCode: 30342
+                    country: USA
+                  securityCode: 123
+                  merchantData: MD123...sdfk
+                  payerAuthenticationResponse: c7fb83b8a...73t4a827t4af8738a
         required: true
-        description: 'Accepted request types: Secure3D21AuthenticationUpdateRequest.'
+        description: ''
       responses:
         '200':
-          description: Success response.
+          description: Success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2
+                    ipgTransactionId: '838916029301'
+                    transactionType: SALE
+                    transactionTime: 1518811817
+                    approvedAmount:
+                      total: 10.24
+                      currency: USD
+                    transactionStatus: APPROVED
+                    schemeTransactionId: '019078743804756'
+                    processor:
+                      responseCode: '00'
+                      responseMessage: APPROVED
+                      authorizationCode: OK7118
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -181,11 +218,11 @@ paths:
           $ref: '#/components/responses/ServerError'
         '502':
           $ref: '#/components/responses/EndpointCommunicationError'
-    post:
       tags:
-        - Payment
+        - Payments
+    post:
       x-proxy-name: Secondary Transaction
-      summary: Perform a secondary transaction.
+      summary: Perform a secondary transaction
       description: 'Use this to perform a void, postAuth or return secondary transaction. Partial postAuths and returns are allowed.'
       operationId: submitSecondaryTransaction
       parameters:
@@ -198,13 +235,41 @@ paths:
         - $ref: '#/components/parameters/StoreIdParam'
       requestBody:
         $ref: '#/components/requestBodies/SecondaryTransaction'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecondaryTransaction'
+            examples:
+              Example:
+                value:
+                  requestType: ReturnTransaction
+                  transactionAmount:
+                    total: 3
+                    currency: USD
       responses:
         '200':
-          description: Success response.
+          description: Success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2
+                    ipgTransactionId: '838916029301'
+                    transactionType: SALE
+                    transactionTime: 1518811817
+                    approvedAmount:
+                      total: 10.24
+                      currency: USD
+                    transactionStatus: APPROVED
+                    schemeTransactionId: '019078743804756'
+                    processor:
+                      responseCode: '00'
+                      responseMessage: APPROVED
+                      authorizationCode: OK7118
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -223,12 +288,12 @@ paths:
           $ref: '#/components/responses/ServerError'
         '502':
           $ref: '#/components/responses/EndpointCommunicationError'
+      tags:
+        - Payments
   '/orders/{order-id}':
     post:
-      tags:
-        - Order
       x-proxy-name: Order-Based Secondary Transactions
-      summary: Perform return or postAuth secondary transactions.
+      summary: Perform return or postAuth secondary transactions
       description: Use this to perform a postAuth or return secondary transaction using order ID. Partial postAuths and returns are allowed.
       operationId: submitSecondaryTransactionFromOrder
       parameters:
@@ -240,6 +305,17 @@ paths:
         - $ref: '#/components/parameters/OrderIdParam'
       requestBody:
         $ref: '#/components/requestBodies/SecondaryTransaction'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecondaryTransaction'
+            examples:
+              Example:
+                value:
+                  requestType: ReturnTransaction
+                  transactionAmount:
+                    total: 3
+                    currency: USD
       responses:
         '200':
           description: Success response.
@@ -247,6 +323,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2
+                    ipgTransactionId: '838916029301'
+                    transactionType: SALE
+                    transactionTime: 1518811817
+                    approvedAmount:
+                      total: 10.24
+                      currency: USD
+                    transactionStatus: APPROVED
+                    schemeTransactionId: '019078743804756'
+                    processor:
+                      responseCode: '00'
+                      responseMessage: APPROVED
+                      authorizationCode: OK7118
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -263,12 +356,12 @@ paths:
           $ref: '#/components/responses/ServerError'
         '502':
           $ref: '#/components/responses/EndpointCommunicationError'
-    get:
       tags:
-        - Order
+        - Orders
+    get:
       x-proxy-name: Order Inquiry
-      summary: Retrieve the state of an order.
-      description: Use this query to get the current state of an existing order.
+      summary: Retrieve the state of an order
+      description: Use this query to get the current state of an existing order
       operationId: orderInquiry
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
@@ -279,11 +372,39 @@ paths:
         - $ref: '#/components/parameters/StoreIdParam'
       responses:
         '200':
-          description: Success response.
+          description: Success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    responseType: Unauthenticated
+                    orderId: '123456'
+                    billing:
+                      name: John Doe
+                      customerId: '1234567890'
+                      address:
+                        address1: 123 Main St.
+                        city: Sandy Springs
+                        region: Georgia
+                        postalCode: '30303'
+                        country: USA
+                    shipping:
+                      name: John Doe
+                      contact:
+                        phone: '5555555555'
+                        mobilePhone: '5555555555'
+                        email: john@test.com
+                      address:
+                        address1: 123 Main St.
+                        city: Sandy Springs
+                        region: Georgia
+                        postalCode: '30303'
+                        country: USA
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -298,13 +419,13 @@ paths:
           $ref: '#/components/responses/EndpointCommunicationError'
       security:
         - Api-Key: []
+      tags:
+        - Orders
   /payment-schedules:
     post:
-      tags:
-        - Payment Schedules
       x-proxy-name: Schedule Creation
-      summary: Create gateway payment schedule.
-      description: Use this to create a gateway payment schedule.
+      summary: Create gateway payment schedule
+      description: Use this to create a gateway payment schedule
       operationId: createPaymentSchedule
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
@@ -313,13 +434,52 @@ paths:
         - $ref: '#/components/parameters/MessageSignatureParam'
       requestBody:
         $ref: '#/components/requestBodies/PaymentSchedulesRequest'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentSchedulesRequest'
+            examples:
+              Example:
+                value:
+                  requestType: PaymentMethodPaymentSchedulesRequest
+                  startDate: '2020-11-16'
+                  numberOfPayments: 10
+                  maximumFailures: 1
+                  invoiceNumber: '96126098'
+                  purchaseOrderNumber: '123055342'
+                  transactionOrigin: ECOM
+                  dynamicMerchantName: MyWebsite
+                  frequency:
+                    every: 1
+                    unit: MONTH
+                  paymentMethod:
+                    paymentCard:
+                      number: '5426064000424979'
+                      expiryDate:
+                        month: '12'
+                        year: '20'
+                      securityCode: '147'
+                      cardFunction: CREDIT
+                  transactionAmount:
+                    total: '25.24'
+                    currency: GBP
+                  clientLocale:
+                    language: EN
+                    country: USA
       responses:
         '200':
-          description: Success response.
+          description: Success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentSchedulesResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    requestStatus: SUCCESS
+                    orderId: ABC12345
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -344,13 +504,13 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - Api-Key: []
+      tags:
+        - Recurring
   '/payment-schedules/{order-id}':
     get:
-      tags:
-        - Payment Schedules
       x-proxy-name: Schedule Inquiry
-      summary: View a gateway payment schedule.
-      description: Use this to view an existing gateway payment schedule.
+      summary: View a gateway payment schedule
+      description: Use this to view an existing gateway payment schedule
       operationId: inquiryPaymentSchedule
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
@@ -361,11 +521,39 @@ paths:
         - $ref: '#/components/parameters/StoreIdParam'
       responses:
         '200':
-          description: Success response.
+          description: Success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RecurringPaymentDetailsResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    orderId: '123456'
+                    billing:
+                      name: John Doe
+                      customerId: '1234567890'
+                      contact:
+                        email: John.Doe@example.com
+                        phone: '5555555555'
+                    storeId: '1109959991'
+                    purchaseOrderNumber: '123055342'
+                    invoiceNumber: '96126098'
+                    creationDate: '2018-10-25'
+                    startDate: '2018-10-25'
+                    nextAttemptDate: '2018-10-25'
+                    transactionAmount:
+                      total: 10.5
+                      currency: USD
+                    frequency:
+                      every: 3
+                      unit: DAY
+                    numberOfPayments: '10'
+                    runCount: '3'
+                    state: Installed
+                    comments: This scheduled payment series is to pay for the thing
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -378,11 +566,11 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - Api-Key: []
-    delete:
       tags:
-        - Payment Schedules
+        - Recurring
+    delete:
       x-proxy-name: Schedule Cancel
-      summary: Cancel a gateway payment schedule.
+      summary: Cancel a gateway payment schedule
       description: Use this to cancel an existing gateway payment schedule.
       operationId: cancelPaymentSchedule
       parameters:
@@ -400,6 +588,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentSchedulesResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    requestStatus: SUCCESS
+                    orderId: ABC12345
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -414,9 +609,9 @@ paths:
           $ref: '#/components/responses/EndpointDeclined'
         '500':
           $ref: '#/components/responses/ServerError'
-    patch:
       tags:
-        - Payment Schedules
+        - Recurring
+    patch:
       x-proxy-name: Schedule Update
       summary: Update a gateway payment schedule.
       description: Use this to update a gateway payment schedule.
@@ -430,6 +625,39 @@ paths:
         - $ref: '#/components/parameters/OrderIdParam'
       requestBody:
         $ref: '#/components/requestBodies/PaymentSchedulesRequest'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentSchedulesRequest'
+            examples:
+              Example:
+                value:
+                  requestType: PaymentMethodPaymentSchedulesRequest
+                  startDate: '2020-11-16'
+                  numberOfPayments: 10
+                  maximumFailures: 1
+                  invoiceNumber: '96126098'
+                  purchaseOrderNumber: '123055342'
+                  transactionOrigin: ECOM
+                  dynamicMerchantName: MyWebsite
+                  frequency:
+                    every: 1
+                    unit: MONTH
+                  paymentMethod:
+                    paymentCard:
+                      number: '5426064000424979'
+                      expiryDate:
+                        month: '12'
+                        year: '20'
+                      securityCode: '147'
+                      cardFunction: CREDIT
+                  transactionAmount:
+                    total: '25.24'
+                    currency: GBP
+                  clientLocale:
+                    language: EN
+                    country: USA
+        description: ''
       responses:
         '200':
           description: Success response.
@@ -437,6 +665,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentSchedulesResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    requestStatus: SUCCESS
+                    orderId: ABC12345
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -449,12 +684,14 @@ paths:
           $ref: '#/components/responses/EndpointDeclined'
         '500':
           $ref: '#/components/responses/ServerError'
+      tags:
+        - Recurring
   /payment-url:
     post:
       tags:
         - Payment URL
       x-proxy-name: URL Creation
-      summary: Create a payment URL.
+      summary: Create a payment URL
       description: Use this to generate an embedding payment link.
       operationId: createPaymentUrl
       parameters:
@@ -468,7 +705,38 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentUrlRequest'
-        description: 'Accepted request type: PaymentUrlRequest.'
+            examples:
+              Example:
+                value:
+                  transactionAmount:
+                    total: '42.42'
+                    currency: USD
+                  transactionType: SALE
+                  transactionNotificationURL: 'https://showmethepaymentresult.com'
+                  expiration: '4102358400'
+                  authenticateTransaction: true
+                  dynamicMerchantName: MyWebsite
+                  invoiceNumber: '96126098'
+                  purchaseOrderNumber: '123055342'
+                  ip: 264.31.73.24
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/PaymentUrlRequest'
+            examples:
+              Example:
+                value:
+                  transactionAmount:
+                    total: '42.42'
+                    currency: USD
+                  transactionType: SALE
+                  transactionNotificationURL: 'https://showmethepaymentresult.com'
+                  expiration: '4102358400'
+                  authenticateTransaction: true
+                  dynamicMerchantName: MyWebsite
+                  invoiceNumber: '96126098'
+                  purchaseOrderNumber: '123055342'
+                  ip: 264.31.73.24
+        description: ''
         required: true
       responses:
         '200':
@@ -493,8 +761,8 @@ paths:
       tags:
         - Payment URL
       x-proxy-name: Delete URL
-      summary: Delete a payment URL.
-      description: Use this to delete an embedding payment link.
+      summary: Delete a payment URL
+      description: Use this to delete an embedding payment link
       operationId: deletePaymentUrl
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
@@ -514,6 +782,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentUrlResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    requestStatus: SUCCESS
+                    orderId: '9723846'
+                    paymentUrl: 'https://hyperlink-to-payment.com'
+                    transactionId: '2381723322'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -530,8 +807,8 @@ paths:
       tags:
         - Payment URL
       x-proxy-name: URL Detail
-      summary: Retrieve the state of payment URL.
-      description: Use this query to get the current state of an existing paymentURL.
+      summary: Retrieve the state of payment URL
+      description: Use this query to get the current state of an existing paymentURL
       operationId: paymentUrlDetail
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
@@ -551,6 +828,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentUrlDetailResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    paymentUrl: 'https://hyperlink-to-payment.com'
+                    orderId: '9723846'
+                    requestTime: '1518811817'
+                    status: Created
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -567,8 +853,6 @@ paths:
         - Api-Key: []
   /payment-tokens:
     post:
-      tags:
-        - Payment Token
       x-proxy-name: Token Creation
       operationId: createPaymentToken
       summary: Create a payment token from a payment card.
@@ -583,9 +867,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PaymentTokenizationRequest'
+              oneOf:
+                - $ref: '#/components/schemas/PaymentCardPaymentTokenizationRequest'
+                - $ref: '#/components/schemas/PaymentDevicePaymentTokenizationRequest'
+                - $ref: '#/components/schemas/ReferencedOrderPaymentTokenizationRequest'
+            examples:
+              Example:
+                value:
+                  requestType: PaymentCardPaymentTokenizationRequest
+                  paymentCard:
+                    number: '4035874000424977'
+                    expiryDate:
+                      month: '12'
+                      year: '20'
+                    securityCode: '977'
+                  billingAddress:
+                    address1: 5565 Glenridge Conn
+                    city: Atlanta
+                    postalCode: '30342'
+                    country: USA
+                  createToken:
+                    value: 234ljl124l12
+                    reusable: true
+                    declineDuplicates: false
+                  accountVerification: true
         required: true
-        description: 'Accepted request types: PaymentCardPaymentTokenizationRequest, PaymentDevicePaymentTokenizationRequest, and ReferencedOrderPaymentTokenizationRequest.'
+        description: ''
       responses:
         '200':
           description: Success response.
@@ -593,6 +900,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentTokenizationResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    responseType: Unauthenticated
+                    requestStatus: DELETED
+                    requestTime: '1554308829345'
+                    brand: VISA
+                    country: Germany
+                    paymentToken:
+                      value: 234ljl124l12
+                      reusable: true
+                      declineDuplicates: false
+                      last4: '4997'
+                      brand: VISA
+                      accountVerification: true
+                      type: PAYMENT_CARD
+                    paymentCard:
+                      number: '5424180279791732'
+                      expiryDate:
+                        month: '03'
+                        year: '21'
+                      securityCode: '977'
+                    processor:
+                      referenceNumber: '117011573'
+                      authorizationCode: OK1852
+                      responseCode: '00'
+                      network: DISC
+                      associationResponseCode: '000'
+                      responseMessage: APPROVAL
+                      avsResponse:
+                        streetMatch: NO_INPUT_DATA
+                        postalCodeMatch: NO_INPUT_DATA
+                        associationAvsResponse: 'Y'
+                      securityCodeResponse: MATCHED
+                    orderId: R-44df6542-ae0b-4415-88e8-7f3e62cc9e5d
+                    ipgTransactionId: '838916029301'
+                    merchantTransactionId: lsk23532djljff3
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -607,12 +953,12 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - Api-Key: []
-    patch:
       tags:
         - Payment Token
+    patch:
       x-proxy-name: Token Update
       operationId: updatePaymentToken
-      summary: Update one or more payment tokens.
+      summary: Update one or more payment tokens
       description: Use this update one or more payment tokens.
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
@@ -626,8 +972,32 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentCardPaymentTokenUpdateRequest'
+            examples:
+              Example:
+                value:
+                  requestType: PaymentCardPaymentTokenUpdateRequest
+                  storeId: '540995300'
+                  paymentTokens:
+                    - value: '1751905117310026'
+                      reusable: true
+                      declineDuplicates: false
+                      paymentCard: null
+                      number: '5424180279791732'
+                      expiryDate:
+                        month: '03'
+                        year: '21'
+                        securityCode: '977'
+                    - value: 9877hkhk68688888ffgh
+                      reusable: true
+                      declineDuplicates: false
+                      paymentCard:
+                        number: '4012000033330026'
+                        expiryDate:
+                          month: '10'
+                          year: '22'
+                        securityCode: '123'
         required: true
-        description: 'Accepted request type: PaymentCardPaymentTokenUpdateRequest.'
+        description: ''
       responses:
         '200':
           description: Success response.
@@ -635,6 +1005,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentTokenUpdateResponse'
+              examples: {}
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -647,14 +1018,16 @@ paths:
           $ref: '#/components/responses/PaymentTokenizationEndpointDeclined'
         '500':
           $ref: '#/components/responses/ServerError'
+      tags:
+        - Payment Token
   '/payment-tokens/{token-id}':
     get:
       tags:
         - Payment Token
       x-proxy-name: Get Token Source Details
       operationId: getPaymentTokenDetails
-      summary: Get payment card details associated with token.
-      description: Get payment card details associated with token.
+      summary: Get payment card details associated with token
+      description: Get payment card details associated with token
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
         - $ref: '#/components/parameters/ClientRequestIdParam'
@@ -675,6 +1048,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentTokenizationResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    responseType: Unauthenticated
+                    requestStatus: DELETED
+                    requestTime: '1554308829345'
+                    brand: VISA
+                    country: Germany
+                    paymentToken:
+                      value: 234ljl124l12
+                      reusable: true
+                      declineDuplicates: false
+                      last4: '4997'
+                      brand: VISA
+                      accountVerification: true
+                      type: PAYMENT_CARD
+                    paymentCard:
+                      number: '5424180279791732'
+                      expiryDate:
+                        month: '03'
+                        year: '21'
+                      securityCode: '977'
+                    processor:
+                      referenceNumber: '117011573'
+                      authorizationCode: OK1852
+                      responseCode: '00'
+                      network: DISC
+                      associationResponseCode: '000'
+                      responseMessage: APPROVAL
+                      avsResponse:
+                        streetMatch: NO_INPUT_DATA
+                        postalCodeMatch: NO_INPUT_DATA
+                        associationAvsResponse: 'Y'
+                      securityCodeResponse: MATCHED
+                    orderId: R-44df6542-ae0b-4415-88e8-7f3e62cc9e5d
+                    ipgTransactionId: '838916029301'
+                    merchantTransactionId: lsk23532djljff3
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -690,7 +1102,7 @@ paths:
         - Payment Token
       x-proxy-name: Token Deletion
       operationId: deletePaymentToken
-      summary: Delete a payment token.
+      summary: Delete a payment token
       description: Use this to delete a payment token.
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
@@ -713,6 +1125,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentTokenizationResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    responseType: Unauthenticated
+                    requestStatus: DELETED
+                    requestTime: '1554308829345'
+                    brand: VISA
+                    country: Germany
+                    paymentToken:
+                      value: 234ljl124l12
+                      reusable: true
+                      declineDuplicates: false
+                      last4: '4997'
+                      brand: VISA
+                      accountVerification: true
+                      type: PAYMENT_CARD
+                    paymentCard:
+                      number: '5424180279791732'
+                      expiryDate:
+                        month: '03'
+                        year: '21'
+                      securityCode: '977'
+                    processor:
+                      referenceNumber: '117011573'
+                      authorizationCode: OK1852
+                      responseCode: '00'
+                      network: DISC
+                      associationResponseCode: '000'
+                      responseMessage: APPROVAL
+                      avsResponse:
+                        streetMatch: NO_INPUT_DATA
+                        postalCodeMatch: NO_INPUT_DATA
+                        associationAvsResponse: 'Y'
+                      securityCodeResponse: MATCHED
+                    orderId: R-44df6542-ae0b-4415-88e8-7f3e62cc9e5d
+                    ipgTransactionId: '838916029301'
+                    merchantTransactionId: lsk23532djljff3
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -721,55 +1172,12 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
-  /card-verification:
-    post:
-      tags:
-        - Verification
-      x-proxy-name: Card Verification
-      operationId: verifyCard
-      summary: Verify a payment card.
-      description: Use this to perform card verification for a payment card. Use the account-verification endpoint instead for this request.
-      parameters:
-        - $ref: '#/components/parameters/ContentTypeParam'
-        - $ref: '#/components/parameters/ClientRequestIdParam'
-        - $ref: '#/components/parameters/TimestampParam'
-        - $ref: '#/components/parameters/MessageSignatureParam'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CardVerificationRequest'
-        required: true
-        description: 'Accepted request type: CardVerificationRequest.'
-      responses:
-        '200':
-          description: Success response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TransactionResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '409':
-          $ref: '#/components/responses/GatewayDeclined'
-        '422':
-          $ref: '#/components/responses/EndpointDeclined'
-        '500':
-          $ref: '#/components/responses/ServerError'
-      security:
-        - Api-Key: []
   /account-verification:
     post:
-      tags:
-        - Verification
       x-proxy-name: Account Verification
       operationId: verifyAccount
-      summary: Verify a payment card or payment token.
-      description: Use this to perform an account verification for a payment card or payment token.
+      summary: Verify a payment card or payment token
+      description: Use this to perform an account verification for a payment card or payment token
       parameters:
         - $ref: '#/components/parameters/ContentTypeParam'
         - $ref: '#/components/parameters/ClientRequestIdParam'
@@ -779,36 +1187,78 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountVerificationRequest'
+              anyOf:
+                - $ref: '#/components/schemas/PaymentCardVerificationRequest'
+                - $ref: '#/components/schemas/PaymentTokenVerificationRequest'
+            examples:
+              Example:
+                value:
+                  requestType: PaymentCardVerificationRequest
+                  paymentCard:
+                    number: '4035874000424977'
+                    expiryDate:
+                      month: '12'
+                      year: '20'
+                    securityCode: '977'
+                  billingAddress:
+                    address1: 5565 Glenridge Conn
+                    city: Atlanta
+                    postalCode: '30342'
+                    country: USA
         required: true
-        description: 'Accepted request type: PaymentCardVerificationRequest and PaymentTokenVerificationRequest.'
+        description: ''
       responses:
         '200':
-          description: Success response.
+          description: Success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransactionResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2
+                    ipgTransactionId: '838916029301'
+                    transactionType: SALE
+                    transactionTime: 1518811817
+                    approvedAmount:
+                      total: 10.24
+                      currency: USD
+                    transactionStatus: APPROVED
+                    schemeTransactionId: '019078743804756'
+                    processor:
+                      responseCode: '00'
+                      responseMessage: APPROVED
+                      authorizationCode: OK7118
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
         '409':
-          $ref: '#/components/responses/GatewayDeclined'
+          $ref: '#/components/responses/TransactionGatewayDeclined'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
         '422':
-          $ref: '#/components/responses/EndpointDeclined'
+          $ref: '#/components/responses/TransactionEndpointDeclined'
         '500':
           $ref: '#/components/responses/ServerError'
+        '502':
+          $ref: '#/components/responses/EndpointCommunicationError'
       security:
         - Api-Key: []
+      tags:
+        - Account Verification
   /exchange-rates:
     post:
       tags:
         - Currency Conversion
       x-proxy-name: Currency Conversion Inquiry
-      summary: Generate dynamic currency conversion transactions.
+      summary: Generate dynamic currency conversion transactions
       description: 'Sale, return and lookup exchange rate with dynamic currency conversion option.'
       operationId: getExchangeRate
       parameters:
@@ -820,16 +1270,40 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ExchangeRateRequest'
+              oneOf:
+                - $ref: '#/components/schemas/DCCExchangeRateRequest'
+                - $ref: '#/components/schemas/DynamicPricingExchangeRateRequest'
+            examples:
+              Example:
+                value:
+                  requestType: DCCExchangeRateRequest
+                  baseAmount: '12.32'
+                  bin: '411111'
         required: true
-        description: 'Accepted request types: DCCExchangeRateRequest and DynamicPricingExchangeRateRequest.'
+        description: ''
       responses:
         '200':
-          description: Success response.
+          description: Success response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExchangeRateResponse'
+              examples:
+                Example:
+                  value:
+                    clientRequestId: 30dd879c-ee2f-11db-8314-0800200c9a66
+                    apiTraceId: rrt-0bd552c12342d3448-b-ea-1142-12938318-7
+                    requestTime: '2020-06-23T13:46:00.000+02:00'
+                    exchangeRateDetails:
+                      inquiryRateId: 49150
+                      foreignCurrency: AUD
+                      foreignAmount: 130.33
+                      exchangeRate: 1.2968
+                      dccOffered: 'true'
+                      exchangeRateSourceTimestamp: '2015-06-23T13:46:00.000+02:00'
+                      expirationTimestamp: '2015-06-23T13:46:00.000+02:00'
+                      marginRatePercentage: '3'
+                      exchangeRateSourceName: REUTERS WHOLESALE INTERBANK
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -844,49 +1318,10 @@ paths:
           $ref: '#/components/responses/EndpointCommunicationError'
       security:
         - Api-Key: []
-  /card-information:
-    post:
-      tags:
-        - Information Lookup
-      x-proxy-name: Card Info Lookup
-      summary: Card information lookup.
-      description: 'Use this to look up card related information such as issuer country, card function and card brand.'
-      operationId: cardInfoLookup
-      parameters:
-        - $ref: '#/components/parameters/ContentTypeParam'
-        - $ref: '#/components/parameters/ClientRequestIdParam'
-        - $ref: '#/components/parameters/TimestampParam'
-        - $ref: '#/components/parameters/MessageSignatureParam'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CardInfoLookupRequest'
-        description: 'Accepted request type: CardInfoLookupRequest.'
-        required: true
-      responses:
-        '200':
-          description: Success response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CardInfoLookupResponse'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '403':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/ServerError'
-      security:
-        - Api-Key: []
   /account-information:
     post:
-      tags:
-        - Information Lookup
       x-proxy-name: Account Info Lookup
-      summary: Account information lookup.
+      summary: Lookup account information
       description: Use this to look up card related information associated with a payment card or payment token.
       operationId: lookupAccount
       parameters:
@@ -898,8 +1333,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountInfoLookupRequest'
-        description: 'Accepted request type: PaymentCardInfoLookupRequest and PaymentTokenInfoLookupRequest'
+              oneOf:
+                - $ref: '#/components/schemas/PaymentCardInfoLookupRequest'
+                - $ref: '#/components/schemas/PaymentTokenInfoLookupRequest'
+            examples:
+              Example:
+                value:
+                  requestType: PaymentCardInfoLookupRequest
+                  paymentCard:
+                    number: '4149011500000147'
+        description: ''
         required: true
       responses:
         '200':
@@ -907,7 +1350,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CardInfoLookupResponse'
+                oneOf:
+                  - $ref: '#/components/schemas/CardInfoLookupResponse'
+                  - $ref: '#/components/schemas/PaymentTokenInfoLookupRequest'
+              examples:
+                Example:
+                  value:
+                    cardDetails:
+                      - brand: VISA
+                        brandProductId: VISA BUSINESS
+                        cardFunction: credit
+                        commercialCard: CORPORATE
+                        issuerCountry: DE
+                        issuerName: First National Bank of Omaha
+                    requestStatus: SUCCESS
         '400':
           $ref: '#/components/responses/BadRequest'
         '403':
@@ -918,6 +1374,8 @@ paths:
           $ref: '#/components/responses/ServerError'
       security:
         - Api-Key: []
+      tags:
+        - Account Information
 components:
   parameters:
     ContentTypeParam:
@@ -1305,7 +1763,7 @@ components:
         order:
           $ref: '#/components/schemas/Order'
     AuthenticationContaining:
-      description: 'Interface for classes containing an authentication (3DS, UnionPay) field.'
+      description: Interface for classes containing an authentication (3DS) field.
       x-is-interface: true
       properties:
         authenticationRequest:
@@ -1446,6 +1904,7 @@ components:
               details:
                 - message: 'HOSTED_DATA_ID4773410890807324. Invalid credit card number: CreditCard [cardNumber=4773410...7324, expirationMonth=12, expirationYear=2026'
                 - message: 'HOSTED_DATA_ID4773410888998888. Invalid credit card number: CreditCard [cardNumber=4773410...8888, expirationMonth=12, expirationYear=2026'
+      x-examples: {}
     PaymentTokenizationResponse:
       allOf:
         - $ref: '#/components/schemas/BasicResponse'
@@ -1669,7 +2128,7 @@ components:
         requestTime: '1518811817'
         status: Created
     TransactionResponse:
-      description: Common object for primary and secondary payment request responses.
+      description: Common object for primary and secondary payment request responses
       allOf:
         - $ref: '#/components/schemas/BasicResponse'
         - properties:
@@ -1914,7 +2373,7 @@ components:
           language: EN
           country: USA
       x-examples:
-        Example:
+        example-1:
           requestType: ReferencedOrderPaymentSchedulesRequest
           referencedOrderId: R-f9c2c198-b7cc-491a-a711-93d22fd0e589
           startDate: '2020-11-16'
@@ -2030,7 +2489,7 @@ components:
           language: EN
           country: USA
       x-examples:
-        Example:
+        example-1:
           requestType: PaymentMethodPaymentSchedulesRequest
           startDate: '2020-11-16'
           numberOfPayments: 10
@@ -2190,11 +2649,36 @@ components:
           country: USA
     AccountVerificationRequest:
       description: 'Request to verify payment card or payment token. Abstract class, do not use this class directly, use one of its children.'
-      type: object
-      required:
-        - requestType
       discriminator:
         propertyName: requestType
+      example:
+        requestType: PaymentCardVerificationRequest
+        paymentCard:
+          number: '4035874000424977'
+          expiryDate:
+            month: '12'
+            year: '20'
+          securityCode: '977'
+        billingAddress:
+          address1: 5565 Glenridge Conn
+          city: Atlanta
+          postalCode: '30342'
+          country: USA
+      x-examples:
+        Example:
+          requestType: PaymentCardVerificationRequest
+          paymentCard:
+            number: '4035874000424977'
+            expiryDate:
+              month: '12'
+              year: '20'
+            securityCode: '977'
+          billingAddress:
+            address1: 5565 Glenridge Conn
+            city: Atlanta
+            postalCode: '30342'
+            country: USA
+      type: object
       properties:
         requestType:
           description: Object name of the account verification request.
@@ -2214,63 +2698,24 @@ components:
           example: lsk23532djljff3
         additionalDetails:
           $ref: '#/components/schemas/AdditionalDetails'
-      example:
-        requestType: PaymentCardVerificationRequest
-        paymentCard:
-          number: '4035874000424977'
-          expiryDate:
-            month: '12'
-            year: '20'
-          securityCode: '977'
-        billingAddress:
-          address1: 5565 Glenridge Conn
-          city: Atlanta
-          postalCode: '30342'
-          country: USA
+      required:
+        - requestType
     PaymentCardVerificationRequest:
       description: Used to request account verification using a payment card. The expiryDate in paymentCard object is required to perform a PaymentCardVerificationRequest.
       allOf:
         - $ref: '#/components/schemas/AccountVerificationRequest'
-        - type: object
-          required:
-            - paymentCard
-          properties:
+        - properties:
             paymentCard:
               $ref: '#/components/schemas/PaymentCard'
-          example:
-            requestType: PaymentCardVerificationRequest
-            paymentCard:
-              number: '4035874000424977'
-              expiryDate:
-                month: '12'
-                year: '20'
-              securityCode: '977'
-            billingAddress:
-              address1: 5565 Glenridge Conn
-              city: Atlanta
-              postalCode: '30342'
-              country: USA
+          type: object
     PaymentTokenVerificationRequest:
       description: Used to request account verification using a payment token.
       allOf:
         - $ref: '#/components/schemas/AccountVerificationRequest'
-        - type: object
-          required:
-            - paymentToken
-          properties:
+        - properties:
             paymentToken:
               $ref: '#/components/schemas/UsePaymentToken'
-          example:
-            requestType: PaymentTokenVerificationRequest
-            paymentToken:
-              value: '1235325235236'
-              function: DEBIT
-              securityCode: '977'
-            billingAddress:
-              address1: 5565 Glenridge Conn
-              city: Atlanta
-              postalCode: '30342'
-              country: USA
+          type: object
     ReferencedOrderPaymentTokenizationRequest:
       description: Used to generate payment tokens with an existing order ID.
       allOf:
@@ -2353,26 +2798,6 @@ components:
       description: Request to update payment token for one or more cards.
       discriminator:
         propertyName: requestType
-      required:
-        - requestType
-        - paymentTokens
-      properties:
-        requestType:
-          description: Object name of tokenization request.
-          type: string
-          example: PaymentCardPaymentTokenUpdateRequest
-        storeId:
-          description: An optional outlet ID for clients that support multiple stores in the same app.
-          type: string
-          maxLength: 20
-          example: '12345500000'
-        paymentTokens:
-          description: List of payment tokens to be updated in the request.
-          type: array
-          minItems: 1
-          maxItems: 1000
-          items:
-            $ref: '#/components/schemas/UpdatePaymentToken'
       example:
         requestType: PaymentCardPaymentTokenUpdateRequest
         storeId: '540995300'
@@ -2395,39 +2820,33 @@ components:
                 month: '10'
                 year: '22'
               securityCode: '123'
-    PaymentTokenizationRequest:
-      description: 'Used to generate payment tokens. Abstract class, do not use this class directly, use one of its children.'
-      discriminator:
-        propertyName: requestType
-      required:
-        - requestType
-        - createToken
+      type: object
       properties:
         requestType:
           type: string
           description: Object name of tokenization request.
-          example: PaymentCardPaymentTokenizationRequest
+          example: PaymentCardPaymentTokenUpdateRequest
+          enum:
+            - PaymentCardPaymentTokenUpdateRequest
         storeId:
           description: An optional outlet ID for clients that support multiple stores in the same app.
           type: string
           maxLength: 20
           example: '12345500000'
-        billingAddress:
-          $ref: '#/components/schemas/Address'
-        createToken:
-          $ref: '#/components/schemas/CreatePaymentToken'
-        accountVerification:
-          description: If the account should be verified prior to token creation.
-          type: boolean
-          default: false
-          example: true
-        merchantTransactionId:
-          description: 'The unique merchant transaction ID from the request, if supplied.'
-          type: string
-          maxLength: 40
-          example: lsk23532djljff3
-        additionalDetails:
-          $ref: '#/components/schemas/AdditionalDetails'
+        paymentTokens:
+          description: List of payment tokens to be updated in the request.
+          type: array
+          minItems: 1
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/UpdatePaymentToken'
+      required:
+        - requestType
+        - paymentTokens
+    PaymentTokenizationRequest:
+      description: 'Used to generate payment tokens. Abstract class, do not use this class directly, use one of its children.'
+      discriminator:
+        propertyName: requestType
       example:
         requestType: PaymentCardPaymentTokenizationRequest
         paymentCard:
@@ -2457,6 +2876,40 @@ components:
           additionalDetails:
             operatorId: OPERATOR_ID_123XXX
             salesSystemId: W-EU-H3866-FLS2
+      type: object
+      properties:
+        requestType:
+          type: string
+          description: Object name of tokenization request.
+          example: PaymentCardPaymentTokenizationRequest
+          enum:
+            - PaymentCardPaymentTokenizationRequest
+            - PaymentDevicePaymentTokenizationRequest
+            - ReferencedOrderPaymentTokenizationRequest
+        storeId:
+          description: An optional outlet ID for clients that support multiple stores in the same app.
+          type: string
+          maxLength: 20
+          example: '12345500000'
+        billingAddress:
+          $ref: '#/components/schemas/Address'
+        createToken:
+          $ref: '#/components/schemas/CreatePaymentToken'
+        accountVerification:
+          description: If the account should be verified prior to token creation.
+          type: boolean
+          default: false
+          example: true
+        merchantTransactionId:
+          description: 'The unique merchant transaction ID from the request, if supplied.'
+          type: string
+          maxLength: 40
+          example: lsk23532djljff3
+        additionalDetails:
+          $ref: '#/components/schemas/AdditionalDetails'
+      required:
+        - requestType
+        - createToken
     UsePaymentToken:
       description: Payment token usage details.
       required:
@@ -2899,49 +3352,6 @@ components:
         paymentMethod:
           payPal:
             recipientEmail: John@tester.com
-    ChinaPnRSaleTransaction:
-      description: Request to create sale transaction using China PnR.
-      allOf:
-        - $ref: '#/components/schemas/PrimaryTransaction'
-        - type: object
-          required:
-            - paymentMethod
-          properties:
-            paymentMethod:
-              $ref: '#/components/schemas/ChinaDomesticPaymentMethod'
-      example:
-        transactionAmount:
-          total: '40.00'
-          currency: CNY
-        requestType: ChinaPnRSaleTransaction
-        paymentMethod:
-          chinaDomestic:
-            productCode: R2D2C3PO
-            productQuantity: 10
-            productPrice: 3.2
-            productDescription: Best product ever
-            redirectURL: www.urlredirectedto.com
-          brand: WECHAT_DOMESTIC
-    AliPaySaleTransaction:
-      description: Request to create sale transaction using AliPay.
-      allOf:
-        - $ref: '#/components/schemas/PrimaryTransaction'
-        - type: object
-          required:
-            - paymentMethod
-          properties:
-            paymentMethod:
-              $ref: '#/components/schemas/AliPayPaymentMethod'
-      example:
-        transactionAmount:
-          total: '16.00'
-          currency: USD
-        requestType: AliPaySaleTransaction
-        aliPayPaymentMethod:
-          paymentDataType: BARCODE
-          paymentData: '283047752805604753'
-          orderTitle: My Purchase
-          orderDetails: These are details about my purchase.
     SepaSaleTransaction:
       description: Request to create sale transaction using sepa.
       allOf:
@@ -3179,7 +3589,7 @@ components:
           totalCount: 1
           finalShipment: true
       x-examples:
-        Example:
+        example-1:
           transactionAmount:
             total: '12.04'
             currency: USD
@@ -3258,106 +3668,6 @@ components:
         currencyConversion:
           conversionType: Dcc
           inquiryRateId: '123456'
-    PaymentCardDisbursementTransaction:
-      description: Request to create disbursement transaction using a payment card.
-      allOf:
-        - $ref: '#/components/schemas/PrimaryTransaction'
-        - type: object
-          required:
-            - disbursement
-            - paymentMethod
-          properties:
-            disbursement:
-              $ref: '#/components/schemas/Disbursement'
-            paymentMethod:
-              $ref: '#/components/schemas/PaymentCardPaymentMethod'
-            storedCredentials:
-              $ref: '#/components/schemas/StoredCredential'
-            createToken:
-              $ref: '#/components/schemas/CreatePaymentToken'
-      example:
-        requestType: PaymentCardDisbursementTransaction
-        transactionAmount:
-          total: '50'
-          currency: USD
-        disbursement:
-          disbursementType: FundingTransactionType
-          senderInfo:
-            name: Franklin Sender Roosevelt
-            streetAddress: 5565 Glenridge Connector
-            city: Atlanta
-            stateCode: GA
-            countryCode: US
-            postalCode: '30342'
-            phoneNumber: '4044040740'
-            birthDate: '19560121'
-            referenceNumber: '12345678'
-            accountNumber: '135246'
-          receiverInfo:
-            name: Abraham Receiver Lincoln
-            streetAddress: 5565 Glenridge Connector
-            city: Atlanta
-            stateCode: GA
-            countryCode: US
-            postalCode: '30342'
-            phoneNumber: '4044040740'
-            referenceNumber: '12345678'
-            accountNumber: '135246'
-        paymentMethod:
-          paymentCard:
-            number: '5424180279791732'
-            expiryDate:
-              month: '03'
-              year: '21'
-            securityCode: '977'
-    PaymentTokenDisbursementTransaction:
-      description: Request to create disbursement transaction using a payment token.
-      allOf:
-        - $ref: '#/components/schemas/PrimaryTransaction'
-        - type: object
-          required:
-            - disbursement
-            - paymentMethod
-          properties:
-            disbursement:
-              $ref: '#/components/schemas/Disbursement'
-            paymentMethod:
-              $ref: '#/components/schemas/PaymentTokenPaymentMethod'
-            storedCredentials:
-              $ref: '#/components/schemas/StoredCredential'
-      example:
-        requestType: PaymentTokenDisbursementTransaction
-        transactionAmount:
-          total: '50'
-          currency: USD
-        disbursement:
-          disbursementType: DisbursementTransactionType
-          senderInfo:
-            name: Franklin Sender Roosevelt
-            streetAddress: 5565 Glenridge Connector
-            city: Atlanta
-            stateCode: GA
-            countryCode: US
-            postalCode: '30342'
-            phoneNumber: '4044040740'
-            birthDate: '19560121'
-            referenceNumber: '12345678'
-            accountNumber: '135246'
-          receiverInfo:
-            name: Abraham Receiver Lincoln
-            streetAddress: 5565 Glenridge Connector
-            city: Atlanta
-            stateCode: GA
-            countryCode: US
-            postalCode: '30342'
-            phoneNumber: '4044040740'
-            referenceNumber: '12345678'
-            accountNumber: '135246'
-        paymentMethod:
-          paymentToken:
-            value: '1235325235236'
-            function: DEBIT
-            securityCode: '977'
     PaymentDevicePreAuthTransaction:
       description: Request to create pre-auth transaction using decrypted card details from payment device. The transaction origin will be fixed as PHONE when data is manually entered into the device and as RETAIL when data is entered into the device via swipe.
       allOf:
@@ -3441,166 +3751,6 @@ components:
             cardholderName: First Cardholder
             cardFunction: CREDIT
             brand: VISA
-    PaymentDeviceDisbursementTransaction:
-      description: Request to create disbursement transaction using decrypted card details from payment device. The transaction origin will be fixed as PHONE when data is manually entered into the device and as RETAIL when data is entered into the device via swipe.
-      allOf:
-        - $ref: '#/components/schemas/PrimaryTransaction'
-        - type: object
-          required:
-            - paymentMethod
-            - disbursement
-          properties:
-            paymentMethod:
-              $ref: '#/components/schemas/PaymentDevicePaymentMethod'
-            disbursement:
-              $ref: '#/components/schemas/Disbursement'
-      example:
-        requestType: PaymentDeviceDisbursementTransaction
-        transactionAmount:
-          total: '50'
-          currency: USD
-        paymentMethod:
-          paymentDevice:
-            deviceType: SWIPE
-            data: 02A600C0170018008292;5424********1732=1810?*B73CD8C26233D4FFEC5500ED394439D97DDA5F530942D21D0000000000000000000000000000000000000000363434543035353734326299492410027300000260DC03
-            securityCode: '977'
-            cardholderName: First Cardholder
-            cardFunction: CREDIT
-            brand: VISA
-        disbursement:
-          disbursementType: FundingTransactionType
-          senderInfo:
-            name: Franklin Sender Roosevelt
-            streetAddress: 5565 Glenridge Connector
-            city: Atlanta
-            stateCode: GA
-            countryCode: US
-            postalCode: '30342'
-            phoneNumber: '4044040740'
-            birthDate: '19560121'
-            referenceNumber: '12345678'
-            accountNumber: '135246'
-          receiverInfo:
-            name: Abraham Receiver Lincoln
-            streetAddress: 5565 Glenridge Connector
-            city: Atlanta
-            stateCode: GA
-            countryCode: US
-            postalCode: '30342'
-            phoneNumber: '4044040740'
-            referenceNumber: '12345678'
-            accountNumber: '135246'
-    AchPreAuthTransaction:
-      description: Request to create pre-auth primary transaction using ACH telecheck details.
-      allOf:
-        - $ref: '#/components/schemas/PrimaryTransaction'
-        - type: object
-          required:
-            - paymentMethod
-          properties:
-            paymentMethod:
-              $ref: '#/components/schemas/TeleCheckAchPaymentMethod'
-      example:
-        requestType: AchPreAuthTransaction
-        transactionAmount:
-          total: '12.04'
-          currency: USD
-        paymentMethod:
-          achType: TeleCheckICAPaymentMethod
-          routingNumber: '128367331'
-          accountNumber: '2398649823984789'
-          accountType: S
-          checkNumber: '9878867880'
-          checkType: P
-          productCode: '12836'
-          manualIdInfo:
-            idType: DL
-            idData: '12345678'
-          agentId: RVK001
-          terminalId: '1283673312'
-          registrationId: '12345'
-          releaseType: P
-          vipCustomer: 'Y'
-          organizationId: XXXXXXXXXXXXXX
-          sessionId: XXXXXXXXXXXXXX
-          terminalState: GA
-          terminalCity: Atlanta
-          customerIpAddress: 11.32.232.44
-          imeiCode: '990000862471854'
-    AchSaleTransaction:
-      description: Request to create Sale primary transaction using ACH telecheck details.
-      allOf:
-        - $ref: '#/components/schemas/PrimaryTransaction'
-        - type: object
-          required:
-            - paymentMethod
-          properties:
-            paymentMethod:
-              $ref: '#/components/schemas/TeleCheckAchPaymentMethod'
-      example:
-        requestType: AchSaleTransaction
-        transactionAmount:
-          total: '12.04'
-          currency: USD
-        paymentMethod:
-          achType: TeleCheckICAPaymentMethod
-          routingNumber: '128367331'
-          accountNumber: '2398649823984789'
-          accountType: S
-          checkNumber: '9878867880'
-          checkType: P
-          productCode: '12836'
-          manualIdInfo:
-            idType: DL
-            idData: '12345678'
-          agentId: RVK001
-          terminalId: '1283673312'
-          registrationId: '12345'
-          releaseType: P
-          vipCustomer: 'Y'
-          organizationId: XXXXXXXXXXXXXX
-          sessionId: XXXXXXXXXXXXXX
-          terminalState: GA
-          terminalCity: Atlanta
-          customerIpAddress: 11.32.232.44
-          imeiCode: '990000862471854'
-    AchCreditTransaction:
-      description: Request to create Credit primary transaction using ACH telecheck details.
-      allOf:
-        - $ref: '#/components/schemas/PrimaryTransaction'
-        - type: object
-          required:
-            - paymentMethod
-          properties:
-            paymentMethod:
-              $ref: '#/components/schemas/TeleCheckAchPaymentMethod'
-      example:
-        requestType: AchCreditTransaction
-        transactionAmount:
-          total: '12.04'
-          currency: USD
-        paymentMethod:
-          achType: TeleCheckICAPaymentMethod
-          routingNumber: '128367331'
-          accountNumber: '2398649823984789'
-          accountType: S
-          checkNumber: '9878867880'
-          checkType: P
-          productCode: '12836'
-          manualIdInfo:
-            idType: DL
-            idData: '12345678'
-          agentId: RVK001
-          terminalId: '1283673312'
-          registrationId: '12345'
-          releaseType: P
-          vipCustomer: 'Y'
-          organizationId: XXXXXXXXXXXXXX
-          sessionId: XXXXXXXXXXXXXX
-          terminalState: GA
-          terminalCity: Atlanta
-          customerIpAddress: 11.32.232.44
-          imeiCode: '990000862471854'
     Disbursement:
       description: 'Disbursement information. Abstract class, do not use this class directly, use one of its children: FundingTransactionType, DisbursementTransactionType.'
       type: object
@@ -3853,16 +4003,42 @@ components:
         accountNumber: '135246'
     PrimaryTransaction:
       description: 'Provides shared fields for all PrimaryTransaction request types. Abstract class, do not use this class directly, use one of its children.'
-      required:
-        - requestType
-        - transactionAmount
       discriminator:
         propertyName: requestType
+      example:
+        requestType: PaymentCardSaleTransaction
+        transactionAmount:
+          total: '12.04'
+          currency: USD
+        paymentMethod:
+          paymentCard:
+            number: '5424180279791732'
+            securityCode: '977'
+            expiryDate:
+              month: '12'
+              year: '24'
+      type: object
       properties:
         requestType:
-          description: Object name of the primary transaction request.
           type: string
+          description: Object name of the primary transaction request.
           example: PaymentCardCreditTransaction
+          enum:
+            - PaymentCardCreditTransaction
+            - PaymentCardForcedTicketTransaction
+            - PaymentCardSaleTransaction
+            - PaymentCardPreAuthTransaction
+            - PaymentCardPayerAuthTransaction
+            - PaymentTokenCreditTransaction
+            - PaymentTokenPreAuthTransaction
+            - PaymentTokenSaleTransaction
+            - PaypalCreditTransaction
+            - SepaSaleTransaction
+            - WalletSaleTransaction
+            - and WalletPreAuthTransaction
+            - PaymentDeviceSaleTransaction
+            - PaymentDevicePreAuthTransaction
+            - PaymentDeviceCreditTransaction
         transactionAmount:
           $ref: '#/components/schemas/Amount'
         storeId:
@@ -3879,18 +4055,22 @@ components:
           $ref: '#/components/schemas/TransactionOrigin'
         order:
           $ref: '#/components/schemas/Order'
-      example:
-        requestType: PaymentCardSaleTransaction
-        transactionAmount:
-          total: '12.04'
-          currency: USD
-        paymentMethod:
-          paymentCard:
-            number: '5424180279791732'
-            securityCode: '977'
-            expiryDate:
-              month: '12'
-              year: '24'
+      required:
+        - requestType
+        - transactionAmount
+      x-examples:
+        Example:
+          requestType: PaymentCardSaleTransaction
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          paymentMethod:
+            paymentCard:
+              number: '5424180279791732'
+              securityCode: '977'
+              expiryDate:
+                month: '12'
+                year: '24'
     AdditionalDetails:
       description: Merchant supplied tracking numbers.
       properties:
@@ -3993,7 +4173,7 @@ components:
           totalCount: 1
           finalShipment: true
       x-examples:
-        Example:
+        example-1:
           requestType: PostAuthTransaction
           transactionAmount:
             total: '12.04'
@@ -4001,21 +4181,6 @@ components:
           splitShipment:
             totalCount: 1
             finalShipment: true
-    AchPostAuthTransaction:
-      description: Request to perform ACH telecheck post auth transaction.
-      allOf:
-        - $ref: '#/components/schemas/SecondaryTransaction'
-        - type: object
-          required:
-            - transactionAmount
-          properties:
-            transactionAmount:
-              $ref: '#/components/schemas/Amount'
-      example:
-        requestType: AchPostAuthTransaction
-        transactionAmount:
-          total: '12.04'
-          currency: USD
     ReturnTransaction:
       description: Request to perform return transaction.
       allOf:
@@ -4038,21 +4203,6 @@ components:
         currencyConversion:
           conversionType: Dcc
           inquiryRateId: '123456'
-    AchReturnTransaction:
-      description: 'Request to perform ACH TeleCheck return transaction. Note - If the ACH transaction to be refunded has not yet been sent to Telecheck, the original transaction will be automatically voided instead.'
-      allOf:
-        - $ref: '#/components/schemas/SecondaryTransaction'
-        - type: object
-          required:
-            - transactionAmount
-          properties:
-            transactionAmount:
-              $ref: '#/components/schemas/Amount'
-      example:
-        requestType: AchReturnTransaction
-        transactionAmount:
-          total: '12.04'
-          currency: USD
     VoidTransaction:
       description: Request to perform void transaction.
       allOf:
@@ -4069,32 +4219,25 @@ components:
       example:
         requestType: VoidPreAuthTransactions
         comments: This is a comment
-    AchVoidTransaction:
-      description: Request to perform ACH void transaction.
-      allOf:
-        - $ref: '#/components/schemas/SecondaryTransaction'
-        - type: object
-          required:
-            - transactionAmount
-          properties:
-            transactionAmount:
-              $ref: '#/components/schemas/Amount'
-      example:
-        requestType: AchVoidTransaction
-        transactionAmount:
-          total: '12.04'
-          currency: USD
     SecondaryTransaction:
       description: 'Model for secondary financial transactions. Abstract class, do not use this class directly, use one of its children.'
-      required:
-        - requestType
       discriminator:
         propertyName: requestType
+      example:
+        requestType: ReturnTransaction
+        transactionAmount:
+          total: 3
+          currency: USD
+      type: object
       properties:
         requestType:
-          description: Object name of the secondary transaction request.
           type: string
-          example: PostAuthTransaction
+          description: Object name of the secondary transaction request.
+          enum:
+            - PostAuthTransaction
+            - VoidTransaction
+            - VoidPreAuthTransactions
+            - ReturnTransaction
         storeId:
           description: An optional outlet ID for clients that support multiple stores in the same developer app.
           type: string
@@ -4111,11 +4254,14 @@ components:
           example: This is a comment
         order:
           $ref: '#/components/schemas/Order'
-      example:
-        requestType: ReturnTransaction
-        transactionAmount:
-          total: 3
-          currency: USD
+      required:
+        - requestType
+      x-examples:
+        Example:
+          requestType: ReturnTransaction
+          transactionAmount:
+            total: 3
+            currency: USD
     SplitShipment:
       description: 'Split-shipment related information, in order to reuse the same authorization.'
       properties:
@@ -4480,7 +4626,7 @@ components:
       example:
         color: '#FFEE00'
       x-examples:
-        Example:
+        example-1:
           color: '#FFEE00'
     Footer:
       type: object
@@ -4749,34 +4895,6 @@ components:
         vatAmount: 0
         localTax: 1.3
         convenienceFee: 2
-    ChinaDomesticPaymentMethod:
-      description: Payment method containing China Domestic information.
-      allOf:
-        - $ref: '#/components/schemas/PaymentMethod'
-        - type: object
-          required:
-            - chinaDomestic
-            - brand
-          properties:
-            chinaDomestic:
-              $ref: '#/components/schemas/ChinaDomestic'
-            brand:
-              type: string
-              enum:
-                - ALIPAY_DOMESTIC
-                - CUP_DOMESTIC
-                - WECHAT_DOMESTIC
-      example:
-        chinaDomestic:
-          productCode: R2D2C3PO
-          productQuantity: 10
-          productPrice: 3.2
-          productDescription: Best product ever
-          redirectURL: www.urlredirectedto.com
-          limitCardFunctionToDebit: true
-          customerId: ID3Bs
-          bankId: '123456'
-        brand: CUP_DOMESTIC
     EncryptedApplePayWalletPaymentMethod:
       description: Wallet payment method containing encrypted Apple Pay information.
       allOf:
@@ -4942,22 +5060,6 @@ components:
           applicationData: VEVTVA==
           merchantId: order-1
           version: EC_v1
-    AliPayPaymentMethod:
-      description: Payment method containing AliPay information.
-      allOf:
-        - $ref: '#/components/schemas/PaymentMethod'
-        - type: object
-          required:
-            - aliPay
-          properties:
-            aliPay:
-              $ref: '#/components/schemas/AliPay'
-      example:
-        aliPay:
-          paymentDataType: BARCODE
-          paymentData: '283047752805604753'
-          orderTitle: My Purchase
-          orderDetails: These are details about my purchase.
     PayPalPaymentMethod:
       description: Payment method containing PayPal information.
       allOf:
@@ -4993,7 +5095,7 @@ components:
             signatureDate: '2017-07-15'
             type: SINGLE
       x-examples:
-        Example:
+        example-1:
           sepa:
             iban: DE34500100600032121604
             name: John Doe
@@ -5611,109 +5713,6 @@ components:
         streetMatch: 'Y'
         postalCodeMatch: 'N'
         associationAvsResponse: 'Y'
-    AliPay:
-      description: The payment object for AliPay transactions. Use this to populate AliPay payment method details.
-      required:
-        - paymentDataType
-        - paymentData
-        - orderTitle
-        - orderDetails
-      properties:
-        paymentDataType:
-          description: Use this to indicate the type of machine-readable payment data for scanning.
-          type: string
-          enum:
-            - BARCODE
-            - QRCODE
-          example: QRCODE
-        paymentData:
-          description: 'Use this to send payment-related information, such as customer identity ID.'
-          type: string
-          maxLength: 100
-          pattern: ^(?!\s*$).+
-          example: '283047752805604753'
-        orderTitle:
-          description: Use this to send an order title that shows up in the statement.
-          type: string
-          maxLength: 100
-          pattern: ^(?!\s*$).+
-          example: My Purchase
-        orderDetails:
-          description: Use this to send order details that show up in the statement.
-          type: string
-          maxLength: 1024
-          pattern: ^(?!\s*$).+
-          example: These are the details about my purchase.
-      example:
-        paymentDataType: BARCODE
-        paymentData: '283047752805604753'
-        orderTitle: My Purchase
-        orderDetails: These are details about my purchase.
-    ChinaDomestic:
-      description: The payment object for China-domestic transactions. Use this to populate all china domestic payment method details.
-      type: object
-      required:
-        - productCode
-        - productQuantity
-        - productPrice
-        - productDescription
-        - redirectURL
-      properties:
-        productCode:
-          description: Use this to indicate the product code according to the product category list.
-          type: string
-          maxLength: 32
-          pattern: ^(?!\s*$).+
-          example: R2D2C3PO
-        productQuantity:
-          description: The quantity.
-          type: integer
-          minimum: 1
-          example: 10
-        productPrice:
-          description: Rate amount in 3 decimal 12 bytes total digit.
-          type: number
-          example: 3.2
-        productDescription:
-          description: The product description.
-          type: string
-          maxLength: 100
-          pattern: ^(?!\s*$).+
-          example: Best product ever
-        redirectURL:
-          description: Use this to indicate the product code according to the product category list.
-          type: string
-          maxLength: 1024
-          pattern: ^(?!\s*$).+
-          example: www.urlredirectedto.com
-        limitCardFunctionToDebit:
-          description: Use this to limit card functions to debit cards.
-          type: boolean
-          example: true
-        customerId:
-          description: Use this to indicate the CUP customer ID if known.
-          type: string
-          maxLength: 32
-          example: ID3Bs
-        bankId:
-          description: Use this to indicate the CUP bank ID if known.
-          type: string
-          maxLength: 8
-          example: '123456'
-        openId:
-          description: Use this as unique identifier of WeChat user which is corresponded to the appid of merchant. The field is only applicable for ChinaDomesticPaymentMethod - brand = WECHAT_DOMESTIC
-          type: string
-          maxLength: 128
-          example: op5EP1G8XtyYH1VvmAbleB3AYgc8
-      example:
-        productCode: R2D2C3PO
-        productQuantity: 10
-        productPrice: 3.2
-        productDescription: Best product ever
-        redirectURL: www.urlredirectedto.com
-        limitCardFunctionToDebit: true
-        customerId: ID3Bs
-        bankId: '123456'
     EncryptedApplePay:
       description: Encrypted Apple Pay payload.
       required:
@@ -6065,7 +6064,7 @@ components:
           postalCode: '30303'
           country: USA
       x-examples:
-        Example:
+        example-1:
           name: John Doe
           customerId: '1234567890'
           address:
@@ -7137,11 +7136,14 @@ components:
           country: USA
     ExchangeRateRequest:
       description: 'Request to perform an exchange rate inquiry. Abstract class, do not use this class directly, use one of its children.'
-      required:
-        - requestType
-        - baseAmount
       discriminator:
         propertyName: requestType
+      example:
+        requestType: DCCExchangeRateRequest
+        baseAmount: '12.32'
+        bin: '411111'
+      type: object
+      x-examples: {}
       properties:
         requestType:
           description: Object name of the exchange rate request.
@@ -7156,17 +7158,19 @@ components:
           type: string
           maxLength: 20
           example: '1109959991'
+      required:
+        - requestType
+        - baseAmount
+      title: ''
+    DCCExchangeRateRequest:
+      description: Request to perform a DCC exchange rate inquiry.
       example:
         requestType: DCCExchangeRateRequest
         baseAmount: '12.32'
         bin: '411111'
-    DCCExchangeRateRequest:
-      description: Request to perform a DCC exchange rate inquiry.
       allOf:
         - $ref: '#/components/schemas/ExchangeRateRequest'
         - type: object
-          required:
-            - bin
           properties:
             bin:
               description: The bank identification number (BIN) of the card to be used for DCC. The BIN is the first 6 digits of the card number.
@@ -7174,17 +7178,17 @@ components:
               maxLength: 6
               pattern: '[0-9]{6}'
               example: '411111'
-      example:
-        requestType: DCCExchangeRateRequest
-        baseAmount: '12.32'
-        bin: '411111'
+          required:
+            - bin
     DynamicPricingExchangeRateRequest:
       description: Request to perform a dynamic pricing exchange rate inquiry.
+      example:
+        requestType: DynamicPricingExchangeRateRequest
+        baseAmount: '12.32'
+        foreignCurrency: USD
       allOf:
         - $ref: '#/components/schemas/ExchangeRateRequest'
         - type: object
-          required:
-            - foreignCurrency
           properties:
             foreignCurrency:
               type: string
@@ -7192,10 +7196,8 @@ components:
               maxLength: 3
               pattern: '([A-Z]{3})|([0-9]{3})'
               example: USD
-      example:
-        requestType: DynamicPricingExchangeRateRequest
-        baseAmount: '12.32'
-        foreignCurrency: USD
+          required:
+            - foreignCurrency
     Dcc:
       description: Request to perform a dynamic pricing exchange rate inquiry.
       allOf:
@@ -7314,23 +7316,8 @@ components:
         cRes: ewogICAiYWNzUmVmZXJlbmNlTnVtYmVyIiA6ICJBQ1NFbXUyIiwKICAgImFjc1RyYW5zSUQiIDogIjAwMDAwMDAwLTAwMDUtNWE1YS04MDAwLTAxNmZhNTU2MzgzMiIsCiAgICJtZXNzYWdlVHlwZSIgOiAiQ1JlcyIsCiAgICJtZXNzYWdlVmVyc2lvbiIgOiAiMi4xLjAiLAogICAidGhyZWVEU1NlcnZlclRyYW5zSUQiIDogImRlZjlmYmQ4LWY5MzUtNWM3Mi04MDAwLTAwMDAwMDA4MjllZCIsCiAgICJ0cmFuc1N0YXR1cyIgOiAiWSIKfQ
     AuthenticationUpdateRequest:
       description: 'Provides shared fields for all AuthenticationUpdateRequest types. Abstract class, do not use this class directly, use one of its children.'
-      required:
-        - authenticationType
       discriminator:
         propertyName: authenticationType
-      properties:
-        storeId:
-          description: An optional Outlet ID for clients that support multiple stores in the same developer app.
-          type: string
-          maxLength: 20
-          example: '12345500000'
-        authenticationType:
-          description: Object name of the authentication update request.
-          type: string
-          example: Secure3D21AuthenticationUpdateRequest
-        billingAddress:
-          description: Billing address of the customer.
-          $ref: '#/components/schemas/Address'
       example:
         authenticationType: Secure3D21AuthenticationUpdateRequest
         billingAddress:
@@ -7341,6 +7328,23 @@ components:
         securityCode: 123
         merchantData: MD123...sdfk
         payerAuthenticationResponse: c7fb83b8a...73t4a827t4af8738a
+      type: object
+      properties:
+        storeId:
+          description: An optional Outlet ID for clients that support multiple stores in the same developer app.
+          type: string
+          maxLength: 20
+          example: '12345500000'
+        authenticationType:
+          type: string
+          description: Object name of the authentication update request.
+          example: Secure3D21AuthenticationUpdateRequest
+          enum:
+            - Secure3D21AuthenticationUpdateRequest
+        billingAddress:
+          $ref: '#/components/schemas/Address'
+      required:
+        - authenticationType
     Secure3dResponse:
       description: Contains 3DSecure response code.
       properties:
@@ -7368,24 +7372,32 @@ components:
     AccountInfoLookupRequest:
       description: 'Request to look up card-related information such as issuer country, card function and card brand associated with a payment card or payment token. Abstract class, do not use this class directly, use one of its children.'
       type: object
-      required:
-        - requestType
       discriminator:
         propertyName: requestType
+      example:
+        requestType: PaymentCardInfoLookupRequest
+        paymentCard:
+          number: '4149011500000147'
       properties:
         requestType:
-          description: Object name of the account verification request.
           type: string
+          description: Object name of the account verification request.
           example: PaymentCardInfoLookupRequest
+          enum:
+            - PaymentCardInfoLookupRequest
+            - PaymentTokenInfoLookupRequest
         storeId:
           description: An optional outlet ID for clients that support multiple stores in the same app.
           type: string
           maxLength: 20
           example: '12345500000'
-      example:
-        requestType: PaymentCardInfoLookupRequest
-        paymentCard:
-          number: '4149011500000147'
+      required:
+        - requestType
+      x-examples:
+        Example:
+          requestType: PaymentCardInfoLookupRequest
+          paymentCard:
+            number: '4149011500000147'
     PaymentCardInfoLookupRequest:
       description: Used to request information associated with a payment card.
       allOf:
@@ -7400,6 +7412,7 @@ components:
             requestType: PaymentCardInfoLookupRequest
             paymentCard:
               number: '4149011500000147'
+      x-examples: {}
     PaymentTokenInfoLookupRequest:
       description: Used to request card information associated with a payment token.
       allOf:
@@ -9628,6 +9641,39 @@ components:
       example:
         code: invalid_transaction_type
         description: The transaction type is not supported
+    BadRequest:
+      $ref: '#/components/schemas/ErrorResponse'
+      description: The request cannot be validated.
+      x-examples: {}
+    Unauthenticated:
+      $ref: '#/components/schemas/ErrorResponse'
+      description: The request cannot be authenticated or was submitted with the wrong credentials.
+    Unauthorized:
+      $ref: '#/components/schemas/ErrorResponse'
+    UnsupportedMediaType:
+      $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      $ref: '#/components/schemas/ErrorResponse'
+    ServerError:
+      $ref: '#/components/schemas/ErrorResponse'
+      description: An unexpected internal server error occurred.
+    EndpointCommunicationError:
+      $ref: '#/components/schemas/ErrorResponse'
+    GatewayDeclined:
+      $ref: '#/components/schemas/ErrorResponse'
+    EndpointDeclined:
+      $ref: '#/components/schemas/ErrorResponse'
+    TransactionGatewayDeclined:
+      $ref: '#/components/schemas/TransactionErrorResponse'
+    TransactionEndpointDeclined:
+      $ref: '#/components/schemas/TransactionErrorResponse'
+      description: The processor declined the transaction.
+    PaymentTokenizationGatewayDeclined:
+      $ref: '#/components/schemas/TransactionErrorResponse'
+      description: 'The attempted action is not valid according to gateway rules. For example, when the gateway is too busy then the transaction is not processed.'
+    'PaymentTokenizationEndpointDeclined:':
+      $ref: '#/components/schemas/PaymentTokenizationErrorResponse'
+      description: The processor declined the transaction.
   securitySchemes:
     Api-Key:
       name: Api-Key
@@ -9636,3 +9682,12 @@ components:
       description: Authorization value in header (obtain from developer portal)
 security:
   - AppKey: []
+tags:
+  - name: Authentication
+  - name: Account Verification
+  - name: Account Information
+  - name: Payments
+  - name: Orders
+  - name: Recurring
+  - name: Payment Token
+  - name: Payment URL
