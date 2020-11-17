@@ -155,7 +155,7 @@ paths:
             schema:
               $ref: '#/components/schemas/AuthenticationUpdateRequest'
         required: true
-        description: 'Accepted request types: Secure3D10AuthenticationUpdateRequest, Secure3D21AuthenticationUpdateRequest, and UnionPayAuthenticationUpdateRequest.'
+        description: 'Accepted request types: Secure3D21AuthenticationUpdateRequest.'
       responses:
         '200':
           description: Success response.
@@ -1914,7 +1914,7 @@ components:
           language: EN
           country: USA
       x-examples:
-        example-1:
+        Example:
           requestType: ReferencedOrderPaymentSchedulesRequest
           referencedOrderId: R-f9c2c198-b7cc-491a-a711-93d22fd0e589
           startDate: '2020-11-16'
@@ -2030,7 +2030,7 @@ components:
           language: EN
           country: USA
       x-examples:
-        example-1:
+        Example:
           requestType: PaymentMethodPaymentSchedulesRequest
           startDate: '2020-11-16'
           numberOfPayments: 10
@@ -2443,7 +2443,7 @@ components:
           operatorId: OPERATOR_ID_123XXX
           salesSystemId: W-EU-H3866-FLS2
       x-examples:
-        example-1:
+        Example:
           requestType: PaymentCardPaymentTokenizationRequest
           paymentCard:
             number: '4012000033330026'
@@ -3179,7 +3179,7 @@ components:
           totalCount: 1
           finalShipment: true
       x-examples:
-        example-1:
+        Example:
           transactionAmount:
             total: '12.04'
             currency: USD
@@ -3993,7 +3993,7 @@ components:
           totalCount: 1
           finalShipment: true
       x-examples:
-        example-1:
+        Example:
           requestType: PostAuthTransaction
           transactionAmount:
             total: '12.04'
@@ -4480,7 +4480,7 @@ components:
       example:
         color: '#FFEE00'
       x-examples:
-        example-1:
+        Example:
           color: '#FFEE00'
     Footer:
       type: object
@@ -4993,7 +4993,7 @@ components:
             signatureDate: '2017-07-15'
             type: SINGLE
       x-examples:
-        example-1:
+        Example:
           sepa:
             iban: DE34500100600032121604
             name: John Doe
@@ -6065,7 +6065,7 @@ components:
           postalCode: '30303'
           country: USA
       x-examples:
-        example-1:
+        Example:
           name: John Doe
           customerId: '1234567890'
           address:
@@ -7283,39 +7283,6 @@ components:
           country: USA
         securityCode: '123'
         smsVerificationCode: '111111'
-    Secure3D10AuthenticationUpdateRequest:
-      description: Authentication update request specific to 3DSecure 1.0 transactions.
-      allOf:
-        - $ref: '#/components/schemas/AuthenticationUpdateRequest'
-        - type: object
-          required:
-            - payerAuthenticationResponse
-            - merchantData
-          properties:
-            payerAuthenticationResponse:
-              description: A formatted message providing results of the issuer’s cardholder authentication.
-              type: string
-              pattern: ^(?!\s*$).+
-              example: eJzVWFm....9f/AhjgEcE=
-            merchantData:
-              description: 'Formatted string encoding transaction time, order ID, and return URL data.'
-              type: string
-              pattern: ^(?!\s*$).+
-              example: MD__________30002019....85bcd02599
-            securityCode:
-              description: Card security code if required by merchant.
-              type: string
-              example: '123'
-      example:
-        authenticationType: Secure3D10AuthenticationUpdateRequest
-        billingAddress:
-          address1: 5565 Glenridge Conn
-          city: Atlanta
-          postalCode: '30342'
-          country: USA
-        payerAuthenticationResponse: eJzVWFm....9f/AhjgEcE=
-        merchantData: MD__________30002019....85bcd02599
-        securityCode: '123'
     Secure3D21AuthenticationUpdateRequest:
       description: Authentication update request specific to 3DSecure 2.x transactions.
       allOf:
@@ -7360,12 +7327,12 @@ components:
         authenticationType:
           description: Object name of the authentication update request.
           type: string
-          example: Secure3D10AuthenticationUpdateRequest
+          example: Secure3D21AuthenticationUpdateRequest
         billingAddress:
           description: Billing address of the customer.
           $ref: '#/components/schemas/Address'
       example:
-        authenticationType: Secure3D10AuthenticationUpdateRequest
+        authenticationType: Secure3D21AuthenticationUpdateRequest
         billingAddress:
           address1: 5565 Glenridge Conn
           city: Atlanta
