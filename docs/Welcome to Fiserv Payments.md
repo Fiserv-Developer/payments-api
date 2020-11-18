@@ -4,9 +4,9 @@ In this section we'll tell you about our payments services, and guide you throug
 
 Our payments solutions enable you to integrate them into a seamless customer experience, and enable you to accept your customers' preferred payment methods. 
 
-<!-- See below for the most popular options.  -->
+See below for the most popular options:
 
-<!-- IMAGE - PAYMENT METHODS. (Visa, Mastercard, Maestro, JCB, Amex, ChinaUnion, Google Pay, Apple Pay, Discover, SEPA) -->
+![Payment Method Icons](../assets/images/icons.jpg)
 
 Beyond accepting customer payments, our payments services include Tokenisation, 3DSecure 1 & 2, Pre-Authorisation functionality, creating and managing Recurring Payments and Payment URLs.
 
