@@ -1,6 +1,6 @@
 # Implementing 3DSecure
 
-## Payments API Authentication 
+## Introduction
 
 When using our payments API as the 3DSecure provider, the authentication is performed in-line with the existing transaction flow.  The process starts by performing a typical authorization or sale request with a desire to perform 3DSecure authentication in the request.
 
@@ -16,43 +16,47 @@ The next diagram shows the flow when your customer has to authenticate, which me
 
 ![Challenge 3DSecure Flow](../../../../assets/images/3DS-Challenge.png) 
 
-## Implementing 3DSecure via REST API - Step by step
+## Step by step: How to implement 3DSecure using our API
 
-## Frictionless Flow
+### Frictionless Flow
 
-### STEP 1 – COLLECT CARDHOLDER PAYMENT DETAILS
-First, collect the card payment information (credit card number, expiration date, security code) from your customer.
+#### Step 1 – Collect cardholder payment details
 
-### STEP 2 – 3D SECURE AUTHENTICATION REQUEST
+First, collect the card payment information (credit card number, expiration date, security code) from your customer. This can be done using the embedded form or hosted payment page.
+
+#### Step 2 – Initiate a payment
+
 Use either the payment card or the payment token to initiate a Primary Payment Transaction.
-The relevant Request Types for 3D-Secure authentication are as follows:
-	
-- PaymentCardPreAuthTransaction
-- PaymentCardSaleTransaction
-- PaymentTokenPreAuthTransaction
-- PaymentTokenSaleTransaction
 
-This message needs to include the “authenticationRequest” object in the transaction request message and includes the following values:
+You can instruct the payment to use 3DSecure if you want to enforce it. The relevant RequestTypes for 3DSecure authentication are as follows:
+	
+- `PaymentCardPreAuthTransaction`
+- `PaymentCardSaleTransaction`
+- `PaymentTokenPreAuthTransaction`
+- `PaymentTokenSaleTransaction`
+
+This message needs to include the `authenticationRequest` object in the transaction request message and includes the following values:
 
 Attribute | Description 
 ---------|----------
-authenticationType | Default to “Secure3D21AuthenticationRequest” - this is the default 3DS 2.1 request
+authenticationType | Default to `Secure3D21AuthenticationRequest` - this is the default 3DS 2.1 request
 termURL | Indicates the callback URL where the results of the authentication process should be posted by the ACS server (this is the Access Control Server that executes the cardholder authentication).
-methodNotifictionURL | If you wish to be notified about the 3DSMethod form display completion, you need to also submit this optional element in your transaction request. The URL should be uniquely identifiable, so when there is a notification received on this URL, you should be able to map it with the corresponding transaction. This eliminates any dependency on the Secure3dTransId which you will receive with the 3DSMethod form response. An easy way to ensure correct transaction mapping is to pass a transaction reference as a query string. For example: https://www.mywebshop.com/process3dSecureMethodNotificationtransactionReferenceNumber=ffffffff-ba0b-539f-8000-016b2343ad7e
+methodNotifictionURL | If you wish to be notified about the `3DSMethod` form display completion, you need to also submit this optional element in your transaction request. The URL should be uniquely identifiable, so when there is a notification received on this URL, you should be able to map it with the corresponding transaction. This eliminates any dependency on the `Secure3dTransId` which you will receive with the `3DSMethod` form response. An easy way to ensure correct transaction mapping is to pass a transaction reference as a query string. For example: https://www.mywebshop.com/process3dSecureMethodNotificationtransactionReferenceNumber=ffffffff-ba0b-539f-8000-016b2343ad7e
 challengeIndicator | In case you would like to influence which authentication flow should be used, you can submit this optional element with one of the values listed below. In case Challenge Indicator is not sent within your transaction request, the Gateway will populate the value “01” – No preference. 
 challengeWindowSize | If you want to define the size of the challenge window displayed to your customers during the authentication process, you can submit this optional element with one of the values listed below.
 
 
-Challenge indicator available values for 3DS protocol version 2.1 are:
+#### Challenge indicator available values for 3DS protocol version 2.1 are:
 
 Challenge Indicator | Description 
 ---------|----------
 01 | No preference (You have no preference whether a challenge should be performed. This is the default value).
 02 | No challenge requested (You prefer that no challenge should be performed – this means you are willing to accept liability for the transaction)
 03 | Challenge requested: 3DS Requestor Preference (You prefer that a challenge should be performed – this should be set for high risk or high value transactions)
-04 | Challenge requested: Mandate (There are local or regional mandates that mean that a challenge must be performed – this is only relevant in exceptional circumstances – please contact us if you think this is applicable)
+04 | Challenge requested: Mandate (There are local or regional mandates that mean that a challenge must be performed – this is only relevant in exceptional circumstances – please contact your Fiserv representative)
 
-challengeWindowSize options:
+
+#### challengeWindowSize options:
 
 Challenge Window Code | Description 
 ---------|----------
