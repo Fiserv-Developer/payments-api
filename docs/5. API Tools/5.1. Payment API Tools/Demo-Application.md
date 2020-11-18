@@ -1,6 +1,6 @@
 # Demo Application
 
-![Demo Application Screenshot](../../../assets/images/Demo.png)
+![Demo Application Screenshot](https://raw.githubusercontent.com/Fiserv-Developer/payments-api/2.0.0-docs/assets/images/Demo.png)
 
 We have a demo application which will show you how to access our Payment APIs and complete a 3DS Payment.
 
