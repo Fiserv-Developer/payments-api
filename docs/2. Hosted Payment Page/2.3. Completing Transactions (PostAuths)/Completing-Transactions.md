@@ -1,6 +1,6 @@
 # Completion (Post-Authorization)
 
-Step 3: Completion When Goods Get Shipped
+You should complete the payment when you are ready to dispatch your product.
 
 If you have used the transaction type Pre-Authorization when your customer checked out in your webshop, funds have been reserved on the customer's card account but have not been transferred to your account yet.
 
