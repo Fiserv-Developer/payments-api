@@ -4,9 +4,9 @@ info:
   title: Payments
   description: 'The documentation here is designed to provide all of the technical guidance required to consume and integrate with our APIs for payment processing. To learn more about our APIs please visit https://docs.firstdata.com/org/gateway.'
 servers:
-  - url: 'https://prod.api.firstdata.com/ipp/payments-gateway/v2/'
+  - url: 'https://prod.emea.api.fiservapps.com/ipp/payments-gateway/v2'
     description: Production
-  - url: 'https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2/'
+  - url: 'https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2'
     description: Sandbox
 paths:
   /authentication/access-tokens:
