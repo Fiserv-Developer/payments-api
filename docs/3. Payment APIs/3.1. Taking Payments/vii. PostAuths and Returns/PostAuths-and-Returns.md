@@ -1,25 +1,25 @@
-
 # /payments/{transaction-id}
 
 ## Secondary Transactions
 
-Use secondary transactions to Void an original transaction, Return against an original transaction or to complete a Post-Auth transaction. The transactionId Parameter, populated for the original transaction that requires a secondary action, must be populated for each of these request types. 
+Use secondary transactions to Void an original transaction, Return against an original transaction or to complete a Post-Auth transaction. The `transactionId` Parameter, populated for the original transaction that requires a secondary action, must be populated for each of these request types. 
 
-To cancel the original transaction (same day as the original transaction), use the voidTransaction requestType. To return (reverse on subsequent day) an original transaction, use returnTransaction as the requestType. To complete a Pre-Authorised transaction using a Post-Authorisation transaction, reference the original transaction in the parameter data, then place a POST using the PostAuth schema. 
+To cancel the original transaction (same day as the original transaction), use the voidTransaction requestType. To return (reverse on subsequent day) an original transaction, use `returnTransaction` as the requestType. To complete a Pre-Authorised transaction using a Post-Authorisation transaction, reference the original transaction in the parameter data, then place a POST using the `PostAuth` schema. 
 
 An updated version of the Decision Matrix diagram provided earlier is shown below, with the secondary transaction requestTypes now included. 
 
-INSERT DIAGRAM
+![Decision Matrix](../../../../assets/images/paymentsRequestTypeDecisionMatrixDiagram.png)
 
 Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the `ipgTransactionId` field for the relevant primary transaction.
 
 <!-- theme: success -->
+> ### API Endpoint
+> 
+>You can find the model for the /payments/{transaction-id} end point [here](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payments~1%7Btransaction-id%7D/post).
 
-> You can find the model for the /payments/{transaction-id} end point [here](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1payments~1%7Btransaction-id%7D/post).
+To retrieve the status of a transaction you’ve already submitted, place a GET call to the `/payments/{transaction-id}` end point. The gateway will return the details and state of the transaction you submitted. 
 
-To retrieve the status of a transaction you’ve already submitted, place a GET call to the /PAYMENTS/{transaction-id} end point. The gateway will return the details and state of the transaction you submitted. The below sample response generator uses a ReturnTransaction requestType.
-
-```json http
+```json
 {
   "method": "post",
   "url": "https://prod.api.firstdata.com/ipp/payments-gateway/v2/payments/1001-1001-1001-1001",
@@ -33,10 +33,10 @@ To retrieve the status of a transaction you’ve already submitted, place a GET 
   }
   "body": {
   "requestType": "ReturnTransaction",
-  "transactionAmount": {
-    "total": 3,
-    "currency": "USD"
-  }
+    "transactionAmount": {
+      "total": 3,
+      "currency": "USD"
+    }
   }
 }
 ```
@@ -60,7 +60,7 @@ There are a number of business scenarios that require combinations of different 
 To increase or decrease the value of a pre-authorisation transaction, submit another pre-auth for the same cardholder referencing the `orderId` field value from the reponse associated with the original Pre-Auth transaction:
 
     
-```json YAML
+```json
 {​​​​​​​​
   "requestType": "PaymentCardPreAuthTransaction",
   "transactionAmount": {​​​​​​​​
