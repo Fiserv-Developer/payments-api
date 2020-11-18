@@ -2,16 +2,11 @@
 
 In this section we'll tell you about our payments services, and guide you through integrating to and using the different capabilities within our payments products.
 
-Our payments solutions enable you to integrate them into a seamless customer experience, and enable you to accept your customers' preferred payment methods. See below for the most popular options. 
+Our payments solutions enable you to integrate them into a seamless customer experience, and enable you to accept your customers' preferred payment methods. 
 
-IMAGE - PAYMENT METHODS. (Create an image of logos, )
+<!-- See below for the most popular options.  -->
 
-*
-PaymentCardCreditTransaction
-PaypalCreditTransaction
-SepaSaleTransaction
-WalletSaleTransaction (G/A pay)
-*
+<!-- IMAGE - PAYMENT METHODS. (Visa, Mastercard, Maestro, JCB, Amex, ChinaUnion, Google Pay, Apple Pay, Discover, SEPA) -->
 
 Beyond accepting customer payments, our payments services include Tokenisation, 3DSecure 1 & 2, Pre-Authorisation functionality, creating and managing Recurring Payments and Payment URLs.
 

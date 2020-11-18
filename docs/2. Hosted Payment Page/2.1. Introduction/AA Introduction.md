@@ -20,26 +20,17 @@ For steps where no direct consumer interaction is required and no sensitive card
 
 The following five steps provide an overview of a standard online store integration with links to alternative options where applicable:
 
+### Primary functions
 
-### Step 1: Checkout Process in Your Webstore (Pre-Authorization or Sale)
+1. A checkout process takes place on your webstore (called a `Pre-Authorization` or `Sale`)
+2. You receive the transaction result
+3. Complete the transaction when you dispatch the product (called `Post-Authorization`)
 
-xxxx
+### Secondary functions
 
-### Step 2: Receiving the Transaction Result
- 
-xxxx
+4. Voiding a transaction
+5. Returning money back to the payee when goods have been returned (called a `Refunds` and `Voids`)
 
-### Step 3: Completion When Goods Get Shipped (Post-Authorization)
-
-xxxx
-
-### Step 4: Voiding a Transaction
-
-xxxx
-
-### Step 5: Giving Money Back When Goods Have Been Returned (Refunds and Voids)
-
-xxxx
 
 
 
