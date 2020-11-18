@@ -8,7 +8,7 @@ To cancel the original transaction (same day as the original transaction), use t
 
 An updated version of the Decision Matrix diagram provided earlier is shown below, with the secondary transaction requestTypes now included. 
 
-![Decision Matrix](../../../../assets/images/paymentsRequestTypeDecisionMatrixDiagram.png)
+![Decision Matrix](https://raw.githubusercontent.com/Fiserv-Developer/payments-api/2.0.0-docs/assets/images/paymentsRequestTypeDecisionMatrixDiagram.png)
 
 Secondary transactions are also based on requestTypes. The table below provides links to the requestType schemas and provides the method to use. In all of these transactions, the transaction-id attribute must be populated with the value returned in the 200 response message in the `ipgTransactionId` field for the relevant primary transaction.
 

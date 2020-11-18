@@ -6,7 +6,7 @@ Our payments solutions enable you to integrate them into a seamless customer exp
 
 See below for the most popular options:
 
-![Payment Method Icons](../assets/images/icons.jpg)
+![Payment Method Icons](https://raw.githubusercontent.com/Fiserv-Developer/payments-api/2.0.0-docs/assets/images/icons.jpg)
 
 Beyond accepting customer payments, our payments services include Tokenisation, 3DSecure 1 & 2, Pre-Authorisation functionality, creating and managing Recurring Payments and Payment URLs.
 

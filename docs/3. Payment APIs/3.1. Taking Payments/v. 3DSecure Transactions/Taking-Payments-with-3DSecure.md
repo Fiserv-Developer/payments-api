@@ -10,11 +10,11 @@ At the end of the authentication process, the original transaction is updated wi
 
 The sequence diagrams below map to the steps in the text that follows. The first diagram is for the frictionless flow. This means the issuer does not require the cardholder to authenticate.
  
-![Frictionless 3DSecure Flow](../../../../assets/images/3DS-Frictionless.png) 
+![Frictionless 3DSecure Flow](https://raw.githubusercontent.com/Fiserv-Developer/payments-api/2.0.0-docs/assets/images/3DS-Frictionless.png) 
 
 The next diagram shows the flow when your customer has to authenticate, which means their issuer has requested they provide additional authentication details.
 
-![Challenge 3DSecure Flow](../../../../assets/images/3DS-Challenge.png) 
+![Challenge 3DSecure Flow](https://raw.githubusercontent.com/Fiserv-Developer/payments-api/2.0.0-docs/assets/images/3DS-Challenge.png) 
 
 ## Step by step: How to implement 3DSecure using our API
 
