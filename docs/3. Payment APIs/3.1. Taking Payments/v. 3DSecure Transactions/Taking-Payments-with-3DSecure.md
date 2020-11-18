@@ -66,13 +66,13 @@ Challenge Window Code | Description
 04 | 600 x 400 
 05 | Full screen
 
-The payment schemes recommended using the value "05 - Full screen" only for browser-based flows. Using full screen mode in app-based flows where the authentication of the cardholder happens on a smartphone or tablet might cause time-outs and trigger an error on the issuer/ACS side.
+The payment schemes recommended using the value `05 - Full screen` only for browser-based flows. Using full screen mode in app-based flows where the authentication of the cardholder happens on a smartphone or tablet might cause time-outs and trigger an error on the issuer/ACS side.
 
 It is highly recommended to also include also Billing and Shipping details in your transaction request to lower the risk of authentication declines. To do this, ensure you populate the objects in any of the sale or preauth requestType payloads.
 
 The following JSON document represents an example of a Sale transaction request with minimal set of elements:
 
-``` json YAML
+``` json
 {
   "requestType": "PaymentCardSaleTransaction",
     "transactionAmount": {
@@ -99,34 +99,44 @@ The following JSON document represents an example of a Sale transaction request 
 }
 ```
 <!-- theme: info -->
->NOTE: Not all Issuers support the collection of browser data using the 3DS Method Form.  In those cases, no data will be posted to the methodNotificationURL, and the flow should continue by posting a status of EXPECTED_BUT_NOT_RECEIVED – see Step 4, below.
+> ### Issuer 3DS Support
+> 
+> Not all Issuers support the collection of browser data using the 3DS Method Form.  In those cases, no data will be posted to the methodNotificationURL, and the flow should continue by posting a status of `EXPECTED_BUT_NOT_RECEIVED` – see below.
 
-### STEP 3 – 3D SECURE AUTHENTICATION PRIMARY RESPONSE
+### Step 3 – 3DSecure Authentication Response
 
-Our response will include a ‘3DSMethod’ element, which generates a hidden iframe that helps to collect the browser data for the issuers. This information adds to the overall consumer profile and helps in identifying potentially fraudulent transactions. It also increases the probability of a frictionless, successful transaction.
+Our response will include a `3DSMethod` element, which generates a hidden iframe that helps to collect the browser data for the issuers. This information adds to the overall consumer profile and helps in identifying potentially fraudulent transactions. It also increases the probability of a frictionless, successful transaction.
 
 You will need to include the 3DSMethod in your website as hidden iframe. No user interface screen is presented to the cardholder. 
 
-At this point, a verification request takes place to determine if the 3D-Secure system is functional and the cardholder is enrolled for 3D-Secure.  If the 3D-Secure system is not functioning or if the cardholder is not enrolled, the transaction will process normally and be approved or declined by the processing network.
+At this point, a verification request takes place to determine if the 3DSecure system is functional and the cardholder is enrolled for 3DSecure.  If the 3DSecure system is not functioning or if the cardholder is not enrolled, the transaction will process normally and be approved or declined by the processing network.
 
-transactionStatus = APPROVED or DECLINED
+In the above case the transaction status will appear like so: 
 
-If the cardholder is verified to be enrolled in the 3D-Secure program, then an “authenticationResponse” object will be included in the transaction response.
+```javascript
+transactionStatus = `APPROVED` || `DECLINED`
+```
 
+If the cardholder is verified to be enrolled in the 3DSecure program, then an `authenticationResponse` object will be included in the transaction response.
+
+While awaiting the response the transaction will have the following transaction status:
+
+```javascript
 transactionStatus = WAITING
+```
 
-The “authenticationResponse” object will contain the following values:
+The `authenticationResponse` object will contain the following values:
 
 Attribute | Description 
 ---------|----------
-type | “3D_SECURE”
-version | ”2.1” 
+type | 3D_SECURE
+version | 2.1
 secure3DMethod/methodForm | HTML form data with hidden iFrame used to collect the web browser data for the Issuer.
 secure3DMethod/secure3dTransId | A unique identifier for the transaction provided by the Issuer ACS server.
 
 The following JSON document represents an example of a response:
 
-```json YAML
+```json 
 {
   "clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
   "apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
@@ -142,7 +152,7 @@ The following JSON document represents an example of a response:
     "type": "3D_SECURE",
     "version": "2.1",
     "secure3dMethod": {
-      "methodForm": &lt;!DOCTYPE iframe SYSTEM "about:legacy-compat"&gt;
+      "methodForm": "&lt;!DOCTYPE iframe SYSTEM "about:legacy-compat"&gt;
       &lt;iframe id="tdsMmethodTgtFrame" name="tdsMmethodTgtFrame"
       style="width: 1px; height: 1px; display: none;" src="javascript:false;"
       xmlns="http://www.w3.org/1999/xhtml"&gt;
@@ -174,40 +184,46 @@ The following JSON document represents an example of a response:
 }
 ```
 
-### STEP 4 – 3D SECURE METHOD NOTIFICATION REQUEST/RESPONSE
+### Step 4 – 3DS Method Notification Request & Response
 
-The 3D-Secure “methodForm” is used to provide details of the cardholder environment to the Issuer Access Control Server (ACS). This is an optional step. The “methodForm” contains the HTML for a hidden iFrame which is to be included in a merchant web page.  This will force the information to be automatically posted to the ACS server via Fiserv. The HTML information is a self-contained HTML block that does not need to be modified or posted, as it will be taken care of automatically when the page in which it is inserted is rendered.  Alternatively, this can be created on a page which never becomes visible to the merchant.
+The 3DSecure `methodForm` is used to provide details of the cardholder environment to the Issuer Access Control Server (ACS). This is an optional step. The `methodForm` contains the HTML for a hidden iFrame which is to be included in a merchant web page.  This will force the information to be automatically posted to the ACS server via Fiserv. The HTML information is a self-contained HTML block that does not need to be modified or posted, as it will be taken care of automatically when the page in which it is inserted is rendered.  Alternatively, this can be created on a page which never becomes visible to the merchant.
 
-If received properly, the response data will be posted to the URL provided in the original “methodNotificationURL” field and the posted message will contain a “threeDSServerTransID” field containing the unique ACS transaction id associated with the original request.  Note that the payload for this response will contain a single element called “threeDSMethodData”.  That element will contain a base64 encoded JSON response that contains the “threeDSServerTransID” field.
+If received properly, the response data will be posted to the URL provided in the original `methodNotificationURL` field and the posted message will contain a `threeDSServerTransID` field containing the unique ACS transaction id associated with the original request.  Note that the payload for this response will contain a single element called `threeDSMethodData`.  That element will contain a base64 encoded JSON response that contains the `threeDSServerTransID` field.
 
 Example:
+```html
+<form name="frm" method="POST" action="{value from methodNotificationURL}">
+  <input type="hidden" name="threeDSMethodData" value="eyJ0aHJlZURTU2VydmVyVHJhbnNJRCI6IjNhYzdjYWE3LWFhNDItMjY2My03OTFiLTJhYzA1YTU0MmM0YSJ9">
+</form>
+```
 
-    <form name=”frm” method=”POST” action=”{value from methodNotificationURL}>
-     <input type=”hidden” name=”threeDSMethodData” value=”    "eyJ0aHJlZURTU2VydmVyVHJhbnNJRCI6IjNhYzdjYWE3LWFhNDItMjY2My03OTFiLTJhYzA1YTU0MmM0YSJ9”>
-    </form>
-
-Decoded threeDSMethodData: {"threeDSServerTransID":"3ac7caa7-aa42-2663-791b-2ac05a542c4a"}
+Decoded threeDSMethodData: 
+```javascript
+{"threeDSServerTransID":"3ac7caa7-aa42-2663-791b-2ac05a542c4a"}
+```
 
 <!-- theme: info -->
->NOTE: The threeDSServerTransID is not required for any further 3DS processing. However, it is recommended that the merchant save this value for reference to the ACS server in the future is necessary.
+> ### Keep a copy of `threeDSServerTransID`
+>
+> The threeDSServerTransID is not required for any further 3DS processing. However, it is recommended that the merchant save this value for reference to the ACS server in the future if necessary.
 
-The merchant should wait a minimum of 10 seconds for the above POST operation to complete and then determine the “methodNotificationStatus” as follows:
+The merchant should wait a minimum of 10 seconds for the above POST operation to complete and then determine the `methodNotificationStatus` as follows:
 
 Status | Description 
 ---------|----------
-RECEIVED | You have submitted the element methodNotificationURL in the initial Sale transaction request and have received the notification from ACS within 10 seconds, you will receive HTTP POST message from ACS, which will contain  a unique transaction identifier represented by secure3dTransId
-EXPECTED_BUT_NOT_RECEIVED | You have submitted the element methodNotificationURL in the initial Sale transaction request and have not received the notification from ACS within 10 seconds
-NOT_EXPECTED | You have NOT submitted the element methodNotificationURL in the initial Sale transaction request
+RECEIVED | You have submitted the element `methodNotificationURL` in the initial Sale transaction request and have received the notification from ACS within 10 seconds, you will receive HTTP POST message from ACS, which will contain  a unique transaction identifier represented by `secure3dTransId`
+EXPECTED_BUT_NOT_RECEIVED | You have submitted the element `methodNotificationURL` in the initial Sale transaction request and have not received the notification from ACS within 10 seconds
+NOT_EXPECTED | You have NOT submitted the element `methodNotificationURL` in the initial Sale transaction request
 
-### STEP 5(F) – REQUEST TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
+### Step 5(F) – Request to continue 3DS Authentication
 
-Once the 3DS Method call has been completed, you need to notify the gateway that the authentication process can continue by submitting the “methodNotificationStatus” element with the values based on corresponding conditions from the 3D-Secure Method Form above.  This is done by performing a PATCH operation on the original transaction.
+Once the 3DS Method call has been completed, you need to notify the gateway that the authentication process can continue by submitting the `methodNotificationStatus` element with the values based on corresponding conditions from the 3DSecure Method Form above.  This is done by performing a PATCH operation on the original transaction.
 
 The merchant may also include the optional cardholder billing address and the security code at this time.
 
-The following JSON document represents an example of a request to be sent after 3DSMethod form display:
+The following JSON document represents an example of a request to be sent after `3DSMethod` form display:
 
-```json YAML
+```json
 {
   "authenticationType": "Secure3D21AuthenticationUpdateRequest",
   "storeId": "12345500000",
@@ -225,19 +241,21 @@ The following JSON document represents an example of a request to be sent after 
 }
 ```
 
-### STEP 6(F) – FINAL RESPONSE OF 3D SECURE AUTHENTICATION/AUTHORIZATION
+### Step 6(F) – Final 3DS Response
 
-When it is determined that a frictionless flow can be performed (i.e. the customer has been fully authenticated by their bank without the need for further information), the transaction authorization is processed and the 3D-Secure process is completed.
+When it is determined that a frictionless flow can be performed (i.e. the customer has been fully authenticated by their bank without the need for further information), the transaction authorization is processed and the 3DSecure process is completed.
 
-The transaction response contains a “Secure3DResponse” object and the transaction is either approved or declined.
+The transaction response contains a `Secure3DResponse` object and the transaction is either approved or declined.
+
+```javscript
 transactionStatus = APPROVED or DECLINED
+```
 
-The “Secure3DRespnse” object will contain the following fields:
-responseCode3dSecure
+The `Secure3DResponse` object will contain the following field: `responseCode3dSecure`
 
-The following JSON document represents an example of a response you receive from First API indicating, that the authorization has been successful:
+The following JSON document represents an example of a response you receive from the API indicating, that the authorisation has been successful:
 
-```json YAML
+```json
 {
   "clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
   "apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
@@ -255,24 +273,26 @@ The following JSON document represents an example of a response you receive from
     "responseMessage": "APPROVED",
     "authorizationCode": "OK7118"
     },
-  “secure3dResponse”: {
-    “responseCode3dSecure”: “1”
+    "secure3dResponse": {
+      "responseCode3dSecure": "1"
     }
   }
 } 
 ```
 
-## 3D Secure Challenge Flow
+## 3DSecure Challenge Flow
 
-The challenge flow is triggered, when the transaction is not considered as low risk or when the Issuer requires additional authentication by the cardholder. The whole process starts with an initial Authorization or Sale transaction request through the step where 3DS Method is displayed, as described in Steps 1 through 4 above.
+The challenge flow is triggered, when the transaction is not considered as low risk or when the Issuer requires additional authentication by the cardholder. The whole process starts with an initial Authorisation or Sale transaction request through the step where 3DS Method is displayed, as described in Steps 1 through 4 above.
 
-### STEP 5(C) – REQUEST TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
+### Step 5(C) – Request to continue 3DS Authentication
 
-Once the 3DS Method call has been completed, you need to notify the gateway that the authentication process can continue by submitting the “methodNotificationStatus” element with the values based on corresponding conditions from the 3D-Secure Method Form above.  This is done by performing a PATCH operation on the original transaction.
+Once the 3DS Method call has been completed, you need to notify the gateway that the authentication process can continue by submitting the `methodNotificationStatus` element with the values based on corresponding conditions from the 3DSecure Method Form above.  This is done by performing a PATCH operation on the original transaction.
+
 The merchant may also include the optional cardholder billing address and the security code at this time.
+
 The following JSON document represents an example of a request to be sent after 3DSMethod form display:
 
-```json YAML
+```json 
 {
   "authenticationType": "Secure3D21AuthenticationUpdateRequest",
   "storeId": "12345500000",
@@ -290,22 +310,28 @@ The following JSON document represents an example of a request to be sent after 
 }
 ```
 
-### STEP 6(C) – Our RESPONSE TO CONTINUE THE 3D SECURE AUTHENTICATION PROCESS
+### Step 6(C) – Fiserv responds to continue 3DS Authentication
 
 For the challenge flow, the transaction status will be returned as follows:
-transactionStatus = WAITING
 
-The response will contain an “authenticationResponse” object with the following fields:
-type = “3D_SECURE”
-version = “2.1”
-params/acsURL = The URL to which the “cReq” and “sessionData” values should be posted for the cardholder challenge to take place.
-params/termURL = The URL where the results of the authentication will be posted.
-params/cReq = An encoded request message returned from the ACS server.
-params/sessionData = An encoded list of session parameters to be used for authentication.  Note that this value may not always be provided.
+```javascript
+transactionStatus = "WAITING"
+```
+
+The response will contain an `authenticationResponse` object with the following fields:
+
+Field | Description
+---------|----------
+type | `3D_SECURE` 
+version | `2.1` 
+acsURL | The URL to which the `cReq` and `sessionData` values should be posted for the cardholder challenge to take place.
+termURL | The URL where the results of the authentication will be posted.
+cReq | An encoded request message returned from the ACS server.
+sessionData | An encoded list of session parameters to be used for authentication.  Note that this value may not always be provided.
 
 The following JSON document represents an example of a response:
 
-```json YAML
+```json 
 {
   "clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
   "apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
@@ -317,7 +343,7 @@ The following JSON document represents an example of a response:
   "currency": "USD"
 },
   "transactionStatus": "WAITING",
-  “authenticationResponse”: {
+  "authenticationResponse": {
     "type": "3D_SECURE",
     "version": "2.1",
     "params": {
@@ -331,51 +357,61 @@ The following JSON document represents an example of a response:
 }
 ```
 
-### STEP 7(C) – CARDHOLDER CHALLENGE INITIATION
+### Step 7(C) – Cardholder Challenge Indication
 
-In the next step you need to POST data to the indicated acsURL usually implemented as an auto-submit form. This needs to be implemented within your website. The cardholders will be redirected to the ACS and presented with the UI to collect the authentication details - for example enter one-time-password or perform authentication using their banking app (out-of-band authentication). After the authentication is completed, the consumer is redirected back to your webpage.
+In the next step you need to POST data to the indicated `acsURL` usually implemented as an auto-submit form. This needs to be implemented within your website. The cardholders will be redirected to the ACS and presented with the UI to collect the authentication details - for example enter one-time-password or perform authentication using their banking app (out-of-band authentication). After the authentication is completed, the consumer is redirected back to your webpage.
 
-The merchant posts the “cReq” value and the “sessionData” value to the URL specified in the “acsURL” field.
+The merchant posts the `cReq` value and the `sessionData` value to the URL specified in the `acsURL` field.
 
-Note that this information is posted using the following field names:
-CReq = The entire base64 encoded “cReq” Challenge Request message as obtained above.
-threeDSSessionData = The entire base64 encoded “sessionData” message as obtained above.
+> ### Field name mapping
+>
+> This information is posted using the following field names:
+`CReq` = The entire base64 encoded `cReq` Challenge Request message as obtained above.
+`threeDSSessionData` = The entire base64 encoded `sessionData` message as obtained above.
 
 Example:
 
-    <form name=”frm” method=”POST” action=” https://3ds-acs.test.modirum.com/mdpayacs/pareq “>
-    <input type=”hidden” name=”CReq” value=” ewogICAiYWNzVHJhbCIgOiA...wMDAtMDAwMDAwMDA0MWE5Igp9”>
-    <input type=”hidden” name=”threeDSSessionData” value=”50F2156E03083CA665BCB4..”>
-    </form>
+```html
+<form name="frm" method="POST" action="https://3ds-acs.test.modirum.com/mdpayacs/pareq ">
+  <input type=”hidden” name=”CReq” value=” ewogICAiYWNzVHJhbCIgOiA...wMDAtMDAwMDAwMDA0MWE5Igp9”>
+  <input type=”hidden” name=”threeDSSessionData” value=”50F2156E03083CA665BCB4..”>
+</form>
+```
 
-When the authentication is completed, an authentication response will be posted to the URL specified in the “termURL” field.
+When the authentication is completed, an authentication response will be posted to the URL specified in the `termURL` field.
 
 <!-- theme: info -->
->Note: this information is posted using the following field names:
-CRes = The base64 encoded Challenge Response message from the Issuer ACS server.
-threeDSSessionData = The base64 encoded session data from the Issuer ACS server.
+> Field name mapping
+>
+> This information is posted using the following field names:
+`CRes` = The base64 encoded Challenge Response message from the Issuer ACS server.
+`threeDSSessionData` = The base64 encoded session data from the Issuer ACS server.
 
 Example:
 
-    <form name=”frm” method=”POST” action=” https://www.mywebshop.com/process3dSecure”>
-    <input type=”hidden” name=”CRes” value=” ewogICAiYWNzUmVmZX…Fuc1N0YXR…IKfQ==”>
-    <input type=”hidden” name=”threeDSSessionData” value=”50F2156E03083CA665BCB4..”>
-    </form>
+```html
+<form name="frm" method="POST" action=" https://www.mywebshop.com/process3dSecure">
+  <input type="hidden" name="CRes" value="ewogICAiYWNzUmVmZX…Fuc1N0YXR…IKfQ==">
+  <input type=”hidden” name=”threeDSSessionData” value=”50F2156E03083CA665BCB4..”>
+</form>
+```
 
+### Step 8(C) - Send request to complete transaction
 
-### STEP 8(C) - SEND REQUEST TO COMPLETE THE ORIGINAL TRANSACTION
-
-After you receive the data from the ACS you need to submit the values to us in the ‘cRes’ element together with the reference to the original transaction.
+After you receive the data from the ACS you need to submit the values to us in the `cRes` element together with the reference to the original transaction.
 
 The merchant sends a PATCH request to the original transaction and includes the following values:
-authenticationType = “Secure3D21AuthenticationUpdateRequest”
-acsResponse/cRes = The “CRes” data posted to the “termURL” by the ACS server.
+
+Field | Description
+---------|----------
+ authenticationType | `Secure3D21AuthenticationUpdateRequest`
+ acsResponse/cRes | The `CRes` data posted to the `termURL` by the ACS server.
 
 The merchant may also include the optional cardholder billing address and the security code at this time.
 
-The following JSON document represents an example of a request with cRes element:
+The following JSON document represents an example of a request with `cRes` element:
 
-```json YAML
+```json 
 {
   "authenticationType": "Secure3D21AuthenticationUpdateRequest",
   "storeId": "12345500000",
@@ -395,19 +431,17 @@ The following JSON document represents an example of a request with cRes element
 }
 ```
 
-### STEP 9(C) – FINAL RESPONSE OF 3D SECURE AUTHENTICATION/AUTHORIZATION
+### Step 9(C) – Final response of 3DS 
 
-Since this transaction was initiated as a Sale, the authorization is performed as part of this final step if the authentication was successful.
+Since this transaction was initiated as a `Sale`, the authorization is performed as part of this final step if the authentication was successful.
 
-The transaction response contains a “Secure3DResponse” object and the transaction is either approved or declined.
+The transaction response contains a `Secure3DResponse` object and the transaction is either approved or declined.
 
-The “Secure3DRespnse” object will contain the following fields:
-
-- responseCode3dSecure
+The `Secure3DRespnse` object will contain the following field: `responseCode3dSecure`
 
 The following JSON document represents an example of a response you receive indicating that the authorization has been successful:
 
-```json YAML
+```json
 {
   "clientRequestId": "30dd879c-ee2f-11db-8314-0800200c9a66",
   "apiTraceId": "rrt-0c80a3403e2c2def0-d-ea-28805-6810951-2",
@@ -425,8 +459,8 @@ The following JSON document represents an example of a response you receive indi
     "responseMessage": "APPROVED",
     "authorizationCode": "OK7118"
   },
-  “secure3dResponse”: {
-    “responseCode3dSecure”: “1”
+  "secure3dResponse": {
+    "responseCode3dSecure": "1"
   }
 }
 ```
@@ -437,5 +471,7 @@ For cases, where Issuers do not support 2.x 3DS protocol version yet, the gatewa
 
 <!-- theme: warning -->
 
->NOTE: The fallback flow is the same as the challenge flow above, except that the values returned by the ACS server are different, resulting in a different set of values to be sent on the final request.
+> ### 3DS Fallback
+>
+> The fallback flow is the same as the challenge flow above, except that the values returned by the ACS server are different, resulting in a different set of values to be sent on the final request.
 
