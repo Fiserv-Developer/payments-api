@@ -15,7 +15,6 @@ For steps where no direct consumer interaction is required and no sensitive card
 >
 > Please note that if you plan to collect your customer's card details within your environment and send it to our API, you must ensure that your system components are PCI DSS compliant.
 
-
 ## Key Steps
 
 The following five steps provide an overview of a standard online store integration with links to alternative options where applicable:
@@ -28,8 +27,8 @@ The following five steps provide an overview of a standard online store integrat
 
 ### Secondary functions
 
-4. Voiding a transaction
-5. Returning money back to the payee when goods have been returned (called a `Refunds` and `Voids`)
+4. Voiding a transaction (called a `Void`)
+5. Returning money back to the payee when goods have been returned (called a `Refunds`)
 
 
 
