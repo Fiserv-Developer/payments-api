@@ -2,19 +2,28 @@
 
 In this section we'll tell you about our payments services, and guide you through integrating to and using the different capabilities within our payments products.
 
-Our payments solutions enable you to integrate them into a seamless customer experience, and enable you to accept your customers' preferred payment methods and  (see below for the most popular options). 
+Our payments solutions enable you to integrate them into a seamless customer experience, and enable you to accept your customers' preferred payment methods. See below for the most popular options. 
 
-IMAGE - PAYMENT METHODS.
+IMAGE - PAYMENT METHODS. (Create an image of logos, )
 
-Beyond accepting customer payments, our payments services include Tokenisation, 3DSecure Payments, Pre-Authorisation functionality, creating and managing Recurring Payments and Payment URLs.
+*
+PaymentCardCreditTransaction
+PaypalCreditTransaction
+SepaSaleTransaction
+WalletSaleTransaction (G/A pay)
+*
 
-We offer three options for integration:
+Beyond accepting customer payments, our payments services include Tokenisation, 3DSecure 1 & 2, Pre-Authorisation functionality, creating and managing Recurring Payments and Payment URLs.
 
-## Connect Hosted Payment Page
+# Payment Solutions
 
-Our Hosted Payment Page solution allows you to redirect your customer to our payment page when they are checking out. 
+## Hosted Payment Page
 
-Our Hosted Page then manages the customer redirections that are required in the checkout process of many payment methods, or the complex authentication mechanisms (3DSecure) card payments now require. This solution also gives you the option to use secure hosted pages which can reduce the burden of compliance with the Data Security Standard of the Payment Card Industry (PCI DSS). If you want to lighten the PCI DSS load, but still make use of our extended capabilities, you can still use our RESTful APIs to access features where no direct consumer interaction is required and no sensitive cardholder data is getting processed.
+Our Hosted Payment Page called 'Connect' allows you to redirect your customer to our payment page when they are checking out. 
+
+Our Hosted Page then manages the customer redirections that are required in the checkout process of many payment methods, or the complex authentication mechanisms (3DSecure) card payments now require. 
+
+Using secure hosted pages can reduce the burden of compliance with the Data Security Standard of the Payment Card Industry (PCI DSS). If you want to lighten the PCI DSS load, but still make use of our extended capabilities, you can still use our RESTful APIs to access features where no direct consumer interaction is required and no sensitive cardholder data is getting processed.
 
 Additionally, if you want to remove the complexity of enabling authenticated payments via the 3DSecure API, we suggest you use the Connect solution for all sale transactions, then use the REST APIs for all other use cases. 
 
