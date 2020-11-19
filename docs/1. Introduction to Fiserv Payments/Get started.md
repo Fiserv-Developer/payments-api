@@ -1,4 +1,4 @@
-# How to get started
+# Instant access to our APIs
 
 ## 1. Sign up on our Developer Platform
 
