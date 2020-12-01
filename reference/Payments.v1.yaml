@@ -57,6 +57,210 @@ paths:
                   currencyConversion:
                     conversionType: Dcc
                     inquiryRateId: '123456'
+              PaymentCardForcedTicketTransaction:
+                transactionAmount:
+                  total: '12.04'
+                  currency: USD
+                requestType: PaymentCardForcedTicketTransaction
+                paymentMethod:
+                  paymentCard:
+                    number: '5424180279791732'
+                    securityCode: '977'
+                    expiryDate:
+                      month: '12'
+                      year: '24'
+                referenceNumber: '123455'
+              PaymentCardSaleTransaction:
+                transactionAmount:
+                  total: '12.04'
+                  currency: USD
+                requestType: PaymentCardSaleTransaction
+                paymentMethod:
+                  paymentCard:
+                    number: '5424180279791732'
+                    securityCode: '977'
+                    expiryDate:
+                      month: '12'
+                      year: '24'
+                storedCredentials:
+                  sequence: FIRST
+                  scheduled: true
+              PaymentCardPreAuthTransaction:
+                transactionAmount:
+                  total: '12.04'
+                  currency: USD
+                requestType: PaymentCardPreAuthTransaction
+                paymentMethod:
+                  paymentCard:
+                    number: '5424180279791732'
+                    securityCode: '977'
+                    expiryDate:
+                      month: '12'
+                      year: '24'
+                splitShipment:
+                  totalCount: 1
+                  finalShipment: true
+              PaymentCardPayerAuthTransaction:
+                transactionAmount:
+                  total: '12.04'
+                  currency: USD
+                requestType: PaymentCardPayerAuthTransaction
+                paymentMethod:
+                  paymentCard:
+                    number: '5424180279791732'
+                    securityCode: '977'
+                    expiryDate:
+                      month: '12'
+                      year: '24'
+              PaymentTokenCreditTransaction:
+                transactionAmount:
+                  total: '12.04'
+                  currency: USD
+                requestType: PaymentTokenCreditTransaction
+                paymentMethod:
+                  paymentToken:
+                    value: '1235325235236'
+                    function: DEBIT
+                    securityCode: '977'
+              PaymentTokenPreAuthTransaction:
+                transactionAmount:
+                  total: '12.04'
+                  currency: USD
+                requestType: PaymentTokenPreAuthTransaction
+                paymentMethod:
+                  paymentToken:
+                    value: '1235325235236'
+                    function: DEBIT
+                    securityCode: '977'
+                splitShipment:
+                  totalCount: 1
+                  finalShipment: true
+              PaymentTokenSaleTransaction:
+                transactionAmount:
+                  total: '12.04'
+                  currency: USD
+                requestType: PaymentTokenSaleTransaction
+                paymentMethod:
+                  paymentToken:
+                    value: '1235325235236'
+                    function: DEBIT
+                    securityCode: '977'
+                storedCredentials:
+                  sequence: FIRST
+                  scheduled: true
+              PaypalCreditTransaction:
+                transactionAmount:
+                  total: '12.04'
+                  currency: USD
+                requestType: PaypalCreditTransaction
+                paymentMethod:
+                  payPal:
+                    recipientEmail: John@tester.com
+              SepaSaleTransaction:
+                transactionAmount:
+                  total: '23.00'
+                  currency: EUR
+                requestType: SepaSaleTransaction
+                sepa:
+                  iban: DE34500100600032121604
+                  name: John Doe
+                  country: DEU
+                  email: john.doe@test.com
+                  mandate:
+                    reference: 3RBQVEE
+                    url: 'https://www.firstdata.com'
+                    signatureDate: '2017-07-15'
+                    type: SINGLE
+              EncryptedApplePayWalletPaymentMethod:
+                requestType: WalletSaleTransaction
+                walletPaymentMethod:
+                  walletType: EncryptedApplePayWalletPaymentMethod
+                  encryptedApplePay:
+                    data: NdCmVw5nMjQq746HYc/VbiZcQZ/zFzeEcM1wVMPruEG4/C/EFhobSkwB5JZJU+t6JuDVXUBiRYuOOC8FTYd+qIm6ckktid9aiGh0f2NDP0INSr59QXmr389RonyUfRYKnBmwsh5UqtI7Iz0AmMtl1PWMdxcCewtjuffs79ahTnFgXsRN+ynuhyDfbdRanlTnYKGoTeVh9eJfheJ1wquO+jiGj+npJ/Oh9bAdlw7iEHrYO2aUkgaMyXZ3foXRAJeimQVQS1y8lU1PPq62zpPrFzidbnnU5fK25pvGFjOdmLsBELZPk5thQEkSaA9p1LSKzWSesHhi0BxZaFPXSA6ANXvYIU2AT0lG+0O0w1URA5Sinyj3YDZVqjuir6rzNN9bB2U2nTQnKMbuGLMS20K8fUKZN/YLJh+AtE6J69+VVSU95mE1nOb8hyabz6E5RmnC5Ze2k6F/hQ75ig==
+                    header:
+                      applicationDataHash: 94ee059335e587e501cc4bf90613e0814f00a7b08bc7c648fd865a2af6a22cc2
+                      ephemeralPublicKey: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEiaU1SbkYTJy/j5L1t51vtGDh4KlNl5MFPWzo/C8r0WcrktWriz5pdRaDVUDvU++KlDu2iuQsd2xSNKJlFscbDQ==
+                      publicKeyHash: YmSWN7lj4+A6fVJVPicP8TgS7gI7ougD8rEWB5LXtMM=
+                      transactionId: '31323334353637'
+                    signature: MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCAMIIB0zCCAXkCAQEwCQYHKoZIzj0EATB2MQswCQYDVQQGEwJVUzELMAkGA1UECAwCTkoxFDASBgNVBAcMC0plcnNleSBDaXR5MRMwEQYDVQQKDApGaXJzdCBEYXRhMRIwEAYDVQQLDAlGaXJzdCBBUEkxGzAZBgNVBAMMEmQxZHZ0bDEwMDAuMWRjLmNvbTAeFw0xNTA3MjMxNjQxMDNaFw0xOTA3MjIxNjQxMDNaMHYxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJOSjEUMBIGA1UEBwwLSmVyc2V5IENpdHkxEzARBgNVBAoMCkZpcnN0IERhdGExEjAQBgNVBAsMCUZpcnN0IEFQSTEbMBkGA1UEAwwSZDFkdnRsMTAwMC4xZGMuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAErnHhPM18HFbOomJMUiLiPL7nrJuWvfPy0Gg3xsX3m8q0oWhTs1QcQDTT+TR3yh4sDRPqXnsTUwcvbrCOzdUEeTAJBgcqhkjOPQQBA0kAMEYCIQDrC1z2JTx1jZPvllpnkxPEzBGk9BhTCkEB58j/Cv+sXQIhAKGongoz++3tJroo1GxnwvzK/Qmc4P1K2lHoh9biZeNhAAAxggFUMIIBUAIBATB7MHYxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJOSjEUMBIGA1UEBwwLSmVyc2V5IENpdHkxEzARBgNVBAoMCkZpcnN0IERhdGExEjAQBgNVBAsMCUZpcnN0IEFQSTEbMBkGA1UEAwwSZDFkdnRsMTAwMC4xZGMuY29tAgEBMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTUwODEyMTczMTAwWjAvBgkqhkiG9w0BCQQxIgQgJyjKLiGQo3I1ZbfHSmF2XCZ8dNlcZyohziuXO48EKwgwCgYIKoZIzj0EAwIESDBGAiEAznKDYEz9MsC+r1g6e4LR1DTaQOl+X2rVNkWnKDpc1EQCIQCmK48ChHoz4HWnUnW5XqaGWOUXKHQvUgeqFr/jgBUzegAAAAAAAA==
+                    applicationData: VEVTVA==
+                    merchantId: order-1
+                    version: EC_v1
+                paymentFacilitator:
+                  externalMerchantId: '12345'
+                  paymentFacilitatorId: '123123123'
+                  saleOrganizationId: '123124214'
+                  name: First Reseller
+                  subMerchantData:
+                    mcc: '1432'
+                    legalName: First Merchant
+                    timezone: Europe/London
+                    address:
+                      address1: 123 Main St.
+                      city: Sandy Springs
+                      region: Georgia
+                      postalCode: '30303'
+                      country: USA
+                    document:
+                      type: NATIONAL_IDENTITY
+                      number: '12345666544'
+                    merchantId: '12435325235'
+                WalletPreAuthTransaction:
+                  requestType: WalletPreAuthTransaction
+                  walletPaymentMethod:
+                    walletType: EncryptedGooglePayWalletPaymentMethod
+                    encryptedGooglePay:
+                      data:
+                        encryptedMessage: 8nxjB9mr2tWZeDRQRcGN91UUnb7AioGp3oRo8kmQ6lyvJZiqD7PJlbRCYElNqUmr6Z8zK7b2gO9MKOjpnTCqH0qAe2vuIlwNXB60M2Lh7Qfl3bVgWzwF/FfFcenVW381hoItYi8AjWnWoydz1XMTEv2qhqUG03mEnRXdMyDyk6KKZXoW8Qc0p1F1thbxxu8weU8CZbZsWGGTjB42cilIqLVbribcOAG8Oas1AcgefFsu2hwp4gdSuOg7wmeSV7XKsGQzzVy85qtjuqET2XYzJE3K/Wh9QKkhu5P9Ms5s1+Smr2IjRyidqQa88SxQplrVoo9+PvT0bxFcMspBmO3pLkuaZSUBy++dL2fefcxNJvGCFfFhdxW9DojuuQxgpeu7RAQUsGLyFmr/4ZfBxt882xTmpX9MRx5CAudl9qUgBfKdwWwMX35qSbDTm1ju5XXzNh94VebjD3bB9Zj8qgbmUOr/+6OQLhoFJyBCXgx3EEH8hBwNVFrss/SLwQvFhZh62eO6lOtnmbOtP1yTDDVqGDBfai5SwAmM+KTcc9SGv/xDC+cWe8ck+aCBkG4HoRPapUVMZ3JIgV7yzTsVLJE\\u003d\\
+                        ephemeralPublicKey: BGH3fRFdoAobYrAlxnZOCYzkH84Cna92IZxtgsU36CMDaqSaDYb9/LsY8qw+vMtlBnwsUg/YVMOeeKp+qDkOWb4\\u003d\\
+                        tag: nvmOUNpnOTZULLhMxT/hWCHzH/4f7gGpfvQgwl3p8ng\\u003d\\
+                      signature: MEUCIFWTRWUZAOM5nfJC79FtJm56olnbwG4H5uWWxAUWAquiAiEA24j/BcOroeISsdJzYsyoVi8wzu4tnmKw+jdsGfuvPko=
+                      version: ECv1
+                  splitShipment:
+                    totalCount: 1
+                    finalShipment: true
+              PaymentDeviceSaleTransaction:
+                value:
+                  requestType: PaymentDeviceSaleTransaction
+                  transactionAmount:
+                    total: '12.04'
+                    currency: USD
+                  paymentMethod:
+                    paymentDevice:
+                      deviceType: SWIPE
+                      data: 02A600C0170018008292;5424********1732=1810?*B73CD8C26233D4FFEC5500ED394439D97DDA5F530942D21D0000000000000000000000000000000000000000363434543035353734326299492410027300000260DC03
+                      securityCode: '977'
+                      cardholderName: First Cardholder
+                      cardFunction: CREDIT
+                      brand: VISA
+              PaymentDevicePreAuthTransaction:
+                value:
+                  requestType: PaymentDevicePreAuthTransaction
+                  transactionAmount:
+                    total: '12.04'
+                    currency: USD
+                  paymentMethod:
+                    paymentDevice:
+                      deviceType: SWIPE
+                      data: 02A600C0170018008292;5424********1732=1810?*B73CD8C26233D4FFEC5500ED394439D97DDA5F530942D21D0000000000000000000000000000000000000000363434543035353734326299492410027300000260DC03
+                      securityCode: '977'
+                      cardholderName: First Cardholder
+                      cardFunction: CREDIT
+                      brand: VISA
+              PaymentDeviceCreditTransaction:
+                value:
+                  requestType: PaymentDeviceCreditTransaction
+                  transactionAmount:
+                    total: '12.04'
+                    currency: USD
+                  paymentMethod:
+                    paymentDevice:
+                      deviceType: SWIPE
+                      data: 02A600C0170018008292;5424********1732=1810?*B73CD8C26233D4FFEC5500ED394439D97DDA5F530942D21D0000000000000000000000000000000000000000363434543035353734326299492410027300000260DC03
+                      securityCode: '977'
+                      cardholderName: First Cardholder
+                      cardFunction: CREDIT
+                      brand: VISA
         description: ''
         required: true
       responses:
@@ -3927,6 +4131,20 @@ components:
             cardholderName: First Cardholder
             cardFunction: CREDIT
             brand: VISA
+      x-examples:
+        Example:
+          requestType: PaymentDeviceSaleTransaction
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          paymentMethod:
+            paymentDevice:
+              deviceType: SWIPE
+              data: 02A600C0170018008292;5424********1732=1810?*B73CD8C26233D4FFEC5500ED394439D97DDA5F530942D21D0000000000000000000000000000000000000000363434543035353734326299492410027300000260DC03
+              securityCode: '977'
+              cardholderName: First Cardholder
+              cardFunction: CREDIT
+              brand: VISA
     PaymentDeviceCreditTransaction:
       description: Request to create credit transaction using decrypted card details from payment device. The transaction origin will be fixed as PHONE when data is manually entered into the device and as RETAIL when data is entered into the device via swipe.
       allOf:
@@ -4248,12 +4466,67 @@ components:
             - PaypalCreditTransaction
             - SepaSaleTransaction
             - WalletSaleTransaction
-            - and WalletPreAuthTransaction
+            - WalletPreAuthTransaction
             - PaymentDeviceSaleTransaction
             - PaymentDevicePreAuthTransaction
             - PaymentDeviceCreditTransaction
         transactionAmount:
-          $ref: '#/components/schemas/Amount'
+          description: Amount of the transaction.
+          required:
+            - total
+            - currency
+          example:
+            total: 10.24
+            currency: USD
+            components:
+              subtotal: 8
+              localTax: 1
+              shipping: 1.24
+          properties:
+            total:
+              description: Sub component values must add up to total amount.
+              type: number
+              minimum: 0
+              example: 10.24
+            currency:
+              description: ISO 4217 currency code.
+              type: string
+              pattern: '([A-Z]{3})|([0-9]{3})'
+              example: USD
+            components:
+              description: Transaction amounts with multiple components.
+              example:
+                subtotal: 8
+                vatAmount: 0
+                localTax: 1
+                shipping: 1.24
+                cashback: 2
+                tip: 6
+              properties:
+                subtotal:
+                  description: Subtotal amount.
+                  type: number
+                  example: 8
+                vatAmount:
+                  description: Value-added tax amount.
+                  type: number
+                  example: 0
+                localTax:
+                  description: Local tax amount.
+                  type: number
+                  example: 1
+                shipping:
+                  description: Shipping amount.
+                  type: number
+                  example: 1.24
+                cashback:
+                  description: Cashback amount.
+                  type: number
+                  example: 2
+                tip:
+                  description: Tip amount.
+                  type: number
+                  example: 6
         storeId:
           description: An optional outlet ID for clients that support multiple stores in the same app.
           type: string
@@ -4265,9 +4538,1062 @@ components:
           maxLength: 40
           example: 30dd879c-ee2f-11db-8314-0800200c9a66
         transactionOrigin:
-          $ref: '#/components/schemas/TransactionOrigin'
+          description: 'The source of the transaction. The possible values are ECOM (if the order was received via email or Internet), MAIL, PHONE and RETAIL (face to face).'
+          type: string
+          enum:
+            - ECOM
+            - MAIL
+            - PHONE
+            - RETAIL
+          example: ECOM
         order:
-          $ref: '#/components/schemas/Order'
+          description: Use this model to provide order related details.
+          example:
+            orderId: ABC12345
+            billing:
+              name: John Doe
+              customerId: '1234567890'
+            shipping:
+              name: John Doe
+              address:
+                address1: 123 Main St.
+                city: Sandy Springs
+                region: Georgia
+                postalCode: '30303'
+                country: USA
+          properties:
+            orderId:
+              description: Client Order ID if supplied by client.
+              type: string
+              maxLength: 100
+              example: ABC12345
+            billing:
+              description: Customer billing information.
+              example:
+                name: John Doe
+                customerId: '1234567890'
+                address:
+                  address1: 123 Main St.
+                  city: Sandy Springs
+                  region: Georgia
+                  postalCode: '30303'
+                  country: USA
+              x-examples:
+                example-1:
+                  name: John Doe
+                  customerId: '1234567890'
+                  address:
+                    address1: 123 Main St.
+                    city: Sandy Springs
+                    region: Georgia
+                    postalCode: '30303'
+                    country: USA
+              properties:
+                name:
+                  description: Billing name.
+                  type: string
+                  maxLength: 96
+                  example: John Doe
+                customerId:
+                  description: Customer ID for billing purpose.
+                  type: string
+                  maxLength: 32
+                  example: '1234567890'
+                birthDate:
+                  description: Customer birth date.
+                  type: string
+                  format: date
+                  example: '1980-01-31'
+                contact:
+                  description: Customer contact information.
+                  example:
+                    phone: '5555555555'
+                    mobilePhone: '5555555555'
+                    fax: '5555555555'
+                    email: john@test.com
+                  properties:
+                    phone:
+                      description: Primary phone number.
+                      type: string
+                      maxLength: 32
+                      example: '5555555555'
+                    mobilePhone:
+                      description: Mobile phone number.
+                      type: string
+                      maxLength: 32
+                      example: '5555555555'
+                    fax:
+                      description: Fax number.
+                      type: string
+                      maxLength: 32
+                      example: '5555555555'
+                    email:
+                      description: Email address.
+                      type: string
+                      maxLength: 254
+                      example: john@test.com
+                address:
+                  description: Model for address information.
+                  example:
+                    address1: 123 Main St.
+                    city: Sandy Springs
+                    region: Georgia
+                    postalCode: '30303'
+                    country: USA
+                  properties:
+                    company:
+                      description: Company name associated with the address.
+                      type: string
+                      maxLength: 96
+                      example: Test Company
+                    address1:
+                      description: First line of the street address.
+                      type: string
+                      maxLength: 96
+                      example: 123 Main St.
+                    address2:
+                      description: Second line of the street address.
+                      type: string
+                      maxLength: 96
+                      example: Suite 123
+                    city:
+                      description: City or locality.
+                      type: string
+                      maxLength: 96
+                      example: Sandy Springs
+                    region:
+                      description: State or province.
+                      type: string
+                      maxLength: 96
+                      example: Georgia
+                    postalCode:
+                      description: ZIP code or postal code.
+                      type: string
+                      maxLength: 24
+                      example: '30303'
+                    country:
+                      description: 'ISO-3166-1  ALPHA-2, ALPHA-3, numeric or full country name. In the case of PaySecure endpoints, pass the country code in an ISO format.'
+                      type: string
+                      maxLength: 32
+                      example: USA
+            shipping:
+              description: Shipping information.
+              example:
+                name: John Doe
+                contact:
+                  phone: '5555555555'
+                  mobilePhone: '5555555555'
+                  email: john@test.com
+                address:
+                  address1: 123 Main St.
+                  city: Sandy Springs
+                  region: Georgia
+                  postalCode: '30303'
+                  country: USA
+              properties:
+                name:
+                  description: Name of customer for shipping.
+                  type: string
+                  example: John Doe
+                  maxLength: 96
+                contact:
+                  description: Customer contact information.
+                  example:
+                    phone: '5555555555'
+                    mobilePhone: '5555555555'
+                    fax: '5555555555'
+                    email: john@test.com
+                  properties:
+                    phone:
+                      description: Primary phone number.
+                      type: string
+                      maxLength: 32
+                      example: '5555555555'
+                    mobilePhone:
+                      description: Mobile phone number.
+                      type: string
+                      maxLength: 32
+                      example: '5555555555'
+                    fax:
+                      description: Fax number.
+                      type: string
+                      maxLength: 32
+                      example: '5555555555'
+                    email:
+                      description: Email address.
+                      type: string
+                      maxLength: 254
+                      example: john@test.com
+                address:
+                  description: Model for address information.
+                  example:
+                    address1: 123 Main St.
+                    city: Sandy Springs
+                    region: Georgia
+                    postalCode: '30303'
+                    country: USA
+                  properties:
+                    company:
+                      description: Company name associated with the address.
+                      type: string
+                      maxLength: 96
+                      example: Test Company
+                    address1:
+                      description: First line of the street address.
+                      type: string
+                      maxLength: 96
+                      example: 123 Main St.
+                    address2:
+                      description: Second line of the street address.
+                      type: string
+                      maxLength: 96
+                      example: Suite 123
+                    city:
+                      description: City or locality.
+                      type: string
+                      maxLength: 96
+                      example: Sandy Springs
+                    region:
+                      description: State or province.
+                      type: string
+                      maxLength: 96
+                      example: Georgia
+                    postalCode:
+                      description: ZIP code or postal code.
+                      type: string
+                      maxLength: 24
+                      example: '30303'
+                    country:
+                      description: 'ISO-3166-1  ALPHA-2, ALPHA-3, numeric or full country name. In the case of PaySecure endpoints, pass the country code in an ISO format.'
+                      type: string
+                      maxLength: 32
+                      example: USA
+            industrySpecificExtensions:
+              description: Industry-specific information.
+              example:
+                airline:
+                  passengerName: John Doe
+                  ticketNumber: PCLAN123
+                  carrierName: Quatar Airline
+                  reservationSystem: START
+                  travelRoute:
+                    - departureDate: '2018-10-15'
+                      origin: ATL
+                      destination: DOH
+                lodging:
+                  arrivalDate: '2010-05-15'
+                  departureDate: '2018-01-28'
+                  folioNumber: '12200054891'
+                  extraCharges:
+                    - chargeItem: MINI_BAR
+                    - chargeItem: OTHER
+                  noShowIndicator: false
+                carRental:
+                  agreementNumber: AGR 123
+                  renterName: John Doe
+                  returnCity: ATL
+                  returnDare: '2018-10-25'
+                  pickupDate: '2018-10-15'
+                mcc6012:
+                  dateOfBirth: '20200505'
+                  accountFirst6: '411111'
+                  accountLast4: '2343'
+                  accountNum: '546789900034567'
+                  postCode: '30101'
+                  surname: Walker
+              properties:
+                airline:
+                  description: Additional data specific to the airline industry.
+                  example:
+                    passengerName: Jeff Yabuki
+                    ticketNumber: '52300448'
+                    issuingCarrier: Frontier Airlines
+                    carrierName: Delta Air Lines
+                    travelAgencyIataCode: '10584410'
+                    travelAgencyName: A Travis Gent LLC
+                    airlinePlanNumber: '11'
+                    airlineInvoiceNumber: '664422'
+                    reservationSystem: DELTA
+                    restricted: true
+                    travelRoute:
+                      - departureDate: '2018-01-28'
+                        origin: MIA
+                        destination: ATL
+                        carrierCode: DL
+                        serviceClass: J
+                        stopoverType: DIRECT
+                        fareBasisCode: F
+                        departureTax: 75
+                        flightNumber: '765599'
+                    relatedTicketNumber: '11223344556'
+                    ancillaryServiceCategory:
+                      - serviceCategory: BAGGAGE_FEE
+                      - serviceCategory: CARBON_OFFSET
+                    ticketPurchase: true
+                  properties:
+                    passengerName:
+                      description: The passenger name associated with the transaction.
+                      type: string
+                      maxLength: 30
+                      example: Jeff Yabuki
+                    ticketNumber:
+                      description: The airline ticket number associated with the transaction.
+                      type: string
+                      maxLength: 20
+                      example: '52300448'
+                    issuingCarrier:
+                      description: The carrier that issued the ticket.
+                      type: string
+                      maxLength: 20
+                      example: Frontier Airlines
+                    carrierName:
+                      description: The carrier associated with the transaction.
+                      type: string
+                      maxLength: 20
+                      example: Delta Air Lines
+                    travelAgencyIataCode:
+                      description: The IATA code associated with the travel agency.
+                      type: string
+                      maxLength: 20
+                      example: '10584410'
+                    travelAgencyName:
+                      description: The business name of the travel agency.
+                      type: string
+                      maxLength: 30
+                      example: A Travis Gent LLC
+                    airlinePlanNumber:
+                      description: The airline plan number associated with the transaction.
+                      type: string
+                      maxLength: 2
+                      example: '11'
+                    airlineInvoiceNumber:
+                      description: The invoice number used by the airline.
+                      type: string
+                      maxLength: 6
+                      example: '664422'
+                    reservationSystem:
+                      description: The reservation system used to create the ticket.
+                      type: string
+                      enum:
+                        - START
+                        - TWA
+                        - DELTA
+                        - SABRE
+                        - COVIA_APOLLO
+                        - DR_BLANK
+                        - DER
+                        - TUI
+                      example: DELTA
+                    restricted:
+                      description: If the transaction is associated with a restricted class fare.
+                      type: boolean
+                      example: true
+                    travelRoute:
+                      description: Array containing up to 4 items that describe the route associated with the transaction.
+                      type: array
+                      maxItems: 4
+                      example:
+                        - departureDate: '2018-01-28'
+                          origin: MIA
+                          destination: ATL
+                          carrierCode: DL
+                          serviceClass: J
+                          stopoverType: DIRECT
+                          fareBasisCode: F
+                          departureTax: 75
+                          flightNumber: '765599'
+                      items:
+                        description: Additional information about the route.
+                        type: object
+                        properties:
+                          departureDate:
+                            type: string
+                            format: date
+                            description: Date of departure.
+                            example: '2018-01-28'
+                          origin:
+                            description: The IATA code for the departure airport.
+                            type: string
+                            maxLength: 3
+                            example: MIA
+                          destination:
+                            description: The IATA code for the destination. airport.
+                            type: string
+                            maxLength: 3
+                            example: ATL
+                          carrierCode:
+                            description: The IATA code for the carrier.
+                            type: string
+                            maxLength: 2
+                            example: DL
+                          serviceClass:
+                            description: The airline code for the service class of the ticket.
+                            type: string
+                            maxLength: 1
+                            example: J
+                          stopoverType:
+                            description: Indicates whether the route is direct.
+                            type: string
+                            enum:
+                              - DIRECT
+                              - STOPOVER
+                            example: DIRECT
+                          fareBasisCode:
+                            description: The airline fare basis code.
+                            type: string
+                            maxLength: 2
+                            example: F
+                          departureTax:
+                            description: Fee charged by a country when a person leaves the country.
+                            type: number
+                            maximum: 999999999999
+                            example: 75
+                          flightNumber:
+                            description: The airline flight number associated with the ticket.
+                            type: string
+                            maxLength: 10
+                            example: '765599'
+                    relatedTicketNumber:
+                      description: The number of any other tickets associated with the transaction ticket.
+                      type: string
+                      maxLength: 20
+                      example: '11223344556'
+                    ancillaryServiceCategory:
+                      description: 'Identify the purchase of ancillary goods or services with a false value. If this element is not provided, the transaction is assumed to be a purchase of an airline ticket.'
+                      type: array
+                      example:
+                        - serviceCategory: BAGGAGE_FEE
+                        - serviceCategory: CARBON_OFFSET
+                      items:
+                        type: object
+                        required:
+                          - serviceCategory
+                        properties:
+                          serviceCategory:
+                            description: Identifies the service purchased in the transaction if not a base ticket
+                            type: string
+                            enum:
+                              - BUNDLED_SERVICE
+                              - BAGGAGE_FEE
+                              - CHANGE_FEE
+                              - CARGO
+                              - CARBON_OFFSET
+                              - FREQUENT_FLYER
+                              - GIFT_CARD
+                              - GROUND_TRANSPORT
+                              - IN_FLIGHT_ENTERTAINMENT
+                              - LOUNGE
+                              - MEDICAL
+                              - MEAL_BEVERAGE
+                              - OTHER
+                              - PASSENGER_ASSIST_FEE
+                              - PETS
+                              - SEAT_FEES
+                              - STANDBY
+                              - SERVICE_FEE
+                              - STORE
+                              - TRAVEL_SERVICE
+                              - UNACCOMPANIED_TRAVEL
+                              - UPGRADES
+                              - WI_FI
+                            example: BAGGAGE_FEE
+                    ticketPurchase:
+                      description: Identifies if the transaction is a ticket purchase.
+                      type: boolean
+                      example: true
+                lodging:
+                  description: Additional data specific to the lodging/hotel industry.
+                  example:
+                    arrivalDate: '2010-05-15'
+                    departureDate: '2018-01-28'
+                    folioNumber: '12200054891'
+                    extraCharges:
+                      - chargeItem: MINI_BAR
+                      - chargeItem: OTHER
+                    noShowIndicator: false
+                  properties:
+                    arrivalDate:
+                      description: Date of arrival.
+                      type: string
+                      format: date
+                      example: '2010-05-15'
+                    departureDate:
+                      description: Date of departure.
+                      type: string
+                      format: date
+                      example: '2018-01-28'
+                    folioNumber:
+                      description: Portfolio number.
+                      type: string
+                      maxLength: 20
+                      example: '12200054891'
+                    extraCharges:
+                      description: Information about charges other than base lodging.
+                      type: array
+                      example:
+                        - chargeItem: MINI_BAR
+                        - chargeItem: OTHER
+                      items:
+                        type: object
+                        properties:
+                          chargeItem:
+                            type: string
+                            enum:
+                              - GIFT_SHOP
+                              - LAUNDRY
+                              - MINI_BAR
+                              - RESTAURANT
+                              - TELEPHONE
+                              - OTHER
+                            example: LAUNDRY
+                    noShowIndicator:
+                      description: Indicates if the transaction is associated with a delayed or no-show penalty.
+                      type: boolean
+                      example: false
+                carRental:
+                  description: Additional data specific to the car rental industry.
+                  example:
+                    agreementNumber: '100001145699'
+                    renterName: Frank Bisignano
+                    returnCity: Atlanta
+                    returnDate: '2020-10-25'
+                    pickupDate: '2020-10-15'
+                    rentalClassId: ABCDEF
+                    extraCharges:
+                      - chargeItem: GAS
+                      - chargeItem: EXTRA_MILEAGE
+                    noShowIndicator: false
+                  properties:
+                    agreementNumber:
+                      description: The car rental agreement number.
+                      type: string
+                      maxLength: 20
+                      example: '100001145699'
+                    renterName:
+                      description: The name of the person renting the car.
+                      type: string
+                      maxLength: 20
+                      example: Frank Bisignano
+                    returnCity:
+                      description: The city where the rental ends and the car is returned.
+                      type: string
+                      maxLength: 20
+                      example: Atlanta
+                    returnDate:
+                      description: The date the car rental ends and the car is returned.
+                      type: string
+                      format: date
+                      example: '2020-10-25'
+                    pickupDate:
+                      description: The date the car rental begins.
+                      type: string
+                      format: date
+                      example: '2020-10-15'
+                    rentalClassId:
+                      description: The classification of the rental car.
+                      type: string
+                      maxLength: 6
+                      example: ABCDEF
+                    extraCharges:
+                      description: Array containing information about charges other than the rental rate.
+                      type: array
+                      example:
+                        - chargeItem: GAS
+                        - chargeItem: EXTRA_MILEAGE
+                      items:
+                        type: object
+                        properties:
+                          chargeItem:
+                            description: Additional charge item.
+                            type: string
+                            enum:
+                              - EXTRA_MILEAGE
+                              - GAS
+                              - LATE_RETURN
+                              - ONE_WAY_SERVICE_FEE
+                              - PARKING_VIOLATION
+                            example: GAS
+                    noShowIndicator:
+                      description: Indicates if the transaction is related to a no-show charge.
+                      type: boolean
+                      example: false
+                mcc6012:
+                  description: The group MCC (Merchant Category Code) 6012
+                  example:
+                    dateOfBirth: '20200505'
+                    accountFirst6: '411111'
+                    accountLast4: '2343'
+                    accountNum: '546789900034567'
+                    postCode: '30101'
+                    surname: Walker
+                  properties:
+                    dateOfBirth:
+                      description: The date of birth of the cardholder (YYYYMMDD).
+                      type: string
+                      maxLength: 8
+                      example: '20200505'
+                    accountFirst6:
+                      description: The first six digits of the primary account number.
+                      type: string
+                      maxLength: 6
+                      example: '411111'
+                    accountLast4:
+                      description: The last four digits of the primary account number.
+                      maxLength: 4
+                      type: string
+                      example: '2343'
+                    accountNum:
+                      description: The account number where the primary account number is not a card.
+                      type: string
+                      maxLength: 50
+                      example: '146789900034567'
+                    postCode:
+                      description: The postal code of the cardholder.
+                      type: string
+                      maxLength: 50
+                      example: '30101'
+                    surname:
+                      description: Surname or last name of the card holder.
+                      type: string
+                      maxLength: 100
+                      example: Walker
+            purchaseCard:
+              description: Purchase card details.
+              example:
+                Level2:
+                  customerReferenceID: abcdef123xyz
+                  supplierInvoiceNumber: '0000000065348'
+                  supplierVATRegistrationNumber: '10001174242'
+                  totalDiscountAmountAndRate:
+                    amount: 5.145
+                    rate: 1.175
+                  vatShippingAmountAndRate:
+                    amount: 6.03
+                    rate: 1.175
+                Level3:
+                  lineItems:
+                    - commodityCode: ab12
+                      productCode: '0001212120888'
+                      description: Dinner and movie
+                      quantity: 5
+                      unitMeasure: '25'
+                      unitPrice: 30.075
+                      vatAmountAndRate:
+                        amount: 5.145
+                        rate: 1.175
+                      discountAmountAndRate:
+                        amount: 6.03
+                        rate: 1.175
+                      lineItemTotal: 39.075
+              properties:
+                Level2:
+                  description: Level 2 data for monitoring and controlling corporate expenditures.
+                  type: object
+                  example:
+                    customerReferenceID: abcdef123xyz
+                    supplierInvoiceNumber: '0000000065348'
+                    supplierVATRegistrationNumber: '10001174242'
+                    totalDiscountAmountAndRate:
+                      amount: 5.145
+                      rate: 1.175
+                    vatShippingAmountAndRate:
+                      amount: 6.03
+                      rate: 1.175
+                  properties:
+                    customerReferenceID:
+                      type: string
+                      description: Customer code/customer reference ID.
+                      maxLength: 20
+                      example: abcdef123xyz
+                    supplierInvoiceNumber:
+                      type: string
+                      description: Purchase identifier/merchant-related data.
+                      maxLength: 30
+                      example: '0000000065348'
+                    supplierVATRegistrationNumber:
+                      description: Merchant VAT registration/single business reference number/merchant tax ID or corporation VAT number.
+                      type: string
+                      maxLength: 30
+                      example: '10001174242'
+                    totalDiscountAmountAndRate:
+                      description: 'Rate and corresponding amount being applied to purchase cards, for instance in the form of taxes or discounts.'
+                      required:
+                        - amount
+                        - rate
+                      example:
+                        amount: 5.145
+                        rate: 1.175
+                      properties:
+                        amount:
+                          description: Amount in 3 decimal 12 bytes total digit.
+                          type: number
+                          example: 5.145
+                        rate:
+                          description: Rate in 3 decimal 12 bytes total digit.
+                          type: number
+                          example: 1.175
+                    vatShippingAmountAndRate:
+                      description: 'Rate and corresponding amount being applied to purchase cards, for instance in the form of taxes or discounts.'
+                      required:
+                        - amount
+                        - rate
+                      example:
+                        amount: 5.145
+                        rate: 1.175
+                      properties:
+                        amount:
+                          description: Amount in 3 decimal 12 bytes total digit.
+                          type: number
+                          example: 5.145
+                        rate:
+                          description: Rate in 3 decimal 12 bytes total digit.
+                          type: number
+                          example: 1.175
+                Level3:
+                  description: Level 3 data for monitoring and controlling corporate expenditures.
+                  type: object
+                  required:
+                    - lineItems
+                  example:
+                    lineItems:
+                      - commodityCode: ab12
+                        productCode: '0001212120888'
+                        description: Dinner and movie
+                        quantity: 5
+                        unitMeasure: '25'
+                        unitPrice: 30.075
+                        vatAmountAndRate:
+                          amount: 5.145
+                          rate: 1.175
+                        discountAmountAndRate:
+                          amount: 6.03
+                          rate: 1.175
+                        lineItemTotal: 39.075
+                  properties:
+                    lineItems:
+                      description: Line items of monitoring and controlling corporate expenditures data.
+                      maxItems: 100
+                      type: array
+                      items:
+                        type: object
+                        example:
+                          - commodityCode: ab12
+                            productCode: '0001212120888'
+                            description: Dinner and movie
+                            quantity: 5
+                            unitMeasure: '25'
+                            unitPrice: 30.075
+                            vatAmountAndRate:
+                              amount: 5.145
+                              rate: 1.175
+                            discountAmountAndRate:
+                              amount: 6.03
+                              rate: 1.175
+                            lineItemTotal: 39.075
+                        properties:
+                          commodityCode:
+                            description: The commodity code used to classify the item purchased.
+                            type: string
+                            maxLength: 4
+                            example: ab12
+                          productCode:
+                            description: Merchant product identifier/the Universal Product Code (UPC) of the item purchased.
+                            type: string
+                            maxLength: 20
+                            example: '0001212120888'
+                          description:
+                            description: The description.
+                            type: string
+                            maxLength: 30
+                            example: Dinner and movie
+                          quantity:
+                            description: The quantity.
+                            type: integer
+                            minimum: 1
+                            example: 5
+                          unitMeasure:
+                            description: The unit of measure.
+                            type: string
+                            maxLength: 3
+                            example: '25'
+                          unitPrice:
+                            description: Rate amount in 3 decimal 12 bytes total digit.
+                            type: number
+                            example: 30.075
+                          vatAmountAndRate:
+                            description: 'Rate and corresponding amount being applied to purchase cards, for instance in the form of taxes or discounts.'
+                            required:
+                              - amount
+                              - rate
+                            example:
+                              amount: 5.145
+                              rate: 1.175
+                            properties:
+                              amount:
+                                description: Amount in 3 decimal 12 bytes total digit.
+                                type: number
+                                example: 5.145
+                              rate:
+                                description: Rate in 3 decimal 12 bytes total digit.
+                                type: number
+                                example: 1.175
+                          discountAmountAndRate:
+                            description: 'Rate and corresponding amount being applied to purchase cards, for instance in the form of taxes or discounts.'
+                            required:
+                              - amount
+                              - rate
+                            example:
+                              amount: 5.145
+                              rate: 1.175
+                            properties:
+                              amount:
+                                description: Amount in 3 decimal 12 bytes total digit.
+                                type: number
+                                example: 5.145
+                              rate:
+                                description: Rate in 3 decimal 12 bytes total digit.
+                                type: number
+                                example: 1.175
+                          lineItemTotal:
+                            description: Rate amount in 3 decimal 12 bytes total digit.
+                            type: number
+                            example: 39.075
+            installmentOptions:
+              description: Indicates that the total sum payable is divided for payment at successive fixed times.
+              example:
+                numberOfInstallments: 5
+                installmentsInterest: true
+                installmentDelayMonths: 5
+                recurringType: FIRST
+                merchantAdviceCodeSupported: true
+              properties:
+                numberOfInstallments:
+                  description: Number of installments for a sale transaction if the customer pays the total amount in multiple transactions.
+                  type: integer
+                  format: int32
+                  minimum: 1
+                  maximum: 99
+                  example: 5
+                installmentsInterest:
+                  description: Indicates whether the installment interest amount has been applied.
+                  type: boolean
+                  example: true
+                installmentDelayMonths:
+                  description: The number of months the first installment payment will be delayed.
+                  type: integer
+                  format: int32
+                  minimum: 1
+                  maximum: 99
+                  example: 5
+                recurringType:
+                  description: The type of recurring payment.
+                  type: string
+                  enum:
+                    - FIRST
+                    - REPEAT
+                    - STANDING_INSTRUCTION
+                  example: FIRST
+                merchantAdviceCodeSupported:
+                  description: Indicates if the merchant supports merchant advice code (MAC) in order to receive table 55 code for a declined recurring transaction.
+                  type: boolean
+                  example: true
+            softDescriptor:
+              description: Identifying information about a merchant which appears on buyer's credit/debit card statements.
+              required:
+                - dynamicMerchantName
+              example:
+                dynamicMerchantName: Merchant XYZ
+                customerServiceNumber: '8045018787'
+                mcc: '7311'
+                dynamicAddress:
+                  company: XYZ Company
+                  address1: 5565 Glenridge Conn
+                  address2: Dundwoody Area
+                  city: Atlanta
+                  region: Georgia
+                  postalCode: '30342'
+                  country: USA
+              properties:
+                dynamicMerchantName:
+                  type: string
+                  description: Store "doing-business-as" name.
+                  pattern: ^(?!\s*$).+
+                  example: Merchant XYZ
+                customerServiceNumber:
+                  type: string
+                  description: Customer service phone number information that is passed to the issuer (it may appear on the cardholder’s statement) or if merchant wants to pass information that differs from the information stored on our master File.
+                  maxLength: 10
+                  pattern: '^[0-9]+$'
+                  example: '9973322990'
+                mcc:
+                  description: The 4-digit merchant category code (MCC). The merchant might be associated with multiple MCCs. In that case the MCC provided here will be the one that better describes the current transaction.
+                  type: string
+                  maxLength: 4
+                  example: '7311'
+                dynamicAddress:
+                  description: Model for address information.
+                  example:
+                    address1: 123 Main St.
+                    city: Sandy Springs
+                    region: Georgia
+                    postalCode: '30303'
+                    country: USA
+                  properties:
+                    company:
+                      description: Company name associated with the address.
+                      type: string
+                      maxLength: 96
+                      example: Test Company
+                    address1:
+                      description: First line of the street address.
+                      type: string
+                      maxLength: 96
+                      example: 123 Main St.
+                    address2:
+                      description: Second line of the street address.
+                      type: string
+                      maxLength: 96
+                      example: Suite 123
+                    city:
+                      description: City or locality.
+                      type: string
+                      maxLength: 96
+                      example: Sandy Springs
+                    region:
+                      description: State or province.
+                      type: string
+                      maxLength: 96
+                      example: Georgia
+                    postalCode:
+                      description: ZIP code or postal code.
+                      type: string
+                      maxLength: 24
+                      example: '30303'
+                    country:
+                      description: 'ISO-3166-1  ALPHA-2, ALPHA-3, numeric or full country name. In the case of PaySecure endpoints, pass the country code in an ISO format.'
+                      type: string
+                      maxLength: 32
+                      example: USA
+            additionalDetails:
+              description: Merchant supplied tracking numbers.
+              example:
+                comments: This is a comment
+                invoiceNumber: '551294633441'
+                purchaseOrderNumber: '1223456'
+                operatorId: OPERATOR_ID_123XXX
+                salesSystemId: W-EU-H3866-FLS2
+                ipgDeferredAuth: true
+                highRiskPurchaseIndicator: true
+                receipts:
+                  type: cardholder
+                  locale: fr
+                scaExemptionType: Low Value Exemption
+                scaVisaMerchantID: '12312311'
+              properties:
+                comments:
+                  description: Comments for the payment.
+                  type: string
+                  maxLength: 1024
+                  example: This is a comment
+                invoiceNumber:
+                  description: Invoice number.
+                  type: string
+                  maxLength: 48
+                  example: '551294633441'
+                purchaseOrderNumber:
+                  description: Purchase order number.
+                  type: string
+                  maxLength: 128
+                  example: '1223456'
+                operatorId:
+                  description: The operator ID.
+                  type: string
+                  maxLength: 35
+                  pattern: ^\S$|^\S.*\S$
+                salesSystemId:
+                  description: The sales system ID.
+                  type: string
+                  maxLength: 50
+                  pattern: ^\S$|^\S.*\S$
+                ipgDeferredAuth:
+                  description: Indicates if the particular transaction is a deferred authorization.
+                  type: boolean
+                  example: true
+                highRiskPurchaseIndicator:
+                  description: this is highRiskPurchaseIndicator.
+                  type: boolean
+                  example: true
+                receipts:
+                  description: Provides request information that is necessary to generate receipts.
+                  type: array
+                  minItems: 1
+                  maxItems: 2
+                  example:
+                    - type: cardholder
+                      locale: de-DE
+                    - type: merchant
+                      locale: en
+                      linewidth: 48
+                  items:
+                    description: Defines receipt related parameters that are necessary to generate a receipt.
+                    type: object
+                    required:
+                      - type
+                    example:
+                      type: merchant
+                      locale: de
+                    properties:
+                      type:
+                        description: 'Defines the consumer of the receipt (e.g. cardholder, merchant).'
+                        type: string
+                        enum:
+                          - cardholder
+                          - merchant
+                        example: merchant
+                      locale:
+                        description: The locale of the receipt. The format has to be a well-formed BCP 47 language tag.
+                        type: string
+                        example: en-GB
+                      linewidth:
+                        description: The line width of the receipt. Default will be 32 characters.
+                        type: integer
+                        default: 32
+                        example: 48
+                scaExemptionType:
+                  description: Strong customer authentication exemption type indicator.
+                  type: string
+                  enum:
+                    - Low Value Exemption
+                    - TRA Exemption
+                    - Trusted Merchant Exemption
+                    - SCP Exemption
+                    - Delegated Authentication
+                  example: TRA Exemption
+                scaVisaMerchantID:
+                  description: 'Eight-character Visa merchant identifier (VMID) assigned by Visa, required for trusted merchant and delegated authentication.'
+                  type: string
+                  maxLength: 8
+                  example: '12312311'
+            bancontactQR:
+              required:
+                - transactionRoutingMeans
+              description: Bancontact QR information.
+              example:
+                transactionRoutingMeans: QR Code
+                issuerCustomerReference: '303123403'
+              properties:
+                transactionRoutingMeans:
+                  description: Transaction Routing Means.
+                  type: string
+                  enum:
+                    - QR Code
+                    - URL Intent
+                  example: QR Code
+                issuerCustomerReference:
+                  description: Issuer Customer Reference.
+                  type: string
+                  maxLength: 254
+                  example: '303123403'
       required:
         - requestType
         - transactionAmount
