@@ -24,14 +24,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PrimaryTransaction'
+              oneOf:
+                - $ref: '#/components/schemas/PaymentCardCreditTransaction'
+                - $ref: '#/components/schemas/PaymentCardForcedTicketTransaction'
+                - $ref: '#/components/schemas/PaymentCardSaleTransaction'
+                - $ref: '#/components/schemas/PaymentCardPreAuthTransaction'
+                - $ref: '#/components/schemas/PaymentCardPayerAuthTransaction'
+                - $ref: '#/components/schemas/PaymentTokenCreditTransaction'
+                - $ref: '#/components/schemas/PaymentTokenPreAuthTransaction'
+                - $ref: '#/components/schemas/PaymentTokenSaleTransaction'
+                - $ref: '#/components/schemas/PaypalCreditTransaction'
+                - $ref: '#/components/schemas/SepaSaleTransaction'
+                - $ref: '#/components/schemas/WalletSaleTransaction'
+                - $ref: '#/components/schemas/WalletPreAuthTransaction'
+                - $ref: '#/components/schemas/PaymentDeviceSaleTransaction'
+                - $ref: '#/components/schemas/PaymentDevicePreAuthTransaction'
+                - $ref: '#/components/schemas/PaymentDeviceCreditTransaction'
             examples:
-              Example:
+              PaymentCardCreditTransaction:
                 value:
-                  requestType: PaymentCardSaleTransaction
                   transactionAmount:
                     total: '12.04'
                     currency: USD
+                  requestType: PaymentCardCreditTransaction
                   paymentMethod:
                     paymentCard:
                       number: '5424180279791732'
@@ -39,6 +54,9 @@ paths:
                       expiryDate:
                         month: '12'
                         year: '24'
+                  currencyConversion:
+                    conversionType: Dcc
+                    inquiryRateId: '123456'
         description: ''
         required: true
       responses:
@@ -5281,6 +5299,7 @@ components:
           month: '03'
           year: '21'
         securityCode: '977'
+      x-examples: {}
     AuthenticationResult:
       description: 'Submit the result of 3DS authentication managed outside of the gateway. An AuthenticationResult should not be submitted within the same request as an AuthenticationRequest. Abstract class, do not use this class directly, use one of its children.'
       required:
