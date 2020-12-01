@@ -3322,6 +3322,20 @@ components:
               month: '12'
               year: '24'
         referenceNumber: '123455'
+      x-examples:
+        PaymentCardForcedTicketTransaction:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaymentCardForcedTicketTransaction
+          paymentMethod:
+            paymentCard:
+              number: '5424180279791732'
+              securityCode: '977'
+              expiryDate:
+                month: '12'
+                year: '24'
+          referenceNumber: '123455'
     PaymentCardPayerAuthTransaction:
       description: Request to create payer auth primary transaction.
       allOf:
@@ -3346,6 +3360,19 @@ components:
             expiryDate:
               month: '12'
               year: '24'
+      x-examples:
+        PaymentCardPayerAuthTransaction:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaymentCardPayerAuthTransaction
+          paymentMethod:
+            paymentCard:
+              number: '5424180279791732'
+              securityCode: '977'
+              expiryDate:
+                month: '12'
+                year: '24'
     PaypalCreditTransaction:
       description: Request to create credit transaction using PayPal.
       allOf:
@@ -3364,6 +3391,15 @@ components:
         paymentMethod:
           payPal:
             recipientEmail: John@tester.com
+      x-examples:
+        PaypalCreditTransaction:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaypalCreditTransaction
+          paymentMethod:
+            payPal:
+              recipientEmail: John@tester.com
     SepaSaleTransaction:
       description: Request to create sale transaction using sepa.
       allOf:
@@ -3389,6 +3425,22 @@ components:
             url: 'https://www.firstdata.com'
             signatureDate: '2017-07-15'
             type: SINGLE
+      x-examples:
+        SepaSaleTransaction:
+          transactionAmount:
+            total: '23.00'
+            currency: EUR
+          requestType: SepaSaleTransaction
+          sepa:
+            iban: DE34500100600032121604
+            name: John Doe
+            country: DEU
+            email: john.doe@test.com
+            mandate:
+              reference: 3RBQVEE
+              url: 'https://www.firstdata.com'
+              signatureDate: '2017-07-15'
+              type: SINGLE
     WalletSaleTransaction:
       description: Request to create sale primary transaction using digital wallet.
       allOf:
@@ -3435,6 +3487,41 @@ components:
               type: NATIONAL_IDENTITY
               number: '12345666544'
             merchantId: '12435325235'
+      x-examples:
+        EncryptedApplePayWalletPaymentMethod:
+          requestType: WalletSaleTransaction
+          walletPaymentMethod:
+            walletType: EncryptedApplePayWalletPaymentMethod
+            encryptedApplePay:
+              data: NdCmVw5nMjQq746HYc/VbiZcQZ/zFzeEcM1wVMPruEG4/C/EFhobSkwB5JZJU+t6JuDVXUBiRYuOOC8FTYd+qIm6ckktid9aiGh0f2NDP0INSr59QXmr389RonyUfRYKnBmwsh5UqtI7Iz0AmMtl1PWMdxcCewtjuffs79ahTnFgXsRN+ynuhyDfbdRanlTnYKGoTeVh9eJfheJ1wquO+jiGj+npJ/Oh9bAdlw7iEHrYO2aUkgaMyXZ3foXRAJeimQVQS1y8lU1PPq62zpPrFzidbnnU5fK25pvGFjOdmLsBELZPk5thQEkSaA9p1LSKzWSesHhi0BxZaFPXSA6ANXvYIU2AT0lG+0O0w1URA5Sinyj3YDZVqjuir6rzNN9bB2U2nTQnKMbuGLMS20K8fUKZN/YLJh+AtE6J69+VVSU95mE1nOb8hyabz6E5RmnC5Ze2k6F/hQ75ig==
+              header:
+                applicationDataHash: 94ee059335e587e501cc4bf90613e0814f00a7b08bc7c648fd865a2af6a22cc2
+                ephemeralPublicKey: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEiaU1SbkYTJy/j5L1t51vtGDh4KlNl5MFPWzo/C8r0WcrktWriz5pdRaDVUDvU++KlDu2iuQsd2xSNKJlFscbDQ==
+                publicKeyHash: YmSWN7lj4+A6fVJVPicP8TgS7gI7ougD8rEWB5LXtMM=
+                transactionId: '31323334353637'
+              signature: MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCAMIIB0zCCAXkCAQEwCQYHKoZIzj0EATB2MQswCQYDVQQGEwJVUzELMAkGA1UECAwCTkoxFDASBgNVBAcMC0plcnNleSBDaXR5MRMwEQYDVQQKDApGaXJzdCBEYXRhMRIwEAYDVQQLDAlGaXJzdCBBUEkxGzAZBgNVBAMMEmQxZHZ0bDEwMDAuMWRjLmNvbTAeFw0xNTA3MjMxNjQxMDNaFw0xOTA3MjIxNjQxMDNaMHYxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJOSjEUMBIGA1UEBwwLSmVyc2V5IENpdHkxEzARBgNVBAoMCkZpcnN0IERhdGExEjAQBgNVBAsMCUZpcnN0IEFQSTEbMBkGA1UEAwwSZDFkdnRsMTAwMC4xZGMuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAErnHhPM18HFbOomJMUiLiPL7nrJuWvfPy0Gg3xsX3m8q0oWhTs1QcQDTT+TR3yh4sDRPqXnsTUwcvbrCOzdUEeTAJBgcqhkjOPQQBA0kAMEYCIQDrC1z2JTx1jZPvllpnkxPEzBGk9BhTCkEB58j/Cv+sXQIhAKGongoz++3tJroo1GxnwvzK/Qmc4P1K2lHoh9biZeNhAAAxggFUMIIBUAIBATB7MHYxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJOSjEUMBIGA1UEBwwLSmVyc2V5IENpdHkxEzARBgNVBAoMCkZpcnN0IERhdGExEjAQBgNVBAsMCUZpcnN0IEFQSTEbMBkGA1UEAwwSZDFkdnRsMTAwMC4xZGMuY29tAgEBMA0GCWCGSAFlAwQCAQUAoGkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTUwODEyMTczMTAwWjAvBgkqhkiG9w0BCQQxIgQgJyjKLiGQo3I1ZbfHSmF2XCZ8dNlcZyohziuXO48EKwgwCgYIKoZIzj0EAwIESDBGAiEAznKDYEz9MsC+r1g6e4LR1DTaQOl+X2rVNkWnKDpc1EQCIQCmK48ChHoz4HWnUnW5XqaGWOUXKHQvUgeqFr/jgBUzegAAAAAAAA==
+              applicationData: VEVTVA==
+              merchantId: order-1
+              version: EC_v1
+          paymentFacilitator:
+            externalMerchantId: '12345'
+            paymentFacilitatorId: '123123123'
+            saleOrganizationId: '123124214'
+            name: First Reseller
+            subMerchantData:
+              mcc: '1432'
+              legalName: First Merchant
+              timezone: Europe/London
+              address:
+                address1: 123 Main St.
+                city: Sandy Springs
+                region: Georgia
+                postalCode: '30303'
+                country: USA
+              document:
+                type: NATIONAL_IDENTITY
+                number: '12345666544'
+              merchantId: '12435325235'
     WalletPreAuthTransaction:
       description: Request to create preAuth primary transaction using digital wallet.
       allOf:
@@ -3465,6 +3552,21 @@ components:
         splitShipment:
           totalCount: 1
           finalShipment: true
+      x-examples:
+        WalletPreAuthTransaction:
+          requestType: WalletPreAuthTransaction
+          walletPaymentMethod:
+            walletType: EncryptedGooglePayWalletPaymentMethod
+            encryptedGooglePay:
+              data:
+                encryptedMessage: 8nxjB9mr2tWZeDRQRcGN91UUnb7AioGp3oRo8kmQ6lyvJZiqD7PJlbRCYElNqUmr6Z8zK7b2gO9MKOjpnTCqH0qAe2vuIlwNXB60M2Lh7Qfl3bVgWzwF/FfFcenVW381hoItYi8AjWnWoydz1XMTEv2qhqUG03mEnRXdMyDyk6KKZXoW8Qc0p1F1thbxxu8weU8CZbZsWGGTjB42cilIqLVbribcOAG8Oas1AcgefFsu2hwp4gdSuOg7wmeSV7XKsGQzzVy85qtjuqET2XYzJE3K/Wh9QKkhu5P9Ms5s1+Smr2IjRyidqQa88SxQplrVoo9+PvT0bxFcMspBmO3pLkuaZSUBy++dL2fefcxNJvGCFfFhdxW9DojuuQxgpeu7RAQUsGLyFmr/4ZfBxt882xTmpX9MRx5CAudl9qUgBfKdwWwMX35qSbDTm1ju5XXzNh94VebjD3bB9Zj8qgbmUOr/+6OQLhoFJyBCXgx3EEH8hBwNVFrss/SLwQvFhZh62eO6lOtnmbOtP1yTDDVqGDBfai5SwAmM+KTcc9SGv/xDC+cWe8ck+aCBkG4HoRPapUVMZ3JIgV7yzTsVLJE\\u003d\\
+                ephemeralPublicKey: BGH3fRFdoAobYrAlxnZOCYzkH84Cna92IZxtgsU36CMDaqSaDYb9/LsY8qw+vMtlBnwsUg/YVMOeeKp+qDkOWb4\\u003d\\
+                tag: nvmOUNpnOTZULLhMxT/hWCHzH/4f7gGpfvQgwl3p8ng\\u003d\\
+              signature: MEUCIFWTRWUZAOM5nfJC79FtJm56olnbwG4H5uWWxAUWAquiAiEA24j/BcOroeISsdJzYsyoVi8wzu4tnmKw+jdsGfuvPko=
+              version: ECv1
+          splitShipment:
+            totalCount: 1
+            finalShipment: true
     PaymentTokenCreditTransaction:
       description: Request to create credit transaction using payment token.
       allOf:
@@ -3487,6 +3589,17 @@ components:
             value: '1235325235236'
             function: DEBIT
             securityCode: '977'
+      x-examples:
+        PaymentTokenCreditTransaction:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaymentTokenCreditTransaction
+          paymentMethod:
+            paymentToken:
+              value: '1235325235236'
+              function: DEBIT
+              securityCode: '977'
     PaymentTokenPreAuthTransaction:
       description: Request to create pre-auth transaction using payment token.
       allOf:
@@ -3522,6 +3635,20 @@ components:
         splitShipment:
           totalCount: 1
           finalShipment: true
+      x-examples:
+        PaymentTokenPreAuthTransaction:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaymentTokenPreAuthTransaction
+          paymentMethod:
+            paymentToken:
+              value: '1235325235236'
+              function: DEBIT
+              securityCode: '977'
+          splitShipment:
+            totalCount: 1
+            finalShipment: true
     PaymentTokenSaleTransaction:
       description: Request to create sale transaction using payment token.
       allOf:
@@ -3555,6 +3682,20 @@ components:
         storedCredentials:
           sequence: FIRST
           scheduled: true
+      x-examples:
+        PaymentTokenSaleTransaction:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaymentTokenSaleTransaction
+          paymentMethod:
+            paymentToken:
+              value: '1235325235236'
+              function: DEBIT
+              securityCode: '977'
+          storedCredentials:
+            sequence: FIRST
+            scheduled: true
     PaymentCardPreAuthTransaction:
       description: Request to create pre-auth transaction using credit card.
       allOf:
@@ -3601,7 +3742,7 @@ components:
           totalCount: 1
           finalShipment: true
       x-examples:
-        example-1:
+        PaymentCardPreAuthTransaction:
           transactionAmount:
             total: '12.04'
             currency: USD
@@ -3653,6 +3794,22 @@ components:
         storedCredentials:
           sequence: FIRST
           scheduled: true
+      x-examples:
+        PaymentCardSaleTransaction:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaymentCardSaleTransaction
+          paymentMethod:
+            paymentCard:
+              number: '5424180279791732'
+              securityCode: '977'
+              expiryDate:
+                month: '12'
+                year: '24'
+          storedCredentials:
+            sequence: FIRST
+            scheduled: true
     PaymentCardCreditTransaction:
       description: Request to create credit transaction using payment card.
       allOf:
@@ -3680,6 +3837,22 @@ components:
         currencyConversion:
           conversionType: Dcc
           inquiryRateId: '123456'
+      x-examples:
+        PaymentCardCreditTransaction:
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          requestType: PaymentCardCreditTransaction
+          paymentMethod:
+            paymentCard:
+              number: '5424180279791732'
+              securityCode: '977'
+              expiryDate:
+                month: '12'
+                year: '24'
+          currencyConversion:
+            conversionType: Dcc
+            inquiryRateId: '123456'
     PaymentDevicePreAuthTransaction:
       description: Request to create pre-auth transaction using decrypted card details from payment device. The transaction origin will be fixed as PHONE when data is manually entered into the device and as RETAIL when data is entered into the device via swipe.
       allOf:
@@ -3713,6 +3886,20 @@ components:
             cardholderName: First Cardholder
             cardFunction: CREDIT
             brand: VISA
+      x-examples:
+        PaymentDevicePreAuthTransaction:
+          requestType: PaymentDevicePreAuthTransaction
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          paymentMethod:
+            paymentDevice:
+              deviceType: SWIPE
+              data: 02A600C0170018008292;5424********1732=1810?*B73CD8C26233D4FFEC5500ED394439D97DDA5F530942D21D0000000000000000000000000000000000000000363434543035353734326299492410027300000260DC03
+              securityCode: '977'
+              cardholderName: First Cardholder
+              cardFunction: CREDIT
+              brand: VISA
     PaymentDeviceSaleTransaction:
       description: Request to create sale transaction using decrypted card details from payment device. The transaction origin will be fixed as PHONE when data is manually entered into the device and as RETAIL when data is entered into the device via swipe.
       allOf:
@@ -3763,6 +3950,20 @@ components:
             cardholderName: First Cardholder
             cardFunction: CREDIT
             brand: VISA
+      x-examples:
+        PaymentDeviceCreditTransaction:
+          requestType: PaymentDeviceCreditTransaction
+          transactionAmount:
+            total: '12.04'
+            currency: USD
+          paymentMethod:
+            paymentDevice:
+              deviceType: SWIPE
+              data: 02A600C0170018008292;5424********1732=1810?*B73CD8C26233D4FFEC5500ED394439D97DDA5F530942D21D0000000000000000000000000000000000000000363434543035353734326299492410027300000260DC03
+              securityCode: '977'
+              cardholderName: First Cardholder
+              cardFunction: CREDIT
+              brand: VISA
     Disbursement:
       description: 'Disbursement information. Abstract class, do not use this class directly, use one of its children: FundingTransactionType, DisbursementTransactionType.'
       type: object
