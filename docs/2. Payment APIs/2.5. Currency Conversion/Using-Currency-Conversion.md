@@ -51,7 +51,7 @@ The response from the /exchange-rates resource will present as follows:
 }
 ```
 
-To use this rate in a transaction, include the DCC object in the /payments POST request as follows, using the inquiryRateId from the response to the /exchange-rates POST request. Use the value and currency from the /exchange-rates POST response in the transactionAmount object.
+To use this rate in a transaction, include the currencyConversion object in the /payments POST request as follows, using the inquiryRateId from the response to the /exchange-rates POST request. Use the value and currency from the /exchange-rates POST response in the transactionAmount object, and set the conversionType to "DCC".
 
 ```json YAML
 {
@@ -77,6 +77,51 @@ To use this rate in a transaction, include the DCC object in the /payments POST 
   }
 }
 ```
+### Dynamic Pricing
 
+To request all available rates and currencies for your transaction, make a POST method request using the dynamicPricingExchangeRateRequest requestType. 
 
+```json YAML
+{
+  "requestType": "DynamicPricingExchangeRateRequest",
+  "baseAmount": "12.32",
+  "foreignCurrency": "USD"
+}
+```
 
+If successful, a response will be generated as follows, including the amount and the relevant ISO Currency Code for the currency to which the transaction amount has been translated. 
+
+```json YAML
+{
+  "conversionType": "DynamicPricing",
+  "inquiryRateId": "49151",
+  "foreignCurrency": "978",
+  "foreignAmount": "22.52"
+}
+```
+To use this rate in a transaction, include the currencyConversion object in the /payments POST request as follows, using the inquiryRateId from the response to the /exchange-rates POST request. Use the value and currency from the /exchange-rates POST response in the transactionAmount object, and set the conversionType to "DynamicPricing".
+
+```json YAML
+{
+  "requestType": "PaymentCardSaleTransaction",
+  "transactionAmount": {
+    "total": "22.52",
+    "currency": "EUR"
+  },
+  "paymentMethod": {
+    "paymentCard": {
+      "number": "5424180279791732",
+      "securityCode": "977",
+      "expiryDate": {
+        "month": "12",
+        "year": "24"
+      }
+    }
+  }
+  "currencyConversion": {
+    "conversionType": "DynamicPricing",
+    "inquiryRateId": "49151",
+    "dccApplied": true
+  }
+}
+```
