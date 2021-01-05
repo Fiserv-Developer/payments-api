@@ -8,7 +8,7 @@ We provide 2 types of Currency Conversion, one in which you'll request the optim
 
 ## Using Currency Conversion
 
-To use our currency conversion services, use the POST method to /exchange-rates to request a price and exchange rate from our exchange rate providers. As with our other services, this resource is polymorphic. This means you'll need to submit a request type to tell the Exchange Rates resource how to treat your request.
+To use our currency conversion services, use the POST method to `/exchange-rates` to request a price and exchange rate from our exchange rate providers. As with our other services, this resource is polymorphic. This means you'll need to submit a request type to tell the Exchange Rates resource how to treat your request.
 
 Currency Conversion Type | requestType | Currency Conversion Scenario
 ---------|----------|---------
@@ -19,7 +19,7 @@ Dynamic Pricing Request | [DynamicPricingExchangeRateRequest](https://docs.fiser
 
 ### Exchange Rate Request
 
-To request a specific rate for a customer, use a POST method against the /exchange-rates resource as per the sample payload below:
+To request a specific rate for a customer, use a POST method against the `/exchange-rates` resource as per the sample payload below:
 
 ```json YAML
 {
@@ -30,7 +30,7 @@ To request a specific rate for a customer, use a POST method against the /exchan
 ```
 The BIN value is important as this tells the exchange rate provider the home currency of the customer's card, which enables them to provide a rate and price tailored to that customer. The BIN value is the first 6 digits of the customer's card number.
 
-The response from the /exchange-rates resource will present as follows:
+The response from the `/exchange-rates` resource will present as follows:
 
 ```json YAML
 {
@@ -51,7 +51,7 @@ The response from the /exchange-rates resource will present as follows:
 }
 ```
 
-To use this rate in a transaction, include the currencyConversion object in the /payments POST request as follows, using the inquiryRateId from the response to the /exchange-rates POST request. Use the value and currency from the /exchange-rates POST response in the transactionAmount object, and set the conversionType to "DCC".
+To use this rate in a transaction, include the `currencyConversion` object in the `/payments` POST request as follows, using the `inquiryRateId` from the response to the `/exchange-rates` POST request. Use the value and currency from the `/exchange-rates` POST response in the `transactionAmount` object, and set the `conversionType` to "DCC".
 
 ```json YAML
 {
@@ -79,7 +79,7 @@ To use this rate in a transaction, include the currencyConversion object in the 
 ```
 ### Dynamic Pricing
 
-To request all available rates and currencies for your transaction, make a POST method request using the dynamicPricingExchangeRateRequest requestType. 
+To request all available rates and currencies for your transaction, make a POST method request using the `dynamicPricingExchangeRateRequest` requestType. 
 
 ```json YAML
 {
@@ -99,7 +99,7 @@ If successful, a response will be generated as follows, including the amount and
   "foreignAmount": "22.52"
 }
 ```
-To use this rate in a transaction, include the currencyConversion object in the /payments POST request as follows, using the inquiryRateId from the response to the /exchange-rates POST request. Use the value and currency from the /exchange-rates POST response in the transactionAmount object, and set the conversionType to "DynamicPricing".
+To use this rate in a transaction, include the `currencyConversion` object in the `/payments` POST request as follows, using the `inquiryRateId` from the response to the `/exchange-rates` POST request. Use the value and currency from the `/exchange-rates` POST response in the `transactionAmount` object, and set the `conversionType` to "DynamicPricing".
 
 ```json YAML
 {
