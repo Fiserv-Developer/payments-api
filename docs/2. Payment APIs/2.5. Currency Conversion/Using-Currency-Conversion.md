@@ -12,7 +12,7 @@ To use our currency conversion services, use the POST method to `/exchange-rates
 
 Currency Conversion Type | requestType | Currency Conversion Scenario
 ---------|----------|---------
-Exchange Rate Request |	[DCCExchangeRateRequest](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1exchange-rates/post) | Use this Request Type to request a currency, price and exchange rate for a specific transaction, applicable to the customer for which you are requesting a rate. 
+Exchange Rate Request |	[DCCExchangeRateRequest](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1exchange-rates/post) | Use this requestType to request a currency, price and exchange rate for a specific transaction, applicable to the customer for which you are requesting a rate. 
 Dynamic Pricing Request | [DynamicPricingExchangeRateRequest](https://docs.fiserv.com/docs/payments/reference/Payments.v1.yaml/paths/~1exchange-rates/post) |	Use this requestType to request all available currencies and rates for a transaction.
 
 ## Payloads
