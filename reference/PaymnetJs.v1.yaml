@@ -1,0 +1,142 @@
+openapi: 3.0.0
+info:
+  title: Payment JS
+  version: 2.0.0
+  description: Endpoints used with Payment.js
+servers:
+  - url: 'https://cert.api.firstdata.com/paymentjs/v2'
+    description: UAT
+  - url: 'https://cert.api.firstdata.com/paymentjs/v2'
+    description: Production
+paths:
+  merchant/authorize-session:
+    parameters: []
+    post:
+      summary: ''
+      operationId: postmerchant-authorize-session
+      responses:
+        '200':
+          description: OK
+      description: 'Used to authorize a session, this includes the gateway, api key and store ID'
+      parameters:
+        - schema:
+            type: string
+            example: application/json
+          in: header
+          name: Content-Type
+          description: Always application/json
+        - schema:
+            type: string
+          in: header
+          name: Message-Signature
+          description: 'Your message signature, please see the documentation on how to generate this'
+        - schema:
+            type: string
+          in: header
+          name: Nonce
+          description: A random value
+        - schema:
+            type: string
+          in: header
+          name: Timestamp
+          description: 'A timestamp, in milliseconds since epoch'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                gateway:
+                  type: string
+                  enum:
+                    - IPG
+                    - PAYEEZY
+                    - BLUEPAY
+                    - CARD_CONNECT
+                accountId:
+                  type: string
+                secretKey:
+                  type: string
+                zeroDollarAuth:
+                  type: string
+                apiKey:
+                  type: string
+                authToken:
+                  type: string
+                transarmorToken:
+                  type: string
+                currency:
+                  type: string
+                '':
+                  type: string
+              required:
+                - gateway
+            examples:
+              IPG:
+                value:
+                  gateway: IPG
+                  apiKey: ''
+                  apiSecret: ''
+                  storeId: ''
+                  zeroDollarAuth: false
+              Payeezy:
+                value:
+                  gateway: PAYEEZY
+                  apiKey: ''
+                  apiSecret: ''
+                  authToken: ''
+                  transarmorToken: ''
+                  currency: USD
+                  zeroDollarAuth: false
+              Bluepay:
+                value:
+                  gateway: BLUEPAY
+                  accountId: ''
+                  secretKey: ''
+                  zeroDollarAuth: false
+              CardConnect:
+                value:
+                  gateway: CARD_CONNECT
+                  merchantId: ''
+                  apiUserAndPass: ''
+                  currency: USD
+                  zeroDollarAuth: false
+        description: Payload
+components:
+  schemas:
+    IPGPayload:
+      title: IPG Payload
+      type: object
+      description: The default payload for IPG
+      x-examples:
+        Example:
+          gateway: IPG
+          apiKey: 0imfnc8mVLWwsAawjYr4Rx!
+          apiSecret: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
+          storeId: '123'
+          zerDollarAuth: true
+      properties:
+        gateway:
+          type: string
+          example: IPG
+        apiKey:
+          type: string
+          example: 0imfnc8mVLWwsAawjYr4Rx
+        apiSecret:
+          type: string
+          example: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
+        storeId:
+          type: string
+          example: '123'
+        zerDollarAuth:
+          type: boolean
+      required:
+        - gateway
+  securitySchemes:
+    Api-Key:
+      name: Api-Key
+      type: apiKey
+      in: header
+      description: 'This can be retrieved from https://developer.firstdata.eu/'
+security:
+  - Api-Key: []
