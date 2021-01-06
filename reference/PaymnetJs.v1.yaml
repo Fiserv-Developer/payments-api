@@ -257,6 +257,157 @@ components:
         - merchantId
         - apiUserAndPass
         - zerDollarAuth
+    WebhookPayload:
+      description: ''
+      type: object
+      title: Webhook Payload
+      x-examples:
+        Example:
+          authCode: ABCABC
+          card:
+            bin: '424242'
+            brand: visa
+            exp:
+              month: '02'
+              year: '2022'
+            last4: '4242'
+            name: Blah Blah
+            token: '123123123123'
+            masked: XXXXXXXXXXXX4242
+            address1: Apartment 123
+            address2: 123 Main Street
+            city: New York
+            region: NY
+            country: US
+            postalCode: '11375'
+            company: My Company
+          gatewayRefId: '123123123123'
+          error: false
+          zeroDollarAuth:
+            cvv2: MATCHED
+            avs: 'Y'
+      properties:
+        authCode:
+          type: string
+          minLength: 1
+        card:
+          type: object
+          required:
+            - bin
+            - brand
+            - exp
+            - last4
+            - name
+            - token
+            - masked
+            - address1
+            - address2
+            - city
+            - region
+            - country
+            - postalCode
+            - company
+          properties:
+            bin:
+              type: string
+              minLength: 1
+            brand:
+              type: string
+              minLength: 1
+              enum:
+                - visa
+                - mastercard
+                - american-express
+                - diners-club
+                - discover
+                - elo
+                - jcb
+                - maestro
+                - mir
+                - unionpay
+                - 'null'
+            exp:
+              type: object
+              required:
+                - month
+                - year
+              properties:
+                month:
+                  type: string
+                  minLength: 1
+                  example: '02'
+                year:
+                  type: string
+                  minLength: 1
+                  example: '22'
+            last4:
+              type: string
+              minLength: 1
+              example: '5432'
+            name:
+              type: string
+              minLength: 1
+              example: Matt Lockyer
+            token:
+              type: string
+              minLength: 1
+            masked:
+              type: string
+              minLength: 1
+            address1:
+              type: string
+              minLength: 1
+            address2:
+              type: string
+              minLength: 1
+            city:
+              type: string
+              minLength: 1
+            region:
+              type: string
+              minLength: 1
+            country:
+              type: string
+              minLength: 1
+            postalCode:
+              type: string
+              minLength: 1
+            company:
+              type: string
+              minLength: 1
+        gatewayRefId:
+          type: string
+          minLength: 1
+        error:
+          type: boolean
+        zeroDollarAuth:
+          type: object
+          required:
+            - cvv2
+            - avs
+          properties:
+            cvv2:
+              type: string
+              minLength: 1
+              enum:
+                - MATCHED
+                - NOT_MATCHED
+                - NOT_PROCESSED
+                - NOT_PRESENT
+                - NOT_CERTIFIED
+                - NO_RESPONSE
+            avs:
+              type: string
+              minLength: 1
+              enum:
+                - 'Y'
+                - 'N'
+      required:
+        - authCode
+        - card
+        - gatewayRefId
+        - error
+        - zeroDollarAuth
   securitySchemes:
     Api-Key:
       name: Api-Key
