@@ -17,7 +17,43 @@ paths:
       responses:
         '200':
           description: OK
-      description: 'Used to authorize a session, this includes the gateway, api key and store ID'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  publicKeyBase64:
+                    type: string
+                    description: base64-encoded public rsa key used by client library
+                    example: TWF0dCB3YXMgaGVyZQ==
+              examples:
+                Example:
+                  value:
+                    publicKeyBase64: TWF0dCB3YXMgaGVyZQ==
+          headers:
+            Client-Token:
+              schema:
+                type: string
+              description: access/session id used by client library
+            Nonce:
+              schema:
+                type: string
+              description: should match "Nonce" header passed in request
+        '400':
+          description: Request failed structural validation (missing one or more expected fields/headers)
+        '401':
+          description: 'Authentication error, may include payload with "error" field'
+      description: |-
+        Used to authorize a session, this includes the gateway, api key and store ID
+
+        Support for non-USD Currency
+        Pass an ISO 4217 currency code in field "currency" in the authorize session payload to perform a zero-dollar authorization under a currency other than "USD".
+
+        Note: Only applicable to Payeezy and CardConnect
+
+        Note: Please [click here](https://developer.payeezy.com/faqs/what-currencies-does-payeezy-support) for the list of ISO 4217 currencies supported by Payeezy
+
+        Note: Please [click here](https://developer.cardconnect.com/cardconnect-api#currency-code-responses) for the list of ISO 4217 currencies supported by CardConnect
       parameters:
         - schema:
             type: string
@@ -46,6 +82,9 @@ paths:
             schema:
               oneOf:
                 - $ref: '#/components/schemas/IPGPayload'
+                - $ref: '#/components/schemas/PayeezyPayload'
+                - $ref: '#/components/schemas/BluepayPayload'
+                - $ref: '#/components/schemas/CardConnectPayload'
             examples:
               IPG:
                 value:
