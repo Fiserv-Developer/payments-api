@@ -44,33 +44,8 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                gateway:
-                  type: string
-                  enum:
-                    - IPG
-                    - PAYEEZY
-                    - BLUEPAY
-                    - CARD_CONNECT
-                accountId:
-                  type: string
-                secretKey:
-                  type: string
-                zeroDollarAuth:
-                  type: string
-                apiKey:
-                  type: string
-                authToken:
-                  type: string
-                transarmorToken:
-                  type: string
-                currency:
-                  type: string
-                '':
-                  type: string
-              required:
-                - gateway
+              oneOf:
+                - $ref: '#/components/schemas/IPGPayload'
             examples:
               IPG:
                 value:
@@ -132,6 +107,117 @@ components:
           type: boolean
       required:
         - gateway
+        - apiKey
+        - apiSecret
+        - zerDollarAuth
+    PayeezyPayload:
+      title: Payeezy Payload
+      type: object
+      description: |-
+        The default payload for Payeezy.
+
+        Note: Payeezy utilizes the apiKey & apiSecret within the APIs tab of your developer.payeezy.com account.
+
+        Note: "currency" is optional and defaults to "USD"
+      x-examples:
+        Example:
+          gateway: PAYEEZY
+          apiKey: 0imfnc8mVLWwsAawjYr4Rx
+          apiSecret: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
+          transarmorToken: string
+          zerDollarAuth: true
+          currency: USD
+          authToken: string
+      properties:
+        gateway:
+          type: string
+          example: PAYEEZY
+        apiKey:
+          type: string
+          example: 0imfnc8mVLWwsAawjYr4Rx
+        apiSecret:
+          type: string
+          example: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
+        transarmorToken:
+          type: string
+        zerDollarAuth:
+          type: boolean
+        currency:
+          type: string
+          example: USD
+        authToken:
+          type: string
+      required:
+        - gateway
+        - apiKey
+        - apiSecret
+        - transarmorToken
+        - zerDollarAuth
+        - authToken
+    BluepayPayload:
+      title: Bluepay Payload
+      type: object
+      description: The default payload for Bluepay
+      x-examples:
+        Example:
+          gateway: BLUEPAY
+          accountId: '123'
+          secretKey: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
+          zerDollarAuth: true
+      properties:
+        gateway:
+          type: string
+          example: BLUEPAY
+        accountId:
+          type: string
+          example: '123'
+        secretKey:
+          type: string
+          example: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
+        zerDollarAuth:
+          type: boolean
+      required:
+        - gateway
+        - accountId
+        - secretKey
+        - zerDollarAuth
+    CardConnectPayload:
+      title: CardConnect Payload
+      type: object
+      description: |-
+        The default payload for CardConnect
+
+        Note: Uses CardPointe API when zeroDollarAuth is true (recommended)
+
+        Note: Uses CardSecure API when zeroDollarAuth is false
+
+        Note: "currency" only affects CardPointe, is optional, and defaults to "USD"
+      x-examples:
+        Example:
+          gateway: CARD_CONNECT
+          merchantId: '1234'
+          apiUserAndPass: string
+          currency: USD
+          zerDollarAuth: true
+      properties:
+        gateway:
+          type: string
+          example: CARD_CONNECT
+        merchantId:
+          type: string
+          example: '1234'
+        apiUserAndPass:
+          type: string
+        currency:
+          type: string
+          example: USD
+        zerDollarAuth:
+          type: boolean
+      required:
+        - gateway
+        - merchantId
+        - apiUserAndPass
+        - zerDollarAuth
   securitySchemes:
     Api-Key:
       name: Api-Key
