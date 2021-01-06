@@ -258,7 +258,8 @@ components:
         - apiUserAndPass
         - zerDollarAuth
     WebhookPayload:
-      description: ''
+      description: |
+        The default payload of a webhook
       type: object
       title: Webhook Payload
       x-examples:
@@ -407,6 +408,78 @@ components:
         - card
         - gatewayRefId
         - error
+        - zeroDollarAuth
+    WebhookErrorPayload:
+      description: |
+        The default payload for a webhook
+      type: object
+      title: Webhook Error Payload
+      properties:
+        error:
+          type: boolean
+        reason:
+          type: string
+          minLength: 1
+          enum:
+            - DECRYPTION_ERROR
+            - BAD_REQUEST
+            - INVALID_GATEWAY_CREDENTIALS
+            - JSON_ERROR
+            - KEY_NOT_FOUND
+            - MISSING_CVV
+            - NETWORK
+            - REJECTED
+            - SESSION_CONSUMED
+            - SESSION_INSERT
+            - SESSION_INVALID
+            - UNEXPECTED_RESPONSE
+            - UNKNOWN
+          description: |-
+            Error code descriptions are listed below:
+
+            "BAD_REQUEST": the request body is missing or incorrect for endpoint
+            "DECRYPTION_ERROR": failed to decrypt card data
+            "INVALID_GATEWAY_CREDENTIALS": gateway credentials failed
+            "JSON_ERROR": the request body is either not valid JSON or larger than 2kb
+            "KEY_NOT_FOUND": no available key found
+            "MISSING_CVV": zero dollar auth requires cvv in form data
+            "NETWORK": gateway connection error
+            "REJECTED": the request was rejected by the gateway
+            "SESSION_CONSUMED": session completed in another request
+            "SESSION_INSERT": failed to store session data
+            "SESSION_INVALID": failed to match clientToken with valid record; can occur during deployment
+            "UNEXPECTED_RESPONSE": the gateway did not respond with the expected data
+            "UNKNOWN": unknown error
+        gatewayRefId:
+          type: string
+          minLength: 1
+        gatewayReason:
+          type: string
+          minLength: 1
+        zeroDollarAuth:
+          type: object
+          required:
+            - cvv2
+            - avs
+          properties:
+            cvv2:
+              type: string
+              minLength: 1
+              enum:
+                - MATCHED
+                - NOT_MATCHED
+                - NOT_PROCESSED
+                - NOT_PRESENT
+                - NOT_CERTIFIED
+                - NO_RESPONSE
+            avs:
+              type: string
+              minLength: 1
+      required:
+        - error
+        - reason
+        - gatewayRefId
+        - gatewayReason
         - zeroDollarAuth
   securitySchemes:
     Api-Key:
