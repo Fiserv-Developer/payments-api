@@ -48,12 +48,6 @@ paths:
 
         Support for non-USD Currency
         Pass an ISO 4217 currency code in field "currency" in the authorize session payload to perform a zero-dollar authorization under a currency other than "USD".
-
-        Note: Only applicable to Payeezy and CardConnect
-
-        Note: Please [click here](https://developer.payeezy.com/faqs/what-currencies-does-payeezy-support) for the list of ISO 4217 currencies supported by Payeezy
-
-        Note: Please [click here](https://developer.cardconnect.com/cardconnect-api#currency-code-responses) for the list of ISO 4217 currencies supported by CardConnect
       parameters:
         - schema:
             type: string
@@ -82,9 +76,6 @@ paths:
             schema:
               oneOf:
                 - $ref: '#/components/schemas/IPGPayload'
-                - $ref: '#/components/schemas/PayeezyPayload'
-                - $ref: '#/components/schemas/BluepayPayload'
-                - $ref: '#/components/schemas/CardConnectPayload'
             examples:
               IPG:
                 value:
@@ -92,28 +83,6 @@ paths:
                   apiKey: ''
                   apiSecret: ''
                   storeId: ''
-                  zeroDollarAuth: false
-              Payeezy:
-                value:
-                  gateway: PAYEEZY
-                  apiKey: ''
-                  apiSecret: ''
-                  authToken: ''
-                  transarmorToken: ''
-                  currency: USD
-                  zeroDollarAuth: false
-              Bluepay:
-                value:
-                  gateway: BLUEPAY
-                  accountId: ''
-                  secretKey: ''
-                  zeroDollarAuth: false
-              CardConnect:
-                value:
-                  gateway: CARD_CONNECT
-                  merchantId: ''
-                  apiUserAndPass: ''
-                  currency: USD
                   zeroDollarAuth: false
         description: Payload
 components:
@@ -148,114 +117,6 @@ components:
         - gateway
         - apiKey
         - apiSecret
-        - zerDollarAuth
-    PayeezyPayload:
-      title: Payeezy Payload
-      type: object
-      description: |-
-        The default payload for Payeezy.
-
-        Note: Payeezy utilizes the apiKey & apiSecret within the APIs tab of your developer.payeezy.com account.
-
-        Note: "currency" is optional and defaults to "USD"
-      x-examples:
-        Example:
-          gateway: PAYEEZY
-          apiKey: 0imfnc8mVLWwsAawjYr4Rx
-          apiSecret: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
-          transarmorToken: string
-          zerDollarAuth: true
-          currency: USD
-          authToken: string
-      properties:
-        gateway:
-          type: string
-          example: PAYEEZY
-        apiKey:
-          type: string
-          example: 0imfnc8mVLWwsAawjYr4Rx
-        apiSecret:
-          type: string
-          example: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
-        transarmorToken:
-          type: string
-        zerDollarAuth:
-          type: boolean
-        currency:
-          type: string
-          example: USD
-        authToken:
-          type: string
-      required:
-        - gateway
-        - apiKey
-        - apiSecret
-        - transarmorToken
-        - zerDollarAuth
-        - authToken
-    BluepayPayload:
-      title: Bluepay Payload
-      type: object
-      description: The default payload for Bluepay
-      x-examples:
-        Example:
-          gateway: BLUEPAY
-          accountId: '123'
-          secretKey: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
-          zerDollarAuth: true
-      properties:
-        gateway:
-          type: string
-          example: BLUEPAY
-        accountId:
-          type: string
-          example: '123'
-        secretKey:
-          type: string
-          example: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
-        zerDollarAuth:
-          type: boolean
-      required:
-        - gateway
-        - accountId
-        - secretKey
-        - zerDollarAuth
-    CardConnectPayload:
-      title: CardConnect Payload
-      type: object
-      description: |-
-        The default payload for CardConnect
-
-        Note: Uses CardPointe API when zeroDollarAuth is true (recommended)
-
-        Note: Uses CardSecure API when zeroDollarAuth is false
-
-        Note: "currency" only affects CardPointe, is optional, and defaults to "USD"
-      x-examples:
-        Example:
-          gateway: CARD_CONNECT
-          merchantId: '1234'
-          apiUserAndPass: string
-          currency: USD
-          zerDollarAuth: true
-      properties:
-        gateway:
-          type: string
-          example: CARD_CONNECT
-        merchantId:
-          type: string
-          example: '1234'
-        apiUserAndPass:
-          type: string
-        currency:
-          type: string
-          example: USD
-        zerDollarAuth:
-          type: boolean
-      required:
-        - gateway
-        - merchantId
-        - apiUserAndPass
         - zerDollarAuth
     WebhookPayload:
       description: |
