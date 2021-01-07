@@ -12,6 +12,10 @@ Beyond accepting customer payments, our payments services include Tokenisation, 
 
 # Payment Solutions
 
+## Payment APIs
+
+If you want to build your own UI and manage payments within your checkout flow natively within your own site or application, use our RESTful APIs. For this, you'll need to have the relevant PCI Compliance capabilities to process raw card data, but you can own the end to end customer experience.
+
 ## Hosted Payment Page
 
 Our Hosted Payment Page called 'Connect' allows you to redirect your customer to our payment page when they are checking out. 
@@ -22,11 +26,12 @@ Using secure hosted pages can reduce the burden of compliance with the Data Secu
 
 Additionally, if you want to remove the complexity of enabling authenticated payments via the 3DSecure API, we suggest you use the Connect solution for all sale transactions, then use the REST APIs for all other use cases. 
 
-## Payment APIs
-
-If you want to build your own UI and manage payments within your checkout flow natively within your own site or application, use our RESTful APIs. For this, you'll need to have the relevant PCI Compliance capabilities to process raw card data, but you can own the end to end customer experience.
-
 ## Payment links you can send to customers
 
 You can also request a Payment URL via our REST APIs, then send that to your customer. You customer then clicks the link you've sent them, which takes them to our Hosted Payment Page to complete the payment.
 
+## Payment.js 
+
+Use Payment.js to easily embed a payment form into your website.
+
+Fiserv's Payment.js makes it simple to tokenize payment credentials for later transactions without collecting, processing, or otherwise being able to view those payment credentials in their untokenized form, thus lowering your PCI compliance requirements.
