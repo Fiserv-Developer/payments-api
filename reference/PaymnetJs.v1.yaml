@@ -111,13 +111,13 @@ components:
         storeId:
           type: string
           example: '123'
-        zerDollarAuth:
+        zeroDollarAuth:
           type: boolean
       required:
         - gateway
         - apiKey
         - apiSecret
-        - zerDollarAuth
+        - zeroDollarAuth
     WebhookPayload:
       description: |
         The default payload of a webhook
