@@ -97,22 +97,27 @@ components:
           apiKey: 0imfnc8mVLWwsAawjYr4Rx!
           apiSecret: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
           storeId: '123'
-          zerDollarAuth: true
+          zeroDollarAuth: true
       properties:
         gateway:
           type: string
           example: IPG
+          description: Always IPG
         apiKey:
           type: string
           example: 0imfnc8mVLWwsAawjYr4Rx
+          description: Retrievable from Fiserv's Developer Platform
         apiSecret:
           type: string
           example: ',g*fp>CwE*eGNYSk,<W6TB>8vXs,ha'
+          description: Retrievable from Fiserv's Developer Platform
         storeId:
           type: string
           example: '123'
+          description: Provided when you sign up to Fiserv's developer platform
         zeroDollarAuth:
           type: boolean
+          description: Indicates if you require a zero dollar auth as functionality
       required:
         - gateway
         - apiKey
