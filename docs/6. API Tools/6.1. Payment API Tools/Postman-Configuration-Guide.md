@@ -12,8 +12,8 @@ To explore the Payment REST API with the help of Postman, you need to prepare th
 
 Type | Filename | Version | Download | Last Update
 ---------|----------|---------
- Collection | ``IPP Payment API Gateway (v5.2)`` | 5.2 | [download](https://github.com/Fiserv-Developer/payments-api/blob/2.0.0-postman/postman/ipp-payment-api.postman_collection.v5.2.json) | 04.11.2020
- Environment | ``IPP Payment API v1.0 [Sandbox]`` | 1.0 | [download](https://github.com/Fiserv-Developer/payments-api/blob/2.0.0-postman/postman/ipp-payment-api.postman_environment.v1.0.json) | 04.11.2020
+ Collection | ``IPP Payment API Gateway (v5.2)`` | 5.2 | [download](https://github.com/Fiserv-Developer/payments-api/blob/2.0.1/postman/ipp-payment-api.postman_collection.v5.2.json) | 04.11.2020
+ Environment | ``IPP Payment API v1.0 [Sandbox]`` | 1.0 | [download](https://github.com/Fiserv-Developer/payments-api/blob/2.0.1/postman/ipp-payment-api.postman_environment.v1.0.json) | 04.11.2020
 
 ## Configuration Steps
 
